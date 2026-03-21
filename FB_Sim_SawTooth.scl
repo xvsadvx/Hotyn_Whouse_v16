@@ -1,0 +1,32 @@
+﻿FUNCTION_BLOCK "FB_Sim_SawTooth"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      Enable : Bool;
+      Speed : Real;
+   END_VAR
+
+   VAR_OUTPUT 
+      Out_Raw : Int;
+   END_VAR
+
+   VAR 
+      Current_Val : Real;
+   END_VAR
+
+
+BEGIN
+	
+	IF NOT #Enable THEN
+	    #Current_Val := 0.0;
+	    #Out_Raw := 0;
+	    RETURN;
+	END_IF;
+	#Current_Val := #Current_Val + (#Speed * "getCycleTime"() / 1000.0);
+	IF #Current_Val > 27648.0 THEN
+	    #Current_Val := 0.0;
+	END_IF;
+	#Out_Raw := REAL_TO_INT(#Current_Val);
+	
+END_FUNCTION_BLOCK
+

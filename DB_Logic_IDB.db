@@ -1,0 +1,10 @@
+﻿DATA_BLOCK "DB_Logic_IDB"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+// 7. MAIN CALL
+"FB_Station_Logic"
+
+BEGIN
+
+END_DATA_BLOCK
+

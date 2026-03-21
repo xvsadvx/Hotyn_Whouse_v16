@@ -1,0 +1,43 @@
+﻿FUNCTION_BLOCK "FB_Station_Logic"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+// 6. WRAPPER FB (The only block with actual memory for instances)
+   VAR 
+      fb_Saw : "FB_Sim_SawTooth_UpDown";
+      fb_Dist : "FB_RawDistort";
+      AI_1 : "FB_AI";
+      AI_2 : "FB_AI";
+      Alarm_1 : "FB_AnalogAlarm";
+      Alarm_2 : "FB_AnalogAlarm";
+   END_VAR
+
+   VAR_TEMP 
+      tmp_raw_gen : Int;
+   END_VAR
+
+
+BEGIN
+	
+	#fb_Saw(Enable := "DB_Test_IO".Sim_Enable_Saw,
+	        Speed := "DB_Test_IO".Sim_Saw_Speed,
+	        Current_Val:= "DB_Test_IO".Raw_Start,
+	        Out_Raw => #tmp_raw_gen,Limit_Low:=-8000,Limit_High:=32500);
+	#fb_Dist(Enable := "DB_Test_IO".Sim_Enable_Noise,
+	         RawIn := #tmp_raw_gen,
+	         Dt_ms := "getCycleTime"(),
+	         NoiseAmpRaw := "DB_Test_IO".Sim_Noise_Amp,
+	         Noise_Hz := "DB_Test_IO".Sim_Noise_Hz,
+	         RawOut => "DB_Test_IO".Raw_Final);
+	
+	#AI_1(i_iRawSignal := "DB_Test_IO".Raw_Final,
+	      io_stConfig := "DB_Test_IO".Config[1],
+	      io_stOut := "DB_Test_IO".Out[1]);
+	#Alarm_1(i_rValue := "DB_Test_IO".Out[1].Value_Filtered, i_boReset := "DB_Test_IO".Reset_Alarms, i_boInhibit := False, io_stConfig := "DB_Test_IO".Alarm_Cfg[1], io_stOut := "DB_Test_IO".Alarm_Out[1]);
+	
+	#AI_2(i_iRawSignal := 27648,
+	      io_stConfig := "DB_Test_IO".Config[2],
+	      io_stOut := "DB_Test_IO".Out[2]);
+	#Alarm_2(i_rValue := "DB_Test_IO".Out[2].Value_Filtered, i_boReset := "DB_Test_IO".Reset_Alarms, i_boInhibit := False, io_stConfig := "DB_Test_IO".Alarm_Cfg[2], io_stOut := "DB_Test_IO".Alarm_Out[2]);
+	
+END_FUNCTION_BLOCK
+

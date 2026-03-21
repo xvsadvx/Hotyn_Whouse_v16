@@ -1,0 +1,13 @@
+﻿DATA_BLOCK "DB_Global"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+// 2. GLOBAL DATA (Pure Data only)
+   STRUCT 
+      Sys : "UDT_Sys_Info";
+   END_STRUCT;
+
+
+BEGIN
+
+END_DATA_BLOCK
+

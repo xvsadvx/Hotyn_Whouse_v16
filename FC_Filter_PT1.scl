@@ -1,0 +1,36 @@
+﻿FUNCTION "FC_Filter_PT1" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      i_rRawValue : Real;
+      i_rTimeFilter_ms : Real;
+      i_boReset : Bool;
+   END_VAR
+
+   VAR_IN_OUT 
+      io_rFilteredValue : Real;
+   END_VAR
+
+   VAR_TEMP 
+      temp_rCycleTime_ms : Real;
+      temp_rAlpha : Real;
+   END_VAR
+
+
+BEGIN
+	
+	IF #i_boReset THEN
+	    #io_rFilteredValue := #i_rRawValue;
+	    RETURN;
+	END_IF;
+	#temp_rCycleTime_ms := "getCycleTime"();
+	IF #temp_rCycleTime_ms <= 0.000001 THEN
+	    RETURN;
+	END_IF;
+	#temp_rAlpha := #temp_rCycleTime_ms / (#i_rTimeFilter_ms + #temp_rCycleTime_ms);
+	#io_rFilteredValue := #io_rFilteredValue + #temp_rAlpha * (#i_rRawValue - #io_rFilteredValue);
+	
+	
+	
+END_FUNCTION
+

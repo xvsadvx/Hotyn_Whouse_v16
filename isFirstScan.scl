@@ -1,0 +1,8 @@
+﻿FUNCTION "isFirstScan" : Bool
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+
+BEGIN
+	#isFirstScan := "DB_Global".Sys.FirstScan;
+END_FUNCTION
+

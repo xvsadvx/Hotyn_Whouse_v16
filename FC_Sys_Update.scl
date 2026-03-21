@@ -1,0 +1,27 @@
+﻿FUNCTION "FC_Sys_Update" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+// 3. SYSTEM FUNCTIONS
+   VAR_INPUT 
+      i_Scan_1 : Byte;
+      i_Prev_Cycle : Int;
+   END_VAR
+
+   VAR_TEMP 
+      tmp_dint : DInt;
+   END_VAR
+
+
+BEGIN
+	
+	"DB_Global".Sys.FirstScan := (#i_Scan_1 = 16#01);
+	"DB_Global".Sys.CycleTime_ms_INT := #i_Prev_Cycle;
+	IF #i_Prev_Cycle <= 0 THEN
+	    #tmp_dint := 1;
+	ELSE
+	    #tmp_dint := INT_TO_DINT(#i_Prev_Cycle);
+	END_IF;
+	"DB_Global".Sys.CycleTime_ms_REAL := DINT_TO_REAL(#tmp_dint);
+	
+END_FUNCTION
+

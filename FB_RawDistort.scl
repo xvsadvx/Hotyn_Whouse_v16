@@ -1,0 +1,55 @@
+﻿FUNCTION_BLOCK "FB_RawDistort"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+// 5. BLOCKS (FB_RawDistort, FB_Sim_SawTooth, FB_AI, FB_AnalogAlarm)
+   VAR_INPUT 
+      Enable : Bool;
+      RawIn : Int;
+      Dt_ms : Real;
+      NoiseAmpRaw : Int;
+      Noise_Hz : Real;
+      StepTrig : Bool;
+      StepRaw : Int;
+      StepHold_ms : DInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      RawOut : Int;
+   END_VAR
+
+   VAR 
+      phase : Real;
+      noiseVal : Real;
+      step_active : Bool;
+      step_left_ms : DInt;
+      step_prev : Bool;
+   END_VAR
+
+
+BEGIN
+	
+	IF NOT #Enable THEN
+	    #RawOut := #RawIn;
+	    RETURN;
+	END_IF;
+	#phase := #phase + (6.283185 * #Noise_Hz * #Dt_ms * 0.001);
+	IF #phase > 6.283185 THEN
+	    #phase := #phase - 6.283185;
+	END_IF;
+	#noiseVal := SIN(#phase);
+	IF (#StepTrig AND NOT #step_prev) THEN
+	    #step_active := TRUE;
+	    #step_left_ms := #StepHold_ms;
+	END_IF;
+	#step_prev := #StepTrig;
+	IF #step_active THEN
+	    IF #step_left_ms > REAL_TO_DINT(#Dt_ms) THEN
+	        #step_left_ms := #step_left_ms - REAL_TO_DINT(#Dt_ms);
+	    ELSE
+	        #step_active := FALSE;
+	    END_IF;
+	END_IF;
+	#RawOut := REAL_TO_INT(INT_TO_REAL(#RawIn) + (#noiseVal * INT_TO_REAL(#NoiseAmpRaw)));
+	
+END_FUNCTION_BLOCK
+

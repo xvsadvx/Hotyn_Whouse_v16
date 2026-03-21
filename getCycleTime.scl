@@ -1,0 +1,8 @@
+﻿FUNCTION "getCycleTime" : Real
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+
+BEGIN
+	#getCycleTime := "DB_Global".Sys.CycleTime_ms_REAL;
+END_FUNCTION
+

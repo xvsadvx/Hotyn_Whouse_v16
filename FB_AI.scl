@@ -1,0 +1,38 @@
+﻿FUNCTION_BLOCK "FB_AI"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      i_iRawSignal : Int;
+   END_VAR
+
+   VAR_IN_OUT 
+      io_stConfig : "UDT_AI_Config";
+      io_stOut : "UDT_AI_Out";
+   END_VAR
+
+   VAR 
+      stat_boWasInvalid : Bool := TRUE;
+   END_VAR
+
+   VAR_TEMP 
+      temp_rScaled : Real;
+   END_VAR
+
+
+BEGIN
+	
+	#io_stOut.Raw := #i_iRawSignal;
+	IF #io_stConfig.Mode = 2 THEN
+	    #temp_rScaled := #io_stConfig.Sim_Value;
+	ELSIF #io_stConfig.Mode = 1 THEN
+	    #temp_rScaled := "FC_ScaleValue"(i_rInp := INT_TO_REAL(#i_iRawSignal), i_rInpLow := INT_TO_REAL(#io_stConfig.HW_Min), i_rInpHigh := INT_TO_REAL(#io_stConfig.HW_Max), i_rOutLow := #io_stConfig.Scale_Min, i_rOutHigh := #io_stConfig.Scale_Max, i_boUseSqrt := FALSE, i_rCutoff := #io_stConfig.Cutoff, i_boUseLimit := TRUE);
+	ELSE
+	    #temp_rScaled := 0.0;
+	END_IF;
+	"FC_Filter_PT1"(i_rRawValue := #temp_rScaled,
+	                i_rTimeFilter_ms := INT_TO_REAL(#io_stConfig.FilterTime_ms),
+	                i_boReset := "isFirstScan"(),
+	                io_rFilteredValue := #io_stOut.Value_Filtered);
+	
+END_FUNCTION_BLOCK
+

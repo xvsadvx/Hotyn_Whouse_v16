@@ -1,0 +1,59 @@
+﻿FUNCTION "FC_ScaleValue" : Real
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+// 4. LIBRARY FUNCTIONS (FC_ScaleValue, FC_Filter_PT1 from previous turns)
+   VAR_INPUT 
+      i_rInp : Real;
+      i_rInpLow : Real;
+      i_rInpHigh : Real;
+      i_rOutLow : Real;
+      i_rOutHigh : Real;
+      i_boUseLimit : Bool;
+      i_boUseSqrt : Bool;
+      i_rCutoff : Real;
+   END_VAR
+
+   VAR_TEMP 
+      temp_rNorm : Real;
+      temp_rResult : Real;
+   END_VAR
+
+
+BEGIN
+	
+	IF ABS(#i_rInpHigh - #i_rInpLow) < 0.000001 THEN
+	    #FC_ScaleValue := #i_rOutLow;
+	    RETURN;
+	END_IF;
+	#temp_rNorm := (#i_rInp - #i_rInpLow) / (#i_rInpHigh - #i_rInpLow);
+	IF #i_boUseSqrt THEN
+	    IF #temp_rNorm < 0.0 THEN
+	        #temp_rNorm := 0.0;
+	    END_IF;
+	    #temp_rNorm := SQRT(#temp_rNorm);
+	END_IF;
+	#temp_rResult := (#temp_rNorm * (#i_rOutHigh - #i_rOutLow)) + #i_rOutLow;
+	IF ABS(#temp_rResult - #i_rOutLow) <= ABS(#i_rCutoff) THEN
+	    #temp_rResult := #i_rOutLow;
+	END_IF;
+	IF #i_boUseLimit THEN
+	    IF #i_rOutHigh > #i_rOutLow THEN
+	        IF #temp_rResult > #i_rOutHigh THEN
+	            #temp_rResult := #i_rOutHigh;
+	        END_IF;
+	        IF #temp_rResult < #i_rOutLow THEN
+	            #temp_rResult := #i_rOutLow;
+	        END_IF;
+	    ELSE
+	        IF #temp_rResult < #i_rOutHigh THEN
+	            #temp_rResult := #i_rOutHigh;
+	        END_IF;
+	        IF #temp_rResult > #i_rOutLow THEN
+	            #temp_rResult := #i_rOutLow;
+	        END_IF;
+	    END_IF;
+	END_IF;
+	#FC_ScaleValue := #temp_rResult;
+	
+END_FUNCTION
+

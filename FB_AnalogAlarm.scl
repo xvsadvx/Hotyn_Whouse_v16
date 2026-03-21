@@ -1,0 +1,39 @@
+﻿FUNCTION_BLOCK "FB_AnalogAlarm"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      i_rValue : Real;
+      i_boReset : Bool;
+      i_boInhibit : Bool;
+   END_VAR
+
+   VAR_IN_OUT 
+      io_stConfig : "UDT_Alarm_Config";
+      io_stOut : "UDT_Alarm_Out";
+   END_VAR
+
+   VAR 
+      stat_TonHiHi {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
+      stat_RawHiHi : Bool;
+   END_VAR
+
+
+BEGIN
+	
+	#io_stOut.En_Out.HiHi := #io_stConfig.En_Alarm.HiHi AND NOT #i_boInhibit;
+	IF #i_rValue >= #io_stConfig.HiHi THEN
+	    #stat_RawHiHi := TRUE;
+	ELSIF #i_rValue < (#io_stConfig.HiHi - #io_stConfig.Hysteresis) THEN
+	    #stat_RawHiHi := FALSE;
+	END_IF;
+	#stat_TonHiHi(IN := #stat_RawHiHi AND #io_stOut.En_Out.HiHi,
+	              PT := DINT_TO_TIME(INT_TO_DINT(#io_stConfig.Delay_HiHi) * 1000));
+	IF #stat_TonHiHi.Q THEN
+	    #io_stOut.Alarms.HiHi := TRUE;
+	END_IF;
+	IF (NOT #stat_RawHiHi AND #i_boReset) OR #i_boInhibit THEN
+	    #io_stOut.Alarms.HiHi := FALSE;
+	END_IF;
+	
+END_FUNCTION_BLOCK
+
