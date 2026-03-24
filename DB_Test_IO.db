@@ -14,6 +14,8 @@ VERSION : 0.1
       Alarm_Cfg : Array[1..2] of "UDT_Alarm_Config";
       Alarm_Out : Array[1..2] of "UDT_Alarm_Out";
       Raw_Start { S7_SetPoint := 'True'} : Int;
+      Raw_Min : Int;
+      Raw_Max : Int;
    END_STRUCT;
 
 
@@ -24,6 +26,8 @@ BEGIN
    Config[1].Scale_Max := 100.0;
    Alarm_Cfg[1].HiHi := 90.0;
    Alarm_Cfg[1].Delay_HiHi := 2;
+   Raw_Min := 0;
+   Raw_Max := 27222;
 
 END_DATA_BLOCK
 

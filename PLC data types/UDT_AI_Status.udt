@@ -1,0 +1,16 @@
+﻿TYPE "UDT_AI_Status"
+VERSION : 0.1
+   STRUCT
+      WireBreak : Bool;
+      Underrange : Bool;
+      Overrange : Bool;
+      Overflow : Bool;
+      ConfigError : Bool;
+      Sim_Active : Bool;
+      Pad_Bit_6 : Bool;
+      Pad_Bit_7 : Bool;
+      Pad_Byte : Byte;
+   END_STRUCT;
+
+END_TYPE
+

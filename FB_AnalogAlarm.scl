@@ -1,6 +1,9 @@
 ﻿FUNCTION_BLOCK "FB_AnalogAlarm"
 { S7_Optimized_Access := 'FALSE' }
-VERSION : 0.1
+VERSION : 1.1
+// -----------------------------------------------------------------------------
+// 7. БЛОК АЛАРМОВ
+// -----------------------------------------------------------------------------
    VAR_INPUT 
       i_rValue : Real;
       i_boReset : Bool;
@@ -14,26 +17,96 @@ VERSION : 0.1
 
    VAR 
       stat_TonHiHi {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
+      stat_TonHi {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
+      stat_TonLo {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
+      stat_TonLoLo {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
       stat_RawHiHi : Bool;
+      stat_RawHi : Bool;
+      stat_RawLo : Bool;
+      stat_RawLoLo : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      temp_TimeHiHi : Time;
+      temp_TimeHi : Time;
+      temp_TimeLo : Time;
+      temp_TimeLoLo : Time;
    END_VAR
 
 
 BEGIN
-	
-	#io_stOut.En_Out.HiHi := #io_stConfig.En_Alarm.HiHi AND NOT #i_boInhibit;
-	IF #i_rValue >= #io_stConfig.HiHi THEN
-	    #stat_RawHiHi := TRUE;
-	ELSIF #i_rValue < (#io_stConfig.HiHi - #io_stConfig.Hysteresis) THEN
-	    #stat_RawHiHi := FALSE;
-	END_IF;
-	#stat_TonHiHi(IN := #stat_RawHiHi AND #io_stOut.En_Out.HiHi,
-	              PT := DINT_TO_TIME(INT_TO_DINT(#io_stConfig.Delay_HiHi) * 1000));
-	IF #stat_TonHiHi.Q THEN
-	    #io_stOut.Alarms.HiHi := TRUE;
-	END_IF;
-	IF (NOT #stat_RawHiHi AND #i_boReset) OR #i_boInhibit THEN
-	    #io_stOut.Alarms.HiHi := FALSE;
-	END_IF;
-	
+	    // 1. En_Out
+	    #io_stOut.En_Out.HiHi := #io_stConfig.En_Alarm.HiHi AND NOT #i_boInhibit;
+	    #io_stOut.En_Out.Hi := #io_stConfig.En_Alarm.Hi AND NOT #i_boInhibit;
+	    #io_stOut.En_Out.Lo := #io_stConfig.En_Alarm.Lo AND NOT #i_boInhibit;
+	    #io_stOut.En_Out.LoLo := #io_stConfig.En_Alarm.LoLo AND NOT #i_boInhibit;
+	    
+	    // 2. Comparators
+	    IF #i_rValue >= #io_stConfig.HiHi THEN
+	        #stat_RawHiHi := TRUE;
+	    ELSIF #i_rValue < (#io_stConfig.HiHi - #io_stConfig.Hysteresis) THEN
+	        #stat_RawHiHi := FALSE;
+	    END_IF;
+	    
+	    IF #i_rValue >= #io_stConfig.Hi THEN
+	        #stat_RawHi := TRUE;
+	    ELSIF #i_rValue < (#io_stConfig.Hi - #io_stConfig.Hysteresis) THEN
+	        #stat_RawHi := FALSE;
+	    END_IF;
+	    
+	    IF #i_rValue <= #io_stConfig.LoLo THEN
+	        #stat_RawLoLo := TRUE;
+	    ELSIF #i_rValue > (#io_stConfig.LoLo + #io_stConfig.Hysteresis) THEN
+	        #stat_RawLoLo := FALSE;
+	    END_IF;
+	    
+	    IF #i_rValue <= #io_stConfig.Lo THEN
+	        #stat_RawLo := TRUE;
+	    ELSIF #i_rValue > (#io_stConfig.Lo + #io_stConfig.Hysteresis) THEN
+	        #stat_RawLo := FALSE;
+	    END_IF;
+	    
+	    // 3. Timers
+	    #temp_TimeHiHi := DINT_TO_TIME(INT_TO_DINT(#io_stConfig.Delay_HiHi) * 1000);
+	    #temp_TimeHi := DINT_TO_TIME(INT_TO_DINT(#io_stConfig.Delay_Hi) * 1000);
+	    #temp_TimeLo := DINT_TO_TIME(INT_TO_DINT(#io_stConfig.Delay_Lo) * 1000);
+	    #temp_TimeLoLo := DINT_TO_TIME(INT_TO_DINT(#io_stConfig.Delay_LoLo) * 1000);
+	    
+	    #stat_TonHiHi(IN := #stat_RawHiHi AND #io_stOut.En_Out.HiHi,
+	                  PT := #temp_TimeHiHi);
+	    #stat_TonHi(IN := #stat_RawHi AND #io_stOut.En_Out.Hi,
+	                PT := #temp_TimeHi);
+	    #stat_TonLo(IN := #stat_RawLo AND #io_stOut.En_Out.Lo,
+	                PT := #temp_TimeLo);
+	    #stat_TonLoLo(IN := #stat_RawLoLo AND #io_stOut.En_Out.LoLo,
+	                  PT := #temp_TimeLoLo);
+	    
+	    // 4. Latching & Reset
+	    IF #stat_TonHiHi.Q THEN
+	        #io_stOut.Alarms.HiHi := TRUE;
+	    END_IF;
+	    IF #stat_TonHi.Q THEN
+	        #io_stOut.Alarms.Hi := TRUE;
+	    END_IF;
+	    IF #stat_TonLo.Q THEN
+	        #io_stOut.Alarms.Lo := TRUE;
+	    END_IF;
+	    IF #stat_TonLoLo.Q THEN
+	        #io_stOut.Alarms.LoLo := TRUE;
+	    END_IF;
+	    
+	    IF (NOT #stat_RawHiHi AND #i_boReset) OR #i_boInhibit OR NOT #io_stConfig.En_Alarm.HiHi THEN
+	        #io_stOut.Alarms.HiHi := FALSE;
+	    END_IF;
+	    IF (NOT #stat_RawHi AND #i_boReset) OR #i_boInhibit OR NOT #io_stConfig.En_Alarm.Hi THEN
+	        #io_stOut.Alarms.Hi := FALSE;
+	    END_IF;
+	    IF (NOT #stat_RawLo AND #i_boReset) OR #i_boInhibit OR NOT #io_stConfig.En_Alarm.Lo THEN
+	        #io_stOut.Alarms.Lo := FALSE;
+	    END_IF;
+	    IF (NOT #stat_RawLoLo AND #i_boReset) OR #i_boInhibit OR NOT #io_stConfig.En_Alarm.LoLo THEN
+	        #io_stOut.Alarms.LoLo := FALSE;
+	    END_IF;
+	    
 END_FUNCTION_BLOCK
 

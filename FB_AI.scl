@@ -1,8 +1,12 @@
 ﻿FUNCTION_BLOCK "FB_AI"
 { S7_Optimized_Access := 'FALSE' }
-VERSION : 0.1
+VERSION : 7.9
+// -----------------------------------------------------------------------------
+// БЛОК ОБРАБОТКИ АНАЛОГОВОГО СИГНАЛА (FB_AI)
+// -----------------------------------------------------------------------------
    VAR_INPUT 
       i_iRawSignal : Int;
+      i_rSimValue : Real;
    END_VAR
 
    VAR_IN_OUT 
@@ -15,24 +19,199 @@ VERSION : 0.1
    END_VAR
 
    VAR_TEMP 
+      temp_boDisabled : Bool;
+      temp_boSimActive : Bool;
+      temp_boUseSqrt : Bool;
+      temp_boPreSqrtCut : Bool;
+      temp_boFinalClamp : Bool;
+      temp_rMA : Real;
+      temp_rNorm : Real;
+      temp_rCutoff_Norm : Real;
       temp_rScaled : Real;
+      temp_rRange_mA : Real;
+      temp_rRange_Phys : Real;
+      temp_rMinPhys : Real;
+      temp_rMaxPhys : Real;
+      temp_boResetFilter : Bool;
+      temp_iFilterTime : Int;
    END_VAR
 
 
 BEGIN
-	
-	#io_stOut.Raw := #i_iRawSignal;
-	IF #io_stConfig.Mode = 2 THEN
-	    #temp_rScaled := #io_stConfig.Sim_Value;
-	ELSIF #io_stConfig.Mode = 1 THEN
-	    #temp_rScaled := "FC_ScaleValue"(i_rInp := INT_TO_REAL(#i_iRawSignal), i_rInpLow := INT_TO_REAL(#io_stConfig.HW_Min), i_rInpHigh := INT_TO_REAL(#io_stConfig.HW_Max), i_rOutLow := #io_stConfig.Scale_Min, i_rOutHigh := #io_stConfig.Scale_Max, i_boUseSqrt := FALSE, i_rCutoff := #io_stConfig.Cutoff, i_boUseLimit := TRUE);
-	ELSE
-	    #temp_rScaled := 0.0;
-	END_IF;
-	"FC_Filter_PT1"(i_rRawValue := #temp_rScaled,
-	                i_rTimeFilter_ms := INT_TO_REAL(#io_stConfig.FilterTime_ms),
-	                i_boReset := "isFirstScan"(),
-	                io_rFilteredValue := #io_stOut.Value_Filtered);
-	
+	    // =========================================================
+	    // ШАГ 0. РАСШИФРОВКА БИТОВОГО СЛОВА (Mode)
+	    // =========================================================
+	    #temp_boDisabled := (#io_stConfig.Mode AND 16#0001) = 16#0001;
+	    #temp_boSimActive := (#io_stConfig.Mode AND 16#0002) = 16#0002;
+	    #temp_boUseSqrt := (#io_stConfig.Mode AND 16#0004) = 16#0004;
+	    #temp_boPreSqrtCut := (#io_stConfig.Mode AND 16#0008) = 16#0008;
+	    #temp_boFinalClamp := (#io_stConfig.Mode AND 16#0010) = 16#0010;
+	    
+	    // 0.1 Режим полного отключения канала
+	    IF #temp_boDisabled THEN
+	        #io_stOut.Value_Unclamped := 0.0;
+	        #io_stOut.Value_Scaled := 0.0;
+	        #io_stOut.Value_Filtered := 0.0;
+	        #io_stOut.Value_mA := 0.0;
+	        #io_stOut.Raw := 0;
+	        
+	        #io_stOut.Status.WireBreak := FALSE;
+	        #io_stOut.Status.Underrange := FALSE;
+	        #io_stOut.Status.Overrange := FALSE;
+	        #io_stOut.Status.Overflow := FALSE;
+	        #io_stOut.Status.ConfigError := FALSE;
+	        #io_stOut.Status.Sim_Active := FALSE;
+	        
+	        #stat_boWasInvalid := TRUE;
+	        RETURN;
+	    END_IF;
+	    
+	    // 0.2 Защита от кривых настроек
+	    #temp_rRange_mA := #io_stConfig.Calib_mA_Max - #io_stConfig.Calib_mA_Min;
+	    #temp_rRange_Phys := #io_stConfig.Scale_Max - #io_stConfig.Scale_Min;
+	    
+	    IF (#io_stConfig.HW_Max <= #io_stConfig.HW_Min) OR
+	        (#temp_rRange_mA <= 0.0) OR
+	        (ABS(#temp_rRange_Phys) < 0.00001) OR
+	        (ABS(#io_stConfig.Cutoff) >= ABS(#temp_rRange_Phys)) THEN
+	        
+	        #io_stOut.Status.ConfigError := TRUE;
+	        
+	        #io_stOut.Status.WireBreak := FALSE;
+	        #io_stOut.Status.Underrange := FALSE;
+	        #io_stOut.Status.Overrange := FALSE;
+	        #io_stOut.Status.Overflow := FALSE;
+	        #io_stOut.Status.Sim_Active := FALSE;
+	        
+	        #io_stOut.Value_Unclamped := 0.0;
+	        #io_stOut.Value_Scaled := 0.0;
+	        #io_stOut.Value_Filtered := 0.0;
+	        #io_stOut.Value_mA := 0.0;
+	        #io_stOut.Raw := #i_iRawSignal;
+	        
+	        #stat_boWasInvalid := TRUE;
+	        RETURN;
+	    END_IF;
+	    
+	    #io_stOut.Status.ConfigError := FALSE;
+	    
+	    // =========================================================
+	    // ШАГ 1 & 2. СИМУЛЯЦИЯ И ДИАГНОСТИКА
+	    // =========================================================
+	    
+	    IF #temp_boSimActive THEN
+	        #io_stOut.Status.Sim_Active := TRUE;
+	        
+	        #io_stOut.Status.WireBreak := FALSE;
+	        #io_stOut.Status.Underrange := FALSE;
+	        #io_stOut.Status.Overrange := FALSE;
+	        #io_stOut.Status.Overflow := FALSE;
+	        
+	        #io_stOut.Raw := 0;
+	        #io_stOut.Value_mA := 0.0;
+	        #temp_rScaled := #i_rSimValue;
+	    ELSE
+	        #io_stOut.Status.Sim_Active := FALSE;
+	        #io_stOut.Raw := #i_iRawSignal;
+	        
+	        "FC_AnalogDiag"(
+	                        i_iRawSignal := #i_iRawSignal,
+	                        i_iHW_Min := #io_stConfig.HW_Min,
+	                        i_iHW_Max := #io_stConfig.HW_Max,
+	                        i_rCoef_Under := "C_DIAG_UNDER",
+	                        i_rCoef_Over := "C_DIAG_OVER",
+	                        o_boWireBreak => #io_stOut.Status.WireBreak,
+	                        o_boUnderrange => #io_stOut.Status.Underrange,
+	                        o_boOverrange => #io_stOut.Status.Overrange,
+	                        o_boOverflow => #io_stOut.Status.Overflow
+	        );
+	        
+	        // =========================================================
+	        // ШАГ 3. МАТЕМАТИКА
+	        // =========================================================
+	        IF #io_stOut.Status.WireBreak THEN
+	            // Ушли в жесткий минус: База + (Диапазон * Коэффициент обрыва)
+	            #temp_rScaled := #io_stConfig.Scale_Min + (#temp_rRange_Phys * "C_DIAG_UNDER");
+	            #io_stOut.Value_mA := 0.0;
+	            
+	        ELSIF #io_stOut.Status.Overflow THEN
+	            // Ушли в жесткий перегруз: База + (Диапазон * Коэффициент переполнения)
+	            #temp_rScaled := #io_stConfig.Scale_Min + (#temp_rRange_Phys * "C_DIAG_OVER");
+	            #io_stOut.Value_mA := 25.0;
+	        ELSE
+	            // А) Расчет миллиампер
+	            #temp_rMA := 4.0 + ((INT_TO_REAL(#i_iRawSignal) - INT_TO_REAL(#io_stConfig.HW_Min)) /
+	            (INT_TO_REAL(#io_stConfig.HW_Max) - INT_TO_REAL(#io_stConfig.HW_Min))) * 16.0;
+	            #io_stOut.Value_mA := #temp_rMA;
+	            
+	            // Б) Нормализация (0.0 ... 1.0)
+	            #temp_rNorm := (#temp_rMA - #io_stConfig.Calib_mA_Min) / #temp_rRange_mA;
+	            
+	            // В) Pre-Sqrt CutOff (Умная отсечка до извлечения корня)
+	            IF #temp_boPreSqrtCut AND #temp_boUseSqrt THEN
+	                #temp_rCutoff_Norm := ABS(#io_stConfig.Cutoff / #temp_rRange_Phys);
+	                #temp_rCutoff_Norm := #temp_rCutoff_Norm * #temp_rCutoff_Norm;
+	                
+	                IF #temp_rNorm < #temp_rCutoff_Norm THEN
+	                    #temp_rNorm := 0.0;
+	                END_IF;
+	            END_IF;
+	            
+	            // Г) Извлечение корня
+	            IF #temp_boUseSqrt THEN
+	                IF #temp_rNorm > 0.0 THEN
+	                    #temp_rNorm := SQRT(#temp_rNorm);
+	                ELSE
+	                    #temp_rNorm := 0.0;
+	                END_IF;
+	            END_IF;
+	            
+	            // Д) Масштабирование в физическую величину
+	            #temp_rScaled := #io_stConfig.Scale_Min + (#temp_rNorm * #temp_rRange_Phys);
+	            
+	            // Е) Классический CutOff 
+	            IF NOT (#temp_boPreSqrtCut AND #temp_boUseSqrt) THEN
+	                IF ABS(#temp_rScaled) < ABS(#io_stConfig.Cutoff) THEN
+	                    #temp_rScaled := 0.0;
+	                END_IF;
+	            END_IF;
+	        END_IF;
+	    END_IF;
+	    
+	    // Сохраняем чистую математику (без клампа) на выход
+	    #io_stOut.Value_Unclamped := #temp_rScaled;
+	    
+	    // =========================================================
+	    // ШАГ 3.5. ФИНАЛЬНЫЙ CLAMP (Beautiful Branch)
+	    // =========================================================
+	    IF #temp_boFinalClamp THEN
+	        #temp_rMinPhys := MIN(IN1 := #io_stConfig.Scale_Min, IN2 := #io_stConfig.Scale_Max);
+	        #temp_rMaxPhys := MAX(IN1 := #io_stConfig.Scale_Min, IN2 := #io_stConfig.Scale_Max);
+	        #temp_rScaled := LIMIT(MN := #temp_rMinPhys, IN := #temp_rScaled, MX := #temp_rMaxPhys);
+	    END_IF;
+	    
+	    #io_stOut.Value_Scaled := #temp_rScaled;
+	    
+	    // =========================================================
+	    // ШАГ 4. ФИЛЬТРАЦИЯ & PRE-LOAD 
+	    // =========================================================
+	    #temp_boResetFilter := #temp_boSimActive OR
+	    #io_stOut.Status.WireBreak OR
+	    #io_stOut.Status.Overflow OR
+	    #stat_boWasInvalid;
+	    
+	    #temp_iFilterTime := LIMIT(MN := 0, IN := #io_stConfig.FilterTime_ms, MX := 32000);
+	    
+	    "FC_Filter_PT1"(
+	                    i_rRawValue := #temp_rScaled, // Фильтруем заклампованное значение
+	                    i_rTimeFilter_ms := INT_TO_REAL(#temp_iFilterTime),
+	                    i_boReset := #temp_boResetFilter,
+	                    io_rFilteredValue := #io_stOut.Value_Filtered
+	    );
+	    
+	    #stat_boWasInvalid := #io_stOut.Status.WireBreak OR
+	    #io_stOut.Status.Overflow OR
+	    #io_stOut.Status.ConfigError;
+	    
 END_FUNCTION_BLOCK
 

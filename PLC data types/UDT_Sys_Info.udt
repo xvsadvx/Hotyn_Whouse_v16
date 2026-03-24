@@ -1,0 +1,17 @@
+﻿TYPE "UDT_Sys_Info"
+VERSION : 0.1
+// ===============================================================
+// Master Project: S7C_Master_AI_Test (S7-300 COMPLIANT)
+// Platform: S7-300 / IM 151-8
+// FIX: No FBs in Temp/Global DB. Using Multi-instance in Wrapper FB.
+// Encoding: UTF-8 with BOM
+// ===============================================================
+// 1. DATA TYPES (UDTs)
+   STRUCT
+      FirstScan : Bool;
+      CycleTime_ms_INT : Int;
+      CycleTime_ms_REAL : Real;
+   END_STRUCT;
+
+END_TYPE
+

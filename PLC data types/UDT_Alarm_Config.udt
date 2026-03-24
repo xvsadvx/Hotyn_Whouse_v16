@@ -1,0 +1,23 @@
+﻿TYPE "UDT_Alarm_Config"
+VERSION : 0.1
+   STRUCT
+      En_Alarm : Struct
+         HiHi : Bool;
+         Hi : Bool;
+         Lo : Bool;
+         LoLo : Bool;
+         Pad_Byte : Byte;
+      END_STRUCT;
+      HiHi : Real;
+      Hi : Real;
+      Lo : Real;
+      LoLo : Real;
+      Delay_HiHi : Int;
+      Delay_Hi : Int;
+      Delay_Lo : Int;
+      Delay_LoLo : Int;
+      Hysteresis : Real;
+   END_STRUCT;
+
+END_TYPE
+

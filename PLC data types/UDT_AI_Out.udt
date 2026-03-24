@@ -1,0 +1,19 @@
+﻿TYPE "UDT_AI_Out"
+VERSION : 0.1
+   STRUCT
+      Raw : Int;
+      Value_Scaled : Real;
+      Value_Filtered : Real;
+      Status : Struct
+         WireBreak : Bool;
+         Underrange : Bool;
+         Overrange : Bool;
+         Overflow : Bool;
+         ConfigError : Bool;
+         Sim_Active : Bool;
+         Pad_Byte : Byte;
+      END_STRUCT;
+   END_STRUCT;
+
+END_TYPE
+

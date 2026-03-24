@@ -20,8 +20,10 @@ BEGIN
 	
 	#fb_Saw(Enable := "DB_Test_IO".Sim_Enable_Saw,
 	        Speed := "DB_Test_IO".Sim_Saw_Speed,
-	        Current_Val:= "DB_Test_IO".Raw_Start,
-	        Out_Raw => #tmp_raw_gen,Limit_Low:=-8000,Limit_High:=32500);
+	        Current_Val := "DB_Test_IO".Raw_Start,
+	        Out_Raw => #tmp_raw_gen,
+	        Limit_Low := "DB_Test_IO".Raw_Min,
+	        Limit_High := "DB_Test_IO".Raw_Max);
 	#fb_Dist(Enable := "DB_Test_IO".Sim_Enable_Noise,
 	         RawIn := #tmp_raw_gen,
 	         Dt_ms := "getCycleTime"(),

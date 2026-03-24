@@ -1,0 +1,17 @@
+﻿TYPE "UDT_AI_Config"
+VERSION : 0.1
+   STRUCT
+      Mode : Int := 1;
+      Sim_Value : Real;
+      HW_Min : Int := "C_HW_MIN";
+      HW_Max : Int := "C_HW_MAX";
+      Scale_Min : Real := 0.0;
+      Scale_Max : Real := 100.0;
+      Cutoff : Real := 0.0;
+      FilterTime_ms : Int := 1000;
+      Calib_Offset : Real := 0.0;
+      Calib_Gain : Real := 1.0;
+   END_STRUCT;
+
+END_TYPE
+
