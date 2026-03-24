@@ -34,7 +34,16 @@ BEGIN
 	#AI_1(i_iRawSignal := "DB_Test_IO".Raw_Final,
 	      io_stConfig := "DB_Test_IO".Config[1],
 	      io_stOut := "DB_Test_IO".Out[1]);
-	#Alarm_1(i_rValue := "DB_Test_IO".Out[1].Value_Filtered, i_boReset := "DB_Test_IO".Reset_Alarms, i_boInhibit := False, io_stConfig := "DB_Test_IO".Alarm_Cfg[1], io_stOut := "DB_Test_IO".Alarm_Out[1]);
+	#Alarm_1(
+	         i_rValue := "DB_Test_IO".Out[1].Value_Filtered,
+	         i_boReset := "DB_Test_IO".Reset_Alarms,
+	         // Умная блокировка: глушим сирену, если отпал датчик, КЗ или кривые настройки
+	         i_boInhibit := "DB_Test_IO".Out[1].Status.WireBreak OR
+	                         "DB_Test_IO".Out[1].Status.Overflow OR
+	                         "DB_Test_IO".Out[1].Status.ConfigError,
+	         io_stConfig := "DB_Test_IO".Alarm_Cfg[1],
+	         io_stOut := "DB_Test_IO".Alarm_Out[1]
+	);
 	
 	#AI_2(i_iRawSignal := 27648,
 	      io_stConfig := "DB_Test_IO".Config[2],
