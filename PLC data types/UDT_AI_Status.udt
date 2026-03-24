@@ -1,15 +1,18 @@
 ﻿TYPE "UDT_AI_Status"
 VERSION : 0.1
+// -----------------------------------------------------------------------------
+// 2. АВТОНОМНЫЙ СТАТУС (2 БАЙТА / 1 WORD)
+// -----------------------------------------------------------------------------
    STRUCT
-      WireBreak : Bool;
-      Underrange : Bool;
-      Overrange : Bool;
-      Overflow : Bool;
-      ConfigError : Bool;
-      Sim_Active : Bool;
-      Pad_Bit_6 : Bool;
-      Pad_Bit_7 : Bool;
-      Pad_Byte : Byte;
+      WireBreak : Bool;   // +0.0 | Wire break (< -4864)
+      Underrange : Bool;   // +0.1 | Signal < 0 mA, but alive
+      Overrange : Bool;   // +0.2 | Signal > 20 mA
+      Overflow : Bool;   // +0.3 | Short circuit (> 22.8 mA)
+      Sim_Active : Bool;   // +0.4 | Simulation mode ON
+      ConfigError : Bool;   // +0.5 | Bad settings in UDT_Config
+      Pad_Bit_6 : Bool;   // +0.6
+      Pad_Bit_7 : Bool;   // +0.7
+      Pad_Byte : Byte;   // +1.0 | Alignment for S7-300
    END_STRUCT;
 
 END_TYPE
