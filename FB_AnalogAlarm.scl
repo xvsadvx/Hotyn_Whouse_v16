@@ -13,10 +13,10 @@ VERSION : 2.0
    END_VAR
 
    VAR 
-      stat_TonHiHi {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
-      stat_TonHi {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
-      stat_TonLo {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
-      stat_TonLoLo {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
+      stat_TonHiHi {InstructionName := 'TON'; LibVersion := '1.0'; S7_SetPoint := 'False'} : TON;
+      stat_TonHi {InstructionName := 'TON'; LibVersion := '1.0'; S7_SetPoint := 'False'} : TON;
+      stat_TonLo {InstructionName := 'TON'; LibVersion := '1.0'; S7_SetPoint := 'False'} : TON;
+      stat_TonLoLo {InstructionName := 'TON'; LibVersion := '1.0'; S7_SetPoint := 'False'} : TON;
       stat_RawHiHi : Bool;
       stat_RawHi : Bool;
       stat_RawLo : Bool;
@@ -28,11 +28,11 @@ BEGIN
 	    // =========================================================
 	    // 1. ТРАНСЛЯЦИЯ СТАТУСОВ ДЛЯ HMI (En_Out)
 	    // =========================================================
-	    #io_stOut.En_Out.HiHi := #io_stConfig.En_Alarm.HiHi AND NOT #i_boInhibit ;
-	    #io_stOut.En_Out.Hi := #io_stConfig.En_Alarm.Hi AND NOT #i_boInhibit;
-	    #io_stOut.En_Out.Lo := #io_stConfig.En_Alarm.Lo AND NOT #i_boInhibit;
-	    #io_stOut.En_Out.LoLo := #io_stConfig.En_Alarm.LoLo AND NOT #i_boInhibit;
-	    #io_stOut.En_Out.Latch_Enable := #io_stConfig.En_Alarm.Latch_Enable AND NOT #i_boInhibit;
+	    #io_stOut.En_HiHi := #io_stConfig.En_Alarm.HiHi AND NOT #i_boInhibit ;
+	    #io_stOut.En_Hi := #io_stConfig.En_Alarm.Hi AND NOT #i_boInhibit;
+	    #io_stOut.En_Lo := #io_stConfig.En_Alarm.Lo AND NOT #i_boInhibit;
+	    #io_stOut.En_LoLo := #io_stConfig.En_Alarm.LoLo AND NOT #i_boInhibit;
+	    #io_stOut.En_Latch_Enable := #io_stConfig.En_Alarm.Latch_Enable;
 	    
 	    // =========================================================
 	    // 2. ОБРАБОТКА СЫРЫХ АВАРИЙ С ГИСТЕРЕЗИСОМ (Deadband)
@@ -69,16 +69,16 @@ BEGIN
 	    // Таймер не считает, если сработала блокировка датчика (Inhibit) 
 	    // или аларм выключен в настройках.
 	    #stat_TonHiHi(IN := #stat_RawHiHi AND #io_stConfig.En_Alarm.HiHi AND NOT #i_boInhibit,
-	                  PT := DINT_TO_TIME(#io_stConfig.Delay_HiHi) );
+	                  PT := DINT_TO_TIME(#io_stConfig.Delay_HiHi)*1000 );
 	    
 	    #stat_TonHi(IN := #stat_RawHi AND #io_stConfig.En_Alarm.Hi AND NOT #i_boInhibit,
-	                PT := DINT_TO_TIME(#io_stConfig.Delay_Hi) );
+	                PT := DINT_TO_TIME(#io_stConfig.Delay_Hi)*1000 );
 	    
 	    #stat_TonLo(IN := #stat_RawLo AND #io_stConfig.En_Alarm.Lo AND NOT #i_boInhibit,
-	                PT := DINT_TO_TIME(#io_stConfig.Delay_Lo) );
+	                PT := DINT_TO_TIME(#io_stConfig.Delay_Lo)*1000 );
 	    
 	    #stat_TonLoLo(IN := #stat_RawLoLo AND #io_stConfig.En_Alarm.LoLo AND NOT #i_boInhibit,
-	                  PT := DINT_TO_TIME(#io_stConfig.Delay_LoLo) );
+	                  PT := DINT_TO_TIME(#io_stConfig.Delay_LoLo)*1000 );
 	    
 	    // =========================================================
 	    // 4. ФИКСАЦИЯ (LATCH) И СБРОС АВАРИЙ
@@ -91,33 +91,33 @@ BEGIN
 	    // --- HiHi ---
 	    IF #i_boInhibit OR NOT #io_stConfig.En_Alarm.HiHi OR
 	        (NOT #stat_RawHiHi AND (NOT #io_stConfig.En_Alarm.Latch_Enable OR #i_boReset)) THEN
-	        #io_stOut.Alarms.HiHi := FALSE;
+	        #io_stOut.HiHi := FALSE;
 	    ELSIF #stat_TonHiHi.Q THEN
-	        #io_stOut.Alarms.HiHi := TRUE;
+	        #io_stOut.HiHi := TRUE;
 	    END_IF;
 	    
 	    // --- Hi ---
 	    IF #i_boInhibit OR NOT #io_stConfig.En_Alarm.Hi OR
 	        (NOT #stat_RawHi AND (NOT #io_stConfig.En_Alarm.Latch_Enable OR #i_boReset)) THEN
-	        #io_stOut.Alarms.Hi := FALSE;
+	        #io_stOut.Hi := FALSE;
 	    ELSIF #stat_TonHi.Q THEN
-	        #io_stOut.Alarms.Hi := TRUE;
+	        #io_stOut.Hi := TRUE;
 	    END_IF;
 	    
 	    // --- Lo ---
 	    IF #i_boInhibit OR NOT #io_stConfig.En_Alarm.Lo OR
 	        (NOT #stat_RawLo AND (NOT #io_stConfig.En_Alarm.Latch_Enable OR #i_boReset)) THEN
-	        #io_stOut.Alarms.Lo := FALSE;
+	        #io_stOut.Lo := FALSE;
 	    ELSIF #stat_TonLo.Q THEN
-	        #io_stOut.Alarms.Lo := TRUE;
+	        #io_stOut.Lo := TRUE;
 	    END_IF;
 	    
 	    // --- LoLo ---
 	    IF #i_boInhibit OR NOT #io_stConfig.En_Alarm.LoLo OR
 	        (NOT #stat_RawLoLo AND (NOT #io_stConfig.En_Alarm.Latch_Enable OR #i_boReset)) THEN
-	        #io_stOut.Alarms.LoLo := FALSE;
+	        #io_stOut.LoLo := FALSE;
 	    ELSIF #stat_TonLoLo.Q THEN
-	        #io_stOut.Alarms.LoLo := TRUE;
+	        #io_stOut.LoLo := TRUE;
 	    END_IF;
 	    
 END_FUNCTION_BLOCK
