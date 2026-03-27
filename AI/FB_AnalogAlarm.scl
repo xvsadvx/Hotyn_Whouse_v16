@@ -8,8 +8,8 @@ VERSION : 2.0
    END_VAR
 
    VAR_IN_OUT 
-      io_stConfig : "UDT_Alarm_Config";
-      io_stOut : "UDT_Alarm_Out";
+      io_stConfig : "UDT_AI_Alarm_Conf";
+      io_stOut : "UDT_AI_Alarm";
    END_VAR
 
    VAR 
