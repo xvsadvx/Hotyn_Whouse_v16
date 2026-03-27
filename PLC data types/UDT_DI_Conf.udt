@@ -1,0 +1,9 @@
+﻿TYPE "UDT_DI_Conf"
+VERSION : 0.1
+   STRUCT
+      Mode : Int;   // Режим: 0=Прямой, 1=С фильтром (Прямой), 2=С фильтром (Инверсный)
+      FilterTime : Int;   // Время антидребезга (мс), макс. 32767 мс
+   END_STRUCT;
+
+END_TYPE
+

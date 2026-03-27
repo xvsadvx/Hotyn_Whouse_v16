@@ -1,0 +1,23 @@
+﻿TYPE "UDT_DI_Alarm"
+VERSION : 0.1
+   STRUCT
+      Alarm : Bool;   // Состояние аварии (с учетом задержки и фиксации)
+      Pad_Bit_1 : Bool;   // Резерв
+      Pad_Bit_2 : Bool;   // Резерв
+      Pad_Bit_3 : Bool;   // Резерв
+      Pad_Bit_4 : Bool;   // Резерв
+      Pad_Bit_5 : Bool;   // Резерв
+      Pad_Bit_6 : Bool;   // Резерв
+      Pad_Bit_7 : Bool;   // Резерв --- Байт 1 (Статусы для HMI) ---
+      En_Alarm : Bool;   // Статус HMI: Авария включена и не заблокирована
+      Latch_Enable : Bool;   // Статус HMI: Включена фиксация
+      Input_Raw : Bool;   // Диагностика HMI: Физическое состояние входа
+      Input_Inv : Bool;   // Диагностика HMI: Состояние после учета инверсии
+      Pad_En_4 : Bool;   // Резерв
+      Pad_En_5 : Bool;   // Резерв
+      Pad_En_6 : Bool;   // Резерв
+      Pad_En_7 : Bool;   // Резерв
+   END_STRUCT;
+
+END_TYPE
+
