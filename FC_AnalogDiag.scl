@@ -1,0 +1,34 @@
+﻿FUNCTION "FC_AnalogDiag" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 1.1
+   VAR_INPUT 
+      i_iRawSignal : Int;
+      i_iHW_Min : Int;
+      i_iHW_Max : Int;
+      i_rCoef_Under : Real;
+      i_rCoef_Over : Real;
+   END_VAR
+
+   VAR_OUTPUT 
+      o_boWireBreak : Bool;
+      o_boUnderrange : Bool;
+      o_boOverrange : Bool;
+      o_boOverflow : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      temp_rLimit_Max : Real;
+      temp_iLimit_Min : Int;
+   END_VAR
+
+
+BEGIN
+	    #temp_rLimit_Max := INT_TO_REAL(#i_iHW_Max) * #i_rCoef_Over;
+	    #temp_iLimit_Min := REAL_TO_INT(INT_TO_REAL(#i_iHW_Max) * #i_rCoef_Under);
+	    
+	    #o_boWireBreak := #i_iRawSignal < #temp_iLimit_Min;
+	    #o_boUnderrange := (#i_iRawSignal < #i_iHW_Min) AND (#i_iRawSignal >= #temp_iLimit_Min);
+	    #o_boOverrange := (#i_iRawSignal > #i_iHW_Max) AND (#i_iRawSignal <= REAL_TO_INT(#temp_rLimit_Max));
+	    #o_boOverflow := #i_iRawSignal > REAL_TO_INT(#temp_rLimit_Max);
+END_FUNCTION
+
