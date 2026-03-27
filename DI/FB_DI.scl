@@ -1,0 +1,92 @@
+﻿FUNCTION_BLOCK "FB_DI"
+TITLE = Func Block from DI
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 1.2
+// ==============================================================================
+// Файл: S7C_FC_Filter_PT1.scl
+// Целевые ПЛК: S7-1200 / S7-1500 (Линейка Current)
+// Особенности: 
+// - Оптимизированный доступ (Optimized block access = TRUE)
+// - Использование современных системных функций (время цикла, первый скан)
+// - Кодировка при сохранении: UTF-8 with BOM
+// ==============================================================================
+   VAR_INPUT 
+      i_boRaw : Bool;   // Сырой физический вход
+   END_VAR
+
+   VAR_IN_OUT 
+      io_stConfig : "UDT_DI_CONF";
+      io_stOut : "UDT_DI_OUT";
+   END_VAR
+
+   VAR 
+      stat_TonFlt {InstructionName := 'TON'; LibVersion := '1.0'; S7_SetPoint := 'False'} : TON;   // Задержка включения
+      stat_TofFlt {InstructionName := 'TOF'; LibVersion := '1.0'; S7_SetPoint := 'False'} : TOF;   // Задержка выключения
+      stat_Mode : Int;   // Текущий рабочий режим
+      stat_OldMode : Int;   // Предыдущий режим для отслеживания изменений
+   END_VAR
+
+   VAR_TEMP 
+      temp_FilterTime : Time;
+   END_VAR
+
+
+BEGIN
+	    // =========================================================
+	    // 1. ПРОВЕРКА РЕЖИМА И ПРЕОБРАЗОВАНИЕ ВРЕМЕНИ
+	    // =========================================================
+	    IF #io_stConfig.Mode > 2 OR #io_stConfig.Mode < 0 THEN
+	        #stat_Mode := 0;
+	    ELSE
+	        #stat_Mode := #io_stConfig.Mode;
+	    END_IF;
+	    
+	    // Преобразуем мс (Int) в формат Time
+	    #temp_FilterTime := DINT_TO_TIME(INT_TO_DINT(#io_stConfig.FilterTime));
+	    
+	    // =========================================================
+	    // 2. СБРОС ТАЙМЕРОВ ПРИ СМЕНЕ РЕЖИМА
+	    // =========================================================
+	    IF #stat_Mode <> #stat_OldMode THEN
+	        #stat_TonFlt(IN := FALSE,
+	                     PT := #temp_FilterTime);
+	        #stat_TofFlt(IN := FALSE,
+	                     PT := #temp_FilterTime);
+	        
+	        #io_stOut.Value := #i_boRaw;
+	        #stat_OldMode := #stat_Mode;
+	    END_IF;
+	    
+	    // =========================================================
+	    // 3. ЛОГИКА ФИЛЬТРАЦИИ И ИНВЕРСИИ
+	    // =========================================================
+	    IF #stat_Mode = 0 THEN
+	        // Режим 0: Прямая передача сигнала (без фильтра)
+	        #io_stOut.Value := #i_boRaw;
+	        
+	        // Сбрасываем таймеры, чтобы они не висели в фоне
+	        #stat_TonFlt(IN := FALSE,
+	                     PT := #temp_FilterTime);
+	        #stat_TofFlt(IN := FALSE,
+	                     PT := #temp_FilterTime);
+	        
+	    ELSE
+	        // Режимы с фильтром: применяем TON и TOF
+	        #stat_TonFlt(IN := #i_boRaw,
+	                     PT := #temp_FilterTime);
+	        #stat_TofFlt(IN := #i_boRaw,
+	                     PT := #temp_FilterTime);
+	        
+	        // Включение (TON отработал) -> сигнал стабильно TRUE
+	        IF #stat_TonFlt.Q THEN
+	            #io_stOut.Value := (#stat_Mode = 1); // 1 = Прямой, 2 = Инверсный
+	        END_IF;
+	        
+	        // Выключение (TOF отработал) -> сигнал стабильно FALSE
+	        IF NOT #stat_TofFlt.Q THEN
+	            #io_stOut.Value := (#stat_Mode <> 1); // Сбрасываем соответственно режиму
+	        END_IF;
+	    END_IF;
+	    
+END_FUNCTION_BLOCK
+
