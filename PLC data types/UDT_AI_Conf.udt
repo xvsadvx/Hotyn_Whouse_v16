@@ -1,4 +1,4 @@
-﻿TYPE "UDT_AI_Config"
+﻿TYPE "UDT_AI_Conf"
 VERSION : 0.1
    STRUCT
       Mode : Word := 16#0010;   // ПО УМОЛЧАНИЮ: Взведен Bit 4 (Final Clamp)
