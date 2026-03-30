@@ -1,4 +1,4 @@
-﻿FUNCTION_BLOCK "FB_AnalogAlarm"
+﻿FUNCTION_BLOCK "FB_AI_Alarm"
 { S7_Optimized_Access := 'FALSE' }
 VERSION : 2.0
    VAR_INPUT 
@@ -25,6 +25,22 @@ VERSION : 2.0
 
 
 BEGIN
+	    // =========================================================
+	    // 0. ЗАЩИТА ОТ ДУРАКА (Ограничение уставок времени >= 0)
+	    // =========================================================
+	    IF #io_stConfig.Delay_HiHi < 0 THEN
+	        #io_stConfig.Delay_HiHi := 0;
+	    END_IF;
+	    IF #io_stConfig.Delay_Hi < 0 THEN
+	        #io_stConfig.Delay_Hi := 0;
+	    END_IF;
+	    IF #io_stConfig.Delay_Lo < 0 THEN
+	        #io_stConfig.Delay_Lo := 0;
+	    END_IF;
+	    IF #io_stConfig.Delay_LoLo < 0 THEN
+	        #io_stConfig.Delay_LoLo := 0;
+	    END_IF;
+	    
 	    // =========================================================
 	    // 1. ТРАНСЛЯЦИЯ СТАТУСОВ ДЛЯ HMI (En_Out)
 	    // =========================================================
@@ -69,16 +85,16 @@ BEGIN
 	    // Таймер не считает, если сработала блокировка датчика (Inhibit) 
 	    // или аларм выключен в настройках.
 	    #stat_TonHiHi(IN := #stat_RawHiHi AND #io_stConfig.En_Alarm.HiHi AND NOT #i_boInhibit,
-	                  PT := DINT_TO_TIME(#io_stConfig.Delay_HiHi)*1000 );
+	                  PT := DINT_TO_TIME(#io_stConfig.Delay_HiHi)*1000 + t#1ms );//gr-ny 300
 	    
 	    #stat_TonHi(IN := #stat_RawHi AND #io_stConfig.En_Alarm.Hi AND NOT #i_boInhibit,
-	                PT := DINT_TO_TIME(#io_stConfig.Delay_Hi)*1000 );
+	                PT := DINT_TO_TIME(#io_stConfig.Delay_Hi)*1000 + t#1ms );//gr-ny 300
 	    
 	    #stat_TonLo(IN := #stat_RawLo AND #io_stConfig.En_Alarm.Lo AND NOT #i_boInhibit,
-	                PT := DINT_TO_TIME(#io_stConfig.Delay_Lo)*1000 );
+	                PT := DINT_TO_TIME(#io_stConfig.Delay_Lo)*1000 + t#1ms);//gr-ny 300
 	    
 	    #stat_TonLoLo(IN := #stat_RawLoLo AND #io_stConfig.En_Alarm.LoLo AND NOT #i_boInhibit,
-	                  PT := DINT_TO_TIME(#io_stConfig.Delay_LoLo)*1000 );
+	                  PT := DINT_TO_TIME(#io_stConfig.Delay_LoLo)*1000 + t#1ms);//gr-ny 300
 	    
 	    // =========================================================
 	    // 4. ФИКСАЦИЯ (LATCH) И СБРОС АВАРИЙ

@@ -1,0 +1,15 @@
+﻿FUNCTION "FC_Scale_Map_Mng" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+
+BEGIN
+	"iDB_Map_Siwarex_Core_1"(i_Scale_DB:="DB_Scale_CS_1",
+	                         i_CycleTime_ms:=0,
+	                         io_Core:="DB_MAP".Scale_CS_1);
+	
+	"iDB_Map_Siwarex_Core_2"(i_Scale_DB:="DB_Scale_CS_2",
+	                         i_CycleTime_ms:=0,
+	                         io_Core:="DB_MAP".Scale_CS_2);
+	
+END_FUNCTION
+

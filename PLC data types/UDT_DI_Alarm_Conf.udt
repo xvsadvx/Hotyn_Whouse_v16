@@ -4,16 +4,16 @@ VERSION : 0.1
 // СТРУКТУРЫ ДЛЯ ДИСКРЕТНОГО АЛАРМА (FB_DI_Alarm)
 // =============================================================================
    STRUCT
-      En_Alarm : Bool;   // 1 = Разрешение контроля аварии
-      Invert : Bool;   // 0 = NO (TRUE = Авария), 1 = NC (FALSE = Авария)
-      Latch_Enable : Bool;   // 1 = Фиксация аварии (требует сброса кнопкой Reset)
-      Pad_Bit_3 : Bool;   // Резерв
-      Pad_Bit_4 : Bool;   // Резерв
-      Pad_Bit_5 : Bool;   // Резерв
-      Pad_Bit_6 : Bool;   // Резерв
-      Pad_Bit_7 : Bool;   // Резерв
-      Pad_Byte : Byte;   // Выравнивание
-      Delay : Int;   // Задержка срабатывания (в СЕКУНДАХ)
+      En_Alarm { S7_SetPoint := 'True'} : Bool;   // 1 = Разрешение контроля аварии
+      Invert { S7_SetPoint := 'True'} : Bool;   // 0 = NO (TRUE = Авария), 1 = NC (FALSE = Авария)
+      Latch_Enable { S7_SetPoint := 'True'} : Bool;   // 1 = Фиксация аварии (требует сброса кнопкой Reset)
+      Pad_Bit_3 { S7_SetPoint := 'True'} : Bool;   // Резерв
+      Pad_Bit_4 { S7_SetPoint := 'True'} : Bool;   // Резерв
+      Pad_Bit_5 { S7_SetPoint := 'True'} : Bool;   // Резерв
+      Pad_Bit_6 { S7_SetPoint := 'True'} : Bool;   // Резерв
+      Pad_Bit_7 { S7_SetPoint := 'True'} : Bool;   // Резерв
+      Pad_Byte { S7_SetPoint := 'True'} : Byte;   // Выравнивание
+      Delay { S7_SetPoint := 'True'} : Int;   // Задержка срабатывания (в СЕКУНДАХ)
    END_STRUCT;
 
 END_TYPE

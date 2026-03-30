@@ -1,0 +1,45 @@
+﻿FUNCTION "FC_Map_SmallTank_HMI" : Void
+TITLE = Маппинг HMI малого танка
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : S7A_Lib
+FAMILY : HMI_Map
+VERSION : 0.1
+// ==============================================================================
+// Описание: Перекладывает данные из внутренней структуры малого танка 
+//           в плоскую HMI-структуру. Включает конвертацию массы в тонны 
+//           и сквозную передачу статусных битов.
+// ==============================================================================
+   VAR_INPUT 
+      i_Tank_Internal : "UDT_Tank_Full";   // Рабочая (внутренняя) структура танка
+   END_VAR
+
+   VAR_IN_OUT 
+      io_HMI_Tank : "UDT_HMI_SmallTank";   // Плоская структура для панели оператора
+   END_VAR
+
+
+BEGIN
+	    // Перенос основных технологических параметров
+	    #io_HMI_Tank.Level_m := #i_Tank_Internal.Calc.Level_m;
+	    #io_HMI_Tank.Volume_m3 := #i_Tank_Internal.Calc.Volume_m3;
+	    #io_HMI_Tank.Percent_prc := #i_Tank_Internal.Calc.Level_Pct;
+	    
+	    // UPDATE: Конвертация массы из килограммов в тонны для отображения оператору
+	    #io_HMI_Tank.Weight_t := #i_Tank_Internal.Calc.Weight_t;
+	    
+	    // Маппинг статусных битов аварий (побитово)
+	    #io_HMI_Tank.Status_Alarms.DI := #i_Tank_Internal.DI_Alarm.Alarm;
+	    #io_HMI_Tank.Status_Alarms.HH := #i_Tank_Internal.AI_Alarm.HiHi;
+	    #io_HMI_Tank.Status_Alarms.H := #i_Tank_Internal.AI_Alarm.Hi;
+	    #io_HMI_Tank.Status_Alarms.L := #i_Tank_Internal.AI_Alarm.Lo;
+	    #io_HMI_Tank.Status_Alarms.LL := #i_Tank_Internal.AI_Alarm.LoLo;
+	    
+	    // Маппинг аппаратной диагностики AI (побитово)
+	    #io_HMI_Tank.Status_AI.WireBreak := #i_Tank_Internal.AI_Out.Status.WireBreak;
+	    #io_HMI_Tank.Status_AI.Underrange := #i_Tank_Internal.AI_Out.Status.Underrange;
+	    #io_HMI_Tank.Status_AI.Overrange := #i_Tank_Internal.AI_Out.Status.Overrange;
+	    #io_HMI_Tank.Status_AI.Overflow := #i_Tank_Internal.AI_Out.Status.Overflow;
+	    #io_HMI_Tank.Status_AI.ConfigError := #i_Tank_Internal.AI_Out.Status.ConfigError;
+	    
+END_FUNCTION
+

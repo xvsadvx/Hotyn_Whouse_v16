@@ -1,0 +1,12 @@
+﻿DATA_BLOCK "DB_Wh_POL"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   STRUCT 
+      Tank : Array[1..10] of "UDT_Tank_Full";
+   END_STRUCT;
+
+
+BEGIN
+
+END_DATA_BLOCK
+

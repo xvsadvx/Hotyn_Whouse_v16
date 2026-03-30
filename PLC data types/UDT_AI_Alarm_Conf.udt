@@ -1,25 +1,25 @@
 ﻿TYPE "UDT_AI_Alarm_Conf"
-VERSION : 1.1
+VERSION : 0.1
    STRUCT
       En_Alarm : Struct
-         HiHi : Bool;
-         Hi : Bool;
-         Lo : Bool;
-         LoLo : Bool;
-         Latch_Enable : Bool;   // 1 = Включена фиксация аварий (до нажатия Reset)
-         Pad_Bit_5 : Bool;   // Резерв
-         Pad_Bit_6 : Bool;   // Резерв
-         Pad_Bit_7 : Bool;   // Резерв
+         HiHi { S7_SetPoint := 'True'} : Bool;
+         Hi { S7_SetPoint := 'True'} : Bool;
+         Lo { S7_SetPoint := 'True'} : Bool;
+         LoLo { S7_SetPoint := 'True'} : Bool;
+         Latch_Enable { S7_SetPoint := 'True'} : Bool;   // 1 = Включена фиксация аварий (до нажатия Reset)
+         Pad_Bit_5 { S7_SetPoint := 'True'} : Bool;   // Резерв
+         Pad_Bit_6 { S7_SetPoint := 'True'} : Bool;   // Резерв
+         Pad_Bit_7 { S7_SetPoint := 'True'} : Bool;   // Резерв
       END_STRUCT;
-      HiHi : Real;
-      Hi : Real;
-      Lo : Real;
-      LoLo : Real;
-      Delay_HiHi : Int;
-      Delay_Hi : Int;
-      Delay_Lo : Int;
-      Delay_LoLo : Int;
-      Hysteresis : Real;
+      HiHi { S7_SetPoint := 'True'} : Real;
+      Hi { S7_SetPoint := 'True'} : Real;
+      Lo { S7_SetPoint := 'True'} : Real;
+      LoLo { S7_SetPoint := 'True'} : Real;
+      Delay_HiHi { S7_SetPoint := 'True'} : Int;
+      Delay_Hi { S7_SetPoint := 'True'} : Int;
+      Delay_Lo { S7_SetPoint := 'True'} : Int;
+      Delay_LoLo { S7_SetPoint := 'True'} : Int;
+      Hysteresis { S7_SetPoint := 'True'} : Real;
    END_STRUCT;
 
 END_TYPE

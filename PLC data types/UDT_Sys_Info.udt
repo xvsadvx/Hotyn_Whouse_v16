@@ -8,9 +8,9 @@ VERSION : 0.1
 // ===============================================================
 // 1. DATA TYPES (UDTs)
    STRUCT
-      FirstScan : Bool;
-      CycleTime_ms_INT : Int;
-      CycleTime_ms_REAL : Real;
+      FirstScan { ExternalVisible := 'False'} : Bool;
+      CycleTime_ms_INT { ExternalVisible := 'False'} : Int;
+      CycleTime_ms_REAL { ExternalVisible := 'False'} : Real;
    END_STRUCT;
 
 END_TYPE

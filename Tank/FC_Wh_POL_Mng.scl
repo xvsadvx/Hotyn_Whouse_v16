@@ -1,0 +1,22 @@
+﻿FUNCTION "FC_Wh_POL_Mng" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+
+BEGIN
+	"iDB_POL_Tank_Log_1"(i_iRaw_AI:="DB_IO_MAP".AI_POL_Tank_1,
+	                 i_rRaw_Siwa:=0.0,
+	                 i_boRaw_DI:="DB_IO_MAP".DI_POL_Tank_1,
+	                 io_Tank:="DB_Wh_POL".Tank[1]);
+	
+	"iDB_POL_Tank_Log_2"(i_iRaw_AI := "DB_IO_MAP".AI_POL_Tank_2,
+	                     i_rRaw_Siwa := 0.0,
+	                     i_boRaw_DI := "DB_IO_MAP".DI_POL_Tank_2,
+	                     io_Tank := "DB_Wh_POL".Tank[2]);
+	
+	"iDB_POL_Tank_Log_3"(i_iRaw_AI:="DB_IO_MAP".AI_POL_Tank_3,
+	                     i_rRaw_Siwa:=0.0,
+	                     i_boRaw_DI:="DB_IO_MAP".DI_POL_Tank_3,
+	                     io_Tank:="DB_Wh_POL".Tank[3]);
+	
+END_FUNCTION
+

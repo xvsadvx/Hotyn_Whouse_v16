@@ -1,0 +1,67 @@
+﻿FUNCTION "FC_Tank_Calc" : Void
+TITLE = Syrup Tank Physics
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : Gemini
+FAMILY : Archive
+VERSION : 1.1
+   VAR_INPUT 
+      i_rValue : Real;   // Входящее значение (мм или кг)
+      i_boIsSiwa : Bool;   // TRUE = Весы (кг), FALSE = Уровень (мм)
+   END_VAR
+
+   VAR_IN_OUT 
+      io_Geom : "UDT_Tank_Geom";
+      iq_Calc : "UDT_Tank_Calc";
+   END_VAR
+
+   VAR_TEMP 
+      temp_rDensity : Real;
+      temp_rMaxVol : Real;
+      temp_rHeight : Real;
+   END_VAR
+
+
+BEGIN
+	    // Предотвращение деления на ноль (Safety Check)
+	    IF #io_Geom.Density < 0.1 THEN
+	        #temp_rDensity := 1000.0;
+	    ELSE
+	        #temp_rDensity := #io_Geom.Density;
+	    END_IF;
+	    IF #io_Geom.Max_Volume < 0.1 THEN
+	        #temp_rMaxVol := 1.0;
+	    ELSE
+	        #temp_rMaxVol := #io_Geom.Max_Volume;
+	    END_IF;
+	    IF #io_Geom.Height_Full < 0.1 THEN
+	        #temp_rHeight := 1.0;
+	    ELSE
+	        #temp_rHeight := #io_Geom.Height_Full;
+	    END_IF;
+	    
+	    IF #i_boIsSiwa THEN
+	        // --- РЕЖИМ ВЕСОВ (Siwarex) ---
+	        #iq_Calc.Weight_t := #i_rValue / 1000.0; // кг -> т
+	        #iq_Calc.Volume_m3 := #i_rValue / #temp_rDensity; // V = m / rho
+	        
+	        // Обратный расчет уровня для визуализации
+	        #iq_Calc.Level_Pct := (#iq_Calc.Volume_m3 / #temp_rMaxVol) * 100.0;
+	        #iq_Calc.Level_m := (#iq_Calc.Level_Pct * #temp_rHeight) / 100.0;
+	    ELSE
+	        // --- РЕЖИМ УРОВНЯ (4-20 мА) ---
+	        #iq_Calc.Level_m := #i_rValue + #io_Geom.Sensor_Offset;
+	        #iq_Calc.Level_Pct := (#iq_Calc.Level_m / #temp_rHeight) * 100.0;
+	        
+	        // Расчет объема и веса
+	        #iq_Calc.Volume_m3 := (#temp_rMaxVol * #iq_Calc.Level_Pct) / 100.0;
+	        #iq_Calc.Weight_t := (#iq_Calc.Volume_m3 * #temp_rDensity) / 1000.0;
+	    END_IF;
+	    
+	    // Свободное место
+	    #iq_Calc.Ullage_m3 := #temp_rMaxVol - #iq_Calc.Volume_m3;
+	    IF #iq_Calc.Ullage_m3 < 0.0 THEN
+	        #iq_Calc.Ullage_m3 := 0.0;
+	    END_IF;
+	    
+END_FUNCTION
+

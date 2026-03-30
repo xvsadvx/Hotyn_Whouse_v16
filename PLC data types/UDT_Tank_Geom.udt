@@ -2,10 +2,10 @@
 VERSION : 0.1
 // Физические параметры и константы емкости
    STRUCT
-      Height_Full : Real;   // Высота танка от 0 до 100% (мм)
-      Sensor_Offset : Real;   // Смещение датчика относительно дна (мм)
-      Density : Real;   // Плотность продукта (кг/м3)
-      Max_Volume : Real;   // Максимальный объем (м3)
+      Height_Full { S7_SetPoint := 'True'} : Real;   // Высота танка от 0 до 100% (мм)
+      Sensor_Offset { S7_SetPoint := 'True'} : Real;   // Смещение датчика относительно дна (мм)
+      Density { S7_SetPoint := 'True'} : Real;   // Плотность продукта (кг/м3)
+      Max_Volume { S7_SetPoint := 'True'} : Real;   // Максимальный объем (м3)
    END_STRUCT;
 
 END_TYPE

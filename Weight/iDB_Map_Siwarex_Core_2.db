@@ -1,0 +1,11 @@
+﻿DATA_BLOCK "iDB_Map_Siwarex_Core_2"
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : S7C_Lib
+FAMILY : Analog
+VERSION : 1.4
+"FB_Map_Siwarex_Core"
+
+BEGIN
+
+END_DATA_BLOCK
+

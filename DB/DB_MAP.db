@@ -1,0 +1,24 @@
+﻿DATA_BLOCK "DB_MAP"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+NON_RETAIN
+   STRUCT 
+      HMI_Whouse : Struct
+         TRN { S7_SetPoint := 'False'} : "UDT_HMI_Whouse";
+         POL { S7_SetPoint := 'False'} : "UDT_HMI_Whouse";
+         BUL { S7_SetPoint := 'False'} : "UDT_HMI_Whouse";
+         MOL { S7_SetPoint := 'False'} : "UDT_HMI_Whouse";
+      END_STRUCT;
+      HMI_TRN_SmalTank { S7_SetPoint := 'False'} : Array[1..3] of "UDT_HMI_SmallTank";
+      HMI_POL_SmalTank { S7_SetPoint := 'False'} : Array[1..10] of "UDT_HMI_SmallTank";
+      HMI_BUL_SmalTank { S7_SetPoint := 'False'} : Array[1..4] of "UDT_HMI_SmallTank";
+      HMI_MOL_SmalTank { S7_SetPoint := 'False'} : Array[1..12] of "UDT_HMI_SmallTank";
+      Scale_CS_1 : "UDT_Siwarex_Core";
+      Scale_CS_2 : "UDT_Siwarex_Core";
+   END_STRUCT;
+
+
+BEGIN
+
+END_DATA_BLOCK
+

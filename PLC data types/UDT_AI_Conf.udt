@@ -1,15 +1,15 @@
 ﻿TYPE "UDT_AI_Conf"
 VERSION : 0.1
    STRUCT
-      Mode : Word := 16#0010;   // ПО УМОЛЧАНИЮ: Взведен Bit 4 (Final Clamp)
-      Scale_Min : Real := 0.0;   // Мин. физической шкалы
-      Scale_Max : Real := 100.0;   // Макс. физической шкалы
-      Calib_mA_Min : Real := 4.0;   // Ток при Scale_Min
-      Calib_mA_Max : Real := 20.0;   // Ток при Scale_Max
-      Cutoff : Real := 0.02;   // Порог отсечения шума около нуля
-      FilterTime_ms : Int := 2000;   // Время фильтра PT1 в миллисекундах (0..32000) --- Границы железа ---
-      HW_Min : Int := "C_HW_MIN";   // Аппаратный минимум
-      HW_Max : Int := "C_HW_MAX";   // Аппаратный максимум
+      Mode { S7_SetPoint := 'True'} : Word := 16#0010;   // ПО УМОЛЧАНИЮ: Взведен Bit 4 (Final Clamp)
+      Scale_Min { S7_SetPoint := 'True'} : Real := 0.0;   // Мин. физической шкалы
+      Scale_Max { S7_SetPoint := 'True'} : Real := 100.0;   // Макс. физической шкалы
+      Calib_mA_Min { S7_SetPoint := 'True'} : Real := 4.0;   // Ток при Scale_Min
+      Calib_mA_Max { S7_SetPoint := 'True'} : Real := 20.0;   // Ток при Scale_Max
+      Cutoff { S7_SetPoint := 'True'} : Real := 0.02;   // Порог отсечения шума около нуля
+      FilterTime_ms { S7_SetPoint := 'True'} : Int := 2000;   // Время фильтра PT1 в миллисекундах (0..32000) --- Границы железа ---
+      HW_Min { S7_SetPoint := 'True'} : Int := "C_HW_MIN";   // Аппаратный минимум
+      HW_Max { S7_SetPoint := 'True'} : Int := "C_HW_MAX";   // Аппаратный максимум
    END_STRUCT;
 
 END_TYPE

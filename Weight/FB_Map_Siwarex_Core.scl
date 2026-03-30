@@ -1,0 +1,72 @@
+﻿FUNCTION_BLOCK "FB_Map_Siwarex_Core"
+TITLE = Маппинг данных Siwarex CS
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : S7C_Lib
+FAMILY : Analog
+VERSION : 1.4
+// ==============================================================================
+// Описание: Адаптированный маппинг из UDT_SIWA_CS. Обработка раздельных кодов 
+//           ошибок (модуля и драйвера). Встроенный таймер Watchdog в STAT.
+// ==============================================================================
+   VAR_INPUT 
+      i_Scale_DB : "UDT_SIWA_CS";   // Системный интерфейс Siwarex CS
+      i_CycleTime_ms : Int;   // Время цикла ПЛК для таймера Watchdog
+   END_VAR
+
+   VAR_IN_OUT 
+      io_Core : "UDT_Siwarex_Core";   // Плоская структура
+   END_VAR
+
+   VAR 
+      stat_Diag : Struct   // Внутренняя память для Watchdog
+         Old_Count : Byte;
+         Old_Weight : Real;
+         Last_Change_ms : DInt;
+      END_STRUCT;
+   END_VAR
+
+   VAR_TEMP 
+      temp_Value_Changed : Bool;
+      temp_Counter_Changed : Bool;
+   END_VAR
+
+
+BEGIN
+	    // 1. Веса
+	    #io_Core.Weight_Gross_kg := INT_TO_REAL(#i_Scale_DB.s_PROCESS_VALUES.i_GROSS_WEIGHT_PROC);
+	    #io_Core.Weight_Net_kg := INT_TO_REAL(#i_Scale_DB.s_PROCESS_VALUES.i_NET_WEIGHT_PROC);
+	    #io_Core.Weight_Tare_kg := INT_TO_REAL(#i_Scale_DB.s_PROCESS_VALUES.i_TARE_WEIGHT_PROC);
+	    
+	    // 2. Диагностика (Коды ошибок) - извлекаем типы Byte в Int
+	    // Операционная ошибка
+	    #io_Core.Error_Op_Msg := BYTE_TO_INT(#i_Scale_DB.s_PROCESS_VALUES.b_OPR_ERR_MSG);
+	    // Ошибка драйвера
+	    #io_Core.Error_FB_Code := BYTE_TO_INT(#i_Scale_DB.b_FB_ERR_CODE);
+	    
+	    // 3. Диагностика (Биты)
+	    #io_Core.Status.Standstill := #i_Scale_DB.s_PROCESS_VALUES.bo_STA_ST_STAND_SCALE_ON;
+	    #io_Core.Status.Limit_1 := #i_Scale_DB.s_PROCESS_VALUES.bo_STA_LIMIT1_ON;
+	    #io_Core.Status.Limit_2 := #i_Scale_DB.s_PROCESS_VALUES.bo_STA_LIMIT2_ON;
+	    #io_Core.Status.Fault_HW := #i_Scale_DB.s_PROCESS_VALUES.bo_STA_ERROR_ON;
+	    #io_Core.Status.Limit_Max := #i_Scale_DB.s_PROCESS_VALUES.bo_STA_MAX_9E;
+	    #io_Core.Status.Fault_FB := #i_Scale_DB.bo_FB_ERR; // Флаг ошибки FB
+	    
+	    // 4. Логика Watchdog (Контроль зависания)
+	    #temp_Value_Changed := (#io_Core.Weight_Net_kg <> #stat_Diag.Old_Weight);
+	    #temp_Counter_Changed := (#i_Scale_DB.b_INFO_REFRESH_COUNT <> #stat_Diag.Old_Count);
+	    
+	    IF #temp_Value_Changed OR #temp_Counter_Changed THEN
+	        #stat_Diag.Last_Change_ms := 0;
+	        #stat_Diag.Old_Weight := #io_Core.Weight_Net_kg;
+	        #stat_Diag.Old_Count := #i_Scale_DB.b_INFO_REFRESH_COUNT;
+	        #io_Core.Status.Comm_Fault := FALSE;
+	    ELSE
+	        #stat_Diag.Last_Change_ms := #stat_Diag.Last_Change_ms + INT_TO_DINT(#i_CycleTime_ms);
+	    END_IF;
+	    
+	    IF #stat_Diag.Last_Change_ms > 5000 THEN
+	        #io_Core.Status.Comm_Fault := TRUE;
+	    END_IF;
+	    
+END_FUNCTION_BLOCK
+
