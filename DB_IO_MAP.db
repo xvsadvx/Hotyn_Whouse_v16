@@ -1,23 +1,75 @@
-﻿DATA_BLOCK "DB_IO_MAP"
+DATA_BLOCK "DB_IO_MAP"
 { S7_Optimized_Access := 'FALSE' }
 VERSION : 0.1
    STRUCT 
-      AI_TRN_Tank_1 : Int;
-      AI_TRN_WTank_2 : Int;
-      AI_TRN_WTank_3 : Int;
-      DI_TRN_Tank_1 : Bool;
+      // --- TRN: 3 бака (1x AI, 2x Siwarex) ---
+      AI_TRN_Tank_1  : Int;
+      AI_TRN_WTank_2 : Int;   // Заглушка, i_rRaw_Siwa из Siwarex
+      AI_TRN_WTank_3 : Int;   // Заглушка, i_rRaw_Siwa из Siwarex
+      DI_TRN_Tank_1  : Bool;
       DI_TRN_WTank_2 : Bool;
       DI_TRN_WTank_3 : Bool;
-      AI_POL_Tank_1 : Int;
-      AI_POL_Tank_2 : Int;
-      AI_POL_Tank_3 : Int;
-      DI_POL_Tank_1 : Bool;
-      DI_POL_Tank_2 : Bool;
-      DI_POL_Tank_3 : Bool;
+      
+      // --- POL: 10 баков ---
+      AI_POL_Tank_1  : Int;
+      AI_POL_Tank_2  : Int;
+      AI_POL_Tank_3  : Int;
+      AI_POL_Tank_4  : Int;
+      AI_POL_Tank_5  : Int;
+      AI_POL_Tank_6  : Int;
+      AI_POL_Tank_7  : Int;
+      AI_POL_Tank_8  : Int;
+      AI_POL_Tank_9  : Int;
+      AI_POL_Tank_10 : Int;
+      DI_POL_Tank_1  : Bool;
+      DI_POL_Tank_2  : Bool;
+      DI_POL_Tank_3  : Bool;
+      DI_POL_Tank_4  : Bool;
+      DI_POL_Tank_5  : Bool;
+      DI_POL_Tank_6  : Bool;
+      DI_POL_Tank_7  : Bool;
+      DI_POL_Tank_8  : Bool;
+      DI_POL_Tank_9  : Bool;
+      DI_POL_Tank_10 : Bool;
+      
+      // --- BUL: 4 бака ---
+      AI_BUL_Tank_1  : Int;
+      AI_BUL_Tank_2  : Int;
+      AI_BUL_Tank_3  : Int;
+      AI_BUL_Tank_4  : Int;
+      DI_BUL_Tank_1  : Bool;
+      DI_BUL_Tank_2  : Bool;
+      DI_BUL_Tank_3  : Bool;
+      DI_BUL_Tank_4  : Bool;
+      
+      // --- MOL: 12 баков ---
+      AI_MOL_Tank_1  : Int;
+      AI_MOL_Tank_2  : Int;
+      AI_MOL_Tank_3  : Int;
+      AI_MOL_Tank_4  : Int;
+      AI_MOL_Tank_5  : Int;
+      AI_MOL_Tank_6  : Int;
+      AI_MOL_Tank_7  : Int;
+      AI_MOL_Tank_8  : Int;
+      AI_MOL_Tank_9  : Int;
+      AI_MOL_Tank_10 : Int;
+      AI_MOL_Tank_11 : Int;
+      AI_MOL_Tank_12 : Int;
+      DI_MOL_Tank_1  : Bool;
+      DI_MOL_Tank_2  : Bool;
+      DI_MOL_Tank_3  : Bool;
+      DI_MOL_Tank_4  : Bool;
+      DI_MOL_Tank_5  : Bool;
+      DI_MOL_Tank_6  : Bool;
+      DI_MOL_Tank_7  : Bool;
+      DI_MOL_Tank_8  : Bool;
+      DI_MOL_Tank_9  : Bool;
+      DI_MOL_Tank_10 : Bool;
+      DI_MOL_Tank_11 : Bool;
+      DI_MOL_Tank_12 : Bool;
    END_STRUCT;
 
 
 BEGIN
 
 END_DATA_BLOCK
-
