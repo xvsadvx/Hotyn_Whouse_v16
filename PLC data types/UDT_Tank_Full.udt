@@ -1,0 +1,19 @@
+﻿TYPE "UDT_Tank_Full"
+VERSION : 0.1
+// Полная структура одного танка (Агрегатор)
+   STRUCT
+      AI_Conf : "UDT_AI_Conf";   // Настройки входа (Mode, Sim и т.д.)
+      AI_Out : "UDT_AI_Out";   // Результаты фильтрации (Value_Filtered)
+      AI_Alarm_Conf : "UDT_AI_Alarm_Conf";   // Уставки (HH, H, L, LL)
+      AI_Alarm : "UDT_AI_Alarm";   // Статус аварий по AI --- Секция DI (твои структуры) ---
+      DI_Conf : "UDT_DI_Conf";   // Настройки фильтра дребезга
+      DI_Out : "UDT_DI_Out";   // Состояние после фильтра
+      DI_Alarm_Conf : "UDT_DI_Alarm_Conf";   // Настройки аларма ВУ (Latch, Delay)
+      DI_Alarm : "UDT_DI_Alarm";   // Статус аварии ВУ --- Технологическая секция ---
+      Geom : "UDT_Tank_Geom";   // Паспорт танка
+      Calc : "UDT_Tank_Calc";   // Сиропная математика
+      Cmd : "UDT_Tank_Cmd";   // Команды
+   END_STRUCT;
+
+END_TYPE
+

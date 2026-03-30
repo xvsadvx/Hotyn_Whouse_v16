@@ -1,0 +1,13 @@
+﻿TYPE "UDT_Tank_Calc"
+VERSION : 0.1
+// Технологические показатели (результаты расчетов)
+   STRUCT
+      Weight_t : Real;   // Текущий вес (тонны)
+      Volume_m3 : Real;   // Текущий объем (м3)
+      Ullage_m3 : Real;   // Свободное место (м3)
+      Level_Pct : Real;   // Уровень (0.0 - 100.0 %)
+      Level_mm : Real;   // Уровень (мм)
+   END_STRUCT;
+
+END_TYPE
+

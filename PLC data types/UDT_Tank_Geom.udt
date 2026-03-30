@@ -1,0 +1,12 @@
+﻿TYPE "UDT_Tank_Geom"
+VERSION : 0.1
+// Физические параметры и константы емкости
+   STRUCT
+      Height_Full : Real;   // Высота танка от 0 до 100% (мм)
+      Sensor_Offset : Real;   // Смещение датчика относительно дна (мм)
+      Density : Real;   // Плотность продукта (кг/м3)
+      Max_Volume : Real;   // Максимальный объем (м3)
+   END_STRUCT;
+
+END_TYPE
+

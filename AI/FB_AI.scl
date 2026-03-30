@@ -1,5 +1,8 @@
 ﻿FUNCTION_BLOCK "FB_AI"
+TITLE = Functional block from AI
 { S7_Optimized_Access := 'FALSE' }
+AUTHOR : Gemini
+FAMILY : Arhive
 VERSION : 8.0
 // -----------------------------------------------------------------------------
 // БЛОК ОБРАБОТКИ АНАЛОГОВОГО СИГНАЛА (FB_AI)

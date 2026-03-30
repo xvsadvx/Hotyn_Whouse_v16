@@ -1,0 +1,16 @@
+﻿TYPE "UDT_Tank_Cmd"
+VERSION : 0.1
+// Команды управления танком
+   STRUCT
+      ResetError : Bool;   // Сброс зафиксированных аварий (Latch)
+      CalibrateDensity : Bool;   // Запрос на автокалибровку плотности (резерв)
+      Spare_02 : Bool;
+      Spare_03 : Bool;
+      Spare_04 : Bool;
+      Spare_05 : Bool;
+      Spare_06 : Bool;
+      Spare_07 : Bool;
+   END_STRUCT;
+
+END_TYPE
+
