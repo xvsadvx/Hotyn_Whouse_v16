@@ -1,0 +1,11 @@
+DATA_BLOCK "iDB_MOL_Tank_Log_9"
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : Gemini
+FAMILY : Archive
+VERSION : 1.2
+NON_RETAIN
+"FB_Tank_Logic"
+
+BEGIN
+
+END_DATA_BLOCK
