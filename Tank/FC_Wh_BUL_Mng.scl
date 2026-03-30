@@ -1,0 +1,40 @@
+﻿FUNCTION "FC_Wh_BUL_Mng" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      temp_Ind : Int;
+   END_VAR
+
+
+BEGIN
+	// ---------------------------------------------------------------
+	// Склад: Болгарский (BUL) — 4 бака
+	// ---------------------------------------------------------------
+	
+	"iDB_BUL_Tank_Log_1"(i_iRaw_AI  := "DB_IO_MAP".AI_BUL_Tank_1,
+	                     i_rRaw_Siwa := 0.0,
+	                     i_boRaw_DI  := "DB_IO_MAP".DI_BUL_Tank_1,
+	                     io_Tank     := "DB_Wh_BUL".Tank[1]);
+	
+	"iDB_BUL_Tank_Log_2"(i_iRaw_AI  := "DB_IO_MAP".AI_BUL_Tank_2,
+	                     i_rRaw_Siwa := 0.0,
+	                     i_boRaw_DI  := "DB_IO_MAP".DI_BUL_Tank_2,
+	                     io_Tank     := "DB_Wh_BUL".Tank[2]);
+	
+	"iDB_BUL_Tank_Log_3"(i_iRaw_AI  := "DB_IO_MAP".AI_BUL_Tank_3,
+	                     i_rRaw_Siwa := 0.0,
+	                     i_boRaw_DI  := "DB_IO_MAP".DI_BUL_Tank_3,
+	                     io_Tank     := "DB_Wh_BUL".Tank[3]);
+	
+	"iDB_BUL_Tank_Log_4"(i_iRaw_AI  := "DB_IO_MAP".AI_BUL_Tank_4,
+	                     i_rRaw_Siwa := 0.0,
+	                     i_boRaw_DI  := "DB_IO_MAP".DI_BUL_Tank_4,
+	                     io_Tank     := "DB_Wh_BUL".Tank[4]);
+	
+	// HMI маппинг
+	FOR #temp_Ind := 1 TO 4 DO
+	    "FC_Map_SmallTank_HMI"(i_Tank_Internal := "DB_Wh_BUL".Tank[#temp_Ind],
+	                           io_HMI_Tank     := "DB_MAP".HMI_BUL_SmalTank[#temp_Ind]);
+	END_FOR;
+	
+END_FUNCTION
