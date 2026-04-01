@@ -1,5 +1,5 @@
 ﻿TYPE "UDT_SIWA_CS"
-VERSION : 0.0
+VERSION : 0.1
    STRUCT
       i_DB_Lenght : Int := 222;
       i_MaxLifeBitCyc : Int := 500;
@@ -20,9 +20,9 @@ VERSION : 0.0
       bo_FB_ERR : Bool;
       b_FB_ERR_CODE : Byte;
       bo_START_UP_IN_PROGRESS : Bool;
-      s_CMD1 : "UDT_SIWA_Cmd";
-      s_CMD2 : "UDT_SIWA_Cmd";
-      s_CMD3 : "UDT_SIWA_Cmd";
+      s_CMD1 { S7_SetPoint := 'False'} : "UDT_SIWA_Cmd";
+      s_CMD2 { S7_SetPoint := 'False'} : "UDT_SIWA_Cmd";
+      s_CMD3 { S7_SetPoint := 'False'} : "UDT_SIWA_Cmd";
       w_DB_RES92 : Word;
       w_DB_RES93 : Word;
       w_DB_RES94 : Word;
@@ -32,24 +32,24 @@ VERSION : 0.0
       w_INT_USE : Word;
       s_JUST_DAT : Struct
          w_CALIB_DIGITS0 : Word;
-         w_CALIB_DIGITS1 : Word := W#16#EA60;
+         w_CALIB_DIGITS1 : Word := WORD#16#EA60;
          w_CALIB_DIGITS2 : Word;
          i_CALIB_WEIGHT1 : Int := 2000;
          i_CALIB_WEIGHT2 : Int;
-         b_SIGNAL_RANGE : Byte := B#16#2;
+         b_SIGNAL_RANGE : Byte := BYTE#16#02;
          b_FILT_TYPE : Byte;
-         b_FILT_FREQ : Byte := B#16#4;
-         b_FILT_DEPTH : Byte := B#16#F;
+         b_FILT_FREQ : Byte := BYTE#16#04;
+         b_FILT_DEPTH : Byte := BYTE#16#0F;
          s_SCALE_ID : String[10] := 'SIWAREX XX';
          i_MIN_WR : Int := 20;
          i_MAX_WR : Int := 2000;
          i_INCREMENT_WR : Int := 1;
          i_WEIGHT_ST_STILL : Int := 10;
          t_TIME_ST_STILL1 : Time := T#1S;
-         b_DEC_POINT : Byte := B#16#2;
-         b_ZERO_NEG_VALUE : Byte := B#16#1;
-         b_ZERO_POS_VALUE : Byte := B#16#3;
-         b_TARA_MAX : Byte := B#16#64;
+         b_DEC_POINT : Byte := BYTE#16#02;
+         b_ZERO_NEG_VALUE : Byte := BYTE#16#01;
+         b_ZERO_POS_VALUE : Byte := BYTE#16#03;
+         b_TARA_MAX : Byte := BYTE#16#64;
          i_Reserve : Int;
          s_LEGAL_TRADE : String[4] := '----';
          s_WEGHT_UNIT : String[4] := 'kg  ';
