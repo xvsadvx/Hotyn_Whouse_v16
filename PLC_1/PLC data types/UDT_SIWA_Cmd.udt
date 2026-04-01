@@ -1,0 +1,12 @@
+﻿TYPE "UDT_SIWA_Cmd"
+VERSION : 0.1
+   STRUCT
+      i_Code : Int;
+      bo_Trigger : Bool;
+      bo_InProgress : Bool;
+      bo_FinishedOk : Bool;
+      bo_FinishedError : Bool;
+   END_STRUCT;
+
+END_TYPE
+

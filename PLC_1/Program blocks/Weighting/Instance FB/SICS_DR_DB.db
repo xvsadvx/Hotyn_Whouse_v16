@@ -1,0 +1,85 @@
+﻿DATA_BLOCK "SICS_DR_DB"
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : AD
+FAMILY : SIWAREX
+NAME : SICS_DR
+VERSION : 2.2
+"SICS_DR"
+
+BEGIN
+   ADDR := 0;
+   DB_SCALE := 0;
+   DB_VECTOR := 0;
+   CMD_IN := 0;
+   SEL_PROC_VAL := 16#00;
+   EXT_TARA := 0;
+   CMD_INPR := FALSE;
+   CMD_FOK := FALSE;
+   CMD_ERR := FALSE;
+   CMD_ERR_C := 16#00;
+   REF_COUNT := 16#00;
+   ACT_SEL_PROC_VAL := 16#00;
+   PROC_VAL1 := 0;
+   SC_STATUS := 16#0000;
+   ERR_MSG_C := 16#00;
+   FB_ERR := FALSE;
+   FB_ERR_C := 16#00;
+   START_UP := FALSE;
+   CMD_EN := FALSE;
+   sb_CMD_EN_OLD := FALSE;
+   sb_DI_OLD := FALSE;
+   sb_BI_OLD := FALSE;
+   sb_DIQ := FALSE;
+   sb_BIQ := FALSE;
+   sb_LB_OLD := FALSE;
+   sb_AF_OLD := FALSE;
+   sb_WRITE_DS := FALSE;
+   sb_SFC_ERR := FALSE;
+   si_CMD_IN_NEW := 0;
+   si_CMD_IN_OLD := 0;
+   si_ANZ_DS := 0;
+   si_NEXT_ADR := 0;
+   si_LB_CNT := 0;
+   sy_CMD := 16#00;
+   sy_DS_NO := 16#00;
+   sw_IN := 16#0000;
+   sb_CMD_ERR_C := 16#00;
+   si_ADR_DS := 0;
+   si_TMP_SFC_ERR_CNT := 0;
+   ss_APPL_ID := 'SIWAREX CS';
+   sb_APPL_ID_ERR := FALSE;
+   RDREC_1.REQ := FALSE;
+   RDREC_1.ID := 16#0000_0000;
+   RDREC_1.INDEX := 0;
+   RDREC_1.MLEN := 0;
+   RDREC_1.VALID := FALSE;
+   RDREC_1.BUSY := FALSE;
+   RDREC_1.ERROR := FALSE;
+   RDREC_1.STATUS := 16#0000_0000;
+   RDREC_1.LEN := 0;
+   RDREC_1.RECORD := NULL;
+   WRREC_1.REQ := FALSE;
+   WRREC_1.ID := 16#0000_0000;
+   WRREC_1.INDEX := 0;
+   WRREC_1.LEN := 0;
+   WRREC_1.DONE := FALSE;
+   WRREC_1.BUSY := FALSE;
+   WRREC_1.ERROR := FALSE;
+   WRREC_1.STATUS := 16#0000_0000;
+   WRREC_1.RECORD := NULL;
+   MAX_CMD_OHNE_LS := 0;
+   MAX_LESE_DS := 0;
+   MAX_SCHREIBE_DS := 0;
+   MAX_LESE_DS_VOR_CMD := 0;
+   MAX_SCHREIBE_DS_VOR_CMD := 0;
+   ADR_ANZ_ZYKLEN_LIFE_BIT := 0;
+   ADR_RET_VAL_SFC58_59 := 0;
+   ADR_TMP_SFC_ERR_CNT := 0;
+   c_CMD_ERR_ANLAUF := 16#00;
+   c_CMD_ERR_C_DR_CMD := 16#00;
+   c_CMD_KETTE_ABGEB := 16#00;
+   c_LB_CMD_ABBRUCH := 16#00;
+   c_START_DR_DB_VECTOR := 0;
+
+END_DATA_BLOCK
+

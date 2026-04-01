@@ -1,0 +1,101 @@
+﻿FUNCTION "FC_Scale_Cmd_Mng" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 1.6
+   VAR_INPUT 
+      i_boFinishedOk : Bool;   // Аппаратный статус: Команда завершена успешно
+      i_boErr : Bool;   // Аппаратный статус: Ошибка выполнения
+   END_VAR
+
+   VAR_IN_OUT 
+      io_iCmdInput : Int;   // Регистр команды модуля Siwarex
+      io_boEnable : Bool;   // Триггер запуска аппаратной команды
+      io_boAnyInProgress : Bool;   // Флаг: Модуль занят
+      io_stTask1 : "UDT_SIWA_Cmd";   // Слот 1 (Высокий приоритет, напр. HMI)
+      io_stTask2 : "UDT_SIWA_Cmd";   // Слот 2
+      io_stTask3 : "UDT_SIWA_Cmd";   // Слот 3 (Низкий приоритет, напр. DR30)
+   END_VAR
+
+
+BEGIN
+	    // 1. Очистка импульсных статусов
+	    #io_stTask1.bo_FinishedOk := FALSE;
+	    #io_stTask1.bo_FinishedError := FALSE;
+	    
+	    #io_stTask2.bo_FinishedOk := FALSE;
+	    #io_stTask2.bo_FinishedError := FALSE;
+	    
+	    #io_stTask3.bo_FinishedOk := FALSE;
+	    #io_stTask3.bo_FinishedError := FALSE;
+	    
+	    // 2. Проверка завершения текущей задачи
+	    IF #io_boAnyInProgress THEN
+	        IF #io_stTask1.bo_InProgress THEN
+	            IF #i_boFinishedOk THEN
+	                #io_stTask1.bo_FinishedOk := TRUE;
+	            END_IF;
+	            IF #i_boErr THEN
+	                #io_stTask1.bo_FinishedError := TRUE;
+	            END_IF;
+	            
+	            IF #i_boFinishedOk OR #i_boErr THEN
+	                #io_stTask1.bo_InProgress := FALSE;
+	                #io_boAnyInProgress := FALSE;
+	                #io_boEnable := FALSE;
+	            END_IF;
+	            
+	        ELSIF #io_stTask2.bo_InProgress THEN
+	            IF #i_boFinishedOk THEN
+	                #io_stTask2.bo_FinishedOk := TRUE;
+	            END_IF;
+	            IF #i_boErr THEN
+	                #io_stTask2.bo_FinishedError := TRUE;
+	            END_IF;
+	            
+	            IF #i_boFinishedOk OR #i_boErr THEN
+	                #io_stTask2.bo_InProgress := FALSE;
+	                #io_boAnyInProgress := FALSE;
+	                #io_boEnable := FALSE;
+	            END_IF;
+	            
+	        ELSIF #io_stTask3.bo_InProgress THEN
+	            IF #i_boFinishedOk THEN
+	                #io_stTask3.bo_FinishedOk := TRUE;
+	            END_IF;
+	            IF #i_boErr THEN
+	                #io_stTask3.bo_FinishedError := TRUE;
+	            END_IF;
+	            
+	            IF #i_boFinishedOk OR #i_boErr THEN
+	                #io_stTask3.bo_InProgress := FALSE;
+	                #io_boAnyInProgress := FALSE;
+	                #io_boEnable := FALSE;
+	            END_IF;
+	        END_IF;
+	    END_IF;
+	    
+	    // 3. Запуск новой задачи из очереди (по приоритету 1 -> 2 -> 3)
+	    IF NOT #io_boAnyInProgress AND NOT #io_boEnable THEN
+	        IF #io_stTask1.bo_Trigger THEN
+	            #io_iCmdInput := #io_stTask1.i_Code;
+	            #io_stTask1.bo_InProgress := TRUE;
+	            #io_boAnyInProgress := TRUE;
+	            #io_boEnable := TRUE;
+	            #io_stTask1.bo_Trigger := FALSE;
+	            
+	        ELSIF #io_stTask2.bo_Trigger THEN
+	            #io_iCmdInput := #io_stTask2.i_Code;
+	            #io_stTask2.bo_InProgress := TRUE;
+	            #io_boAnyInProgress := TRUE;
+	            #io_boEnable := TRUE;
+	            #io_stTask2.bo_Trigger := FALSE;
+	            
+	        ELSIF #io_stTask3.bo_Trigger THEN
+	            #io_iCmdInput := #io_stTask3.i_Code;
+	            #io_stTask3.bo_InProgress := TRUE;
+	            #io_boAnyInProgress := TRUE;
+	            #io_boEnable := TRUE;
+	            #io_stTask3.bo_Trigger := FALSE;
+	        END_IF;
+	    END_IF;
+END_FUNCTION
+

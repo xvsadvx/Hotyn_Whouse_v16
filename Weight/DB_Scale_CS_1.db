@@ -1,9 +1,0 @@
-﻿DATA_BLOCK "DB_Scale_CS_1"
-{ S7_Optimized_Access := 'FALSE' }
-VERSION : 0.1
-"UDT_SIWA_CS"
-
-BEGIN
-
-END_DATA_BLOCK
-

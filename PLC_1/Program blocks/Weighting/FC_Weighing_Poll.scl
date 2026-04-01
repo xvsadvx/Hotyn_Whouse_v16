@@ -1,0 +1,25 @@
+﻿FUNCTION "FC_Weighing_Poll" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 1.2
+   VAR_INPUT 
+      i_boAnyInProgress : Bool;   // Общий статус занятости модуля
+      i_boCmdEnable : Bool;   // Общий триггер команд модуля
+   END_VAR
+
+   VAR_IN_OUT 
+      io_stTask : "UDT_SIWA_Cmd";   // Слот задачи циклического опроса (напр. sTask3)
+   END_VAR
+
+
+BEGIN
+	    // ===================================================
+	    // Генерация команды чтения Data Record (DR30 - Код 230)
+	    // Функция предназначена для циклического вызова (OB35)
+	    // ===================================================
+	    IF NOT #i_boAnyInProgress AND NOT #i_boCmdEnable AND NOT #io_stTask.bo_InProgress THEN
+	        #io_stTask.i_Code := 230;
+	        #io_stTask.bo_Trigger := TRUE;
+	    END_IF;
+	    
+END_FUNCTION
+

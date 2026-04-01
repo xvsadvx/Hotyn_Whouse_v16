@@ -1,0 +1,42 @@
+﻿FUNCTION_BLOCK "CalculationVolume"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      IW_Radius : Real;
+      IW_ValueFromSensor : Real;
+      IW_K_for_Tonnag : Real;
+      IW_K_for_Level : Real;
+   END_VAR
+
+   VAR_OUTPUT 
+      QW_Volume : Real;
+      QW_Tonnag : Real;
+      QW_RealLevel : Real;
+   END_VAR
+
+   VAR 
+      sW_S : Real;
+      sW_Volume : Real;
+      sW_RealLevel : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      const_PI : Real := 3.14;
+   END_VAR
+
+
+BEGIN
+	// Обрахування реального рівня
+	#sW_RealLevel := #IW_ValueFromSensor / #IW_K_for_Level;
+	
+	// Обрахування площа перерізу 1 - для ємності,
+	#sW_S := #const_PI * #IW_Radius * #IW_Radius;
+	    
+	// Volume = об*єм
+	#sW_Volume := #sW_S * #sW_RealLevel;
+	
+	#QW_RealLevel := #sW_RealLevel; //реальний рівень
+	#QW_Volume := #sW_Volume; //Присвоєння обрахованого обєму на вихід
+	#QW_Tonnag := #sW_Volume * #IW_K_for_Tonnag; // обрахований обєм * Коефіцієнт
+END_FUNCTION_BLOCK
+

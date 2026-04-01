@@ -1,0 +1,45 @@
+﻿FUNCTION "Formula_weight_tank" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      S : Real;
+      P : Real;
+      Den : Real;
+   END_VAR
+
+   VAR_IN_OUT 
+      P_z : Real;
+      P_w : Real;
+      Zero_But : Bool;
+      Weight_But : Bool;
+      Weight : Real;
+      Weight_zero : Real;
+      Weight_DB : Real;
+      Korect : Bool;
+   END_VAR
+
+
+BEGIN
+	#Weight := (#S * ((#P / (9.81 * #Den)) * 100)) * #Den;
+	
+	IF #Zero_But = TRUE
+	THEN
+	    #Weight_zero := #Weight;
+	    #P_z := #P;
+	    #Zero_But := FALSE;
+	END_IF;
+	
+	IF #Weight_But = TRUE
+	THEN
+	    #Weight_DB := #Weight-#Weight_zero;
+	    #P_w := #P;
+	    #Weight_But := FALSE;
+	END_IF;
+	
+	IF #Korect = TRUE
+	THEN
+	    #Weight_DB := (#S * (((#P_w - #P_z) / (9.81 * #Den)) * 100)) * #Den;
+	    #Korect := FALSE;
+	END_IF;
+END_FUNCTION
+

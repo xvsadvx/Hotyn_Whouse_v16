@@ -1,0 +1,59 @@
+﻿FUNCTION "FC_ScaleValue" : Real
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 1.2
+// ==========================================
+// МАТЕМАТИКА: БЕЗОПАСНОЕ МАСШТАБИРОВАНИЕ
+// ==========================================
+   VAR_INPUT 
+      i_rInp : Real;   // Входное сырое значение
+      i_rInpLow : Real;   // Нижний предел входа (напр. 0.0)
+      i_rInpHigh : Real;   // Верхний предел входа (напр. 27648.0)
+      i_rOutLow : Real;   // Нижний предел шкалы датчика
+      i_rOutHigh : Real;   // Верхний предел шкалы датчика
+      i_boUseSqrt : Bool;   // Флаг извлечения корня (для перепада давления)
+      i_rCutoff : Real;   // Порог отсечения микрошумов около нуля (Мертвая зона)
+      i_boUseLimit : Bool;   // Флаг использования обрезки
+   END_VAR
+
+   VAR_TEMP 
+      temp_rPerc : Real;   // Нормализованное значение (0.0 .. 1.0)
+      temp_rResult : Real;   // Промежуточный результат
+   END_VAR
+
+
+BEGIN
+	    // 1. Защита от деления на ноль при неверной конфигурации
+	    IF ABS(#i_rInpHigh - #i_rInpLow) < 0.00001 THEN
+	        #FC_ScaleValue := 0.0;
+	        RETURN;
+	    END_IF;
+	    
+	    // 2. Линейная нормализация
+	    #temp_rPerc := (#i_rInp - #i_rInpLow) / (#i_rInpHigh - #i_rInpLow);
+	    
+	    // 3. Применение обрезки, если установлен флаг i_boUseLimit
+	    IF #i_boUseLimit THEN
+	        // Встроенная функция LIMIT жестко удерживает значение в рамках 0.0 .. 1.0
+	        #temp_rPerc := LIMIT(MN := 0.0, IN := #temp_rPerc, MX := 1.0);
+	    END_IF;
+	    
+	    // 4. Извлечение квадратного корня с защитой от отрицательных чисел
+	    IF #i_boUseSqrt THEN
+	        IF #temp_rPerc < 0.0 THEN
+	            #temp_rPerc := 0.0;
+	        END_IF;
+	        #temp_rPerc := SQRT(#temp_rPerc);
+	    END_IF;
+	    
+	    // 5. Масштабирование в выходной диапазон
+	    #temp_rResult := #temp_rPerc * (#i_rOutHigh - #i_rOutLow) + #i_rOutLow;
+	    
+	    // 6. Мертвая зона с использованием модуля (ABS) для поддержки биполярных шкал
+	    IF (ABS(#temp_rResult) < #i_rCutoff) AND (ABS(#i_rCutoff) > 0.001) THEN
+	        #FC_ScaleValue := 0.0;
+	    ELSE
+	        #FC_ScaleValue := #temp_rResult;
+	    END_IF;
+	    
+END_FUNCTION
+

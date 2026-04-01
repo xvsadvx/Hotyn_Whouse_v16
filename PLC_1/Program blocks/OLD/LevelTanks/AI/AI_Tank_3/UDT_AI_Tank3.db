@@ -1,0 +1,92 @@
+﻿DATA_BLOCK "UDT_AI_Tank3"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+"UDT_Analog_In"
+
+BEGIN
+   IW_HW_UpLevel := 27648;
+   IW_HW_LowLevel := 0;
+   IDW_UpLevel := 25.0;
+   IDW_LowLevel := 0.0;
+   IDW_HiHi := 18.5;
+   IDW_Hi := 18.0;
+   IDW_Lo := 0.0;
+   IDW_Lolo := 4.0;
+   IW_DelayON_HiHi := 1;
+   IW_DelayON_Hi := 1;
+   IW_DelayON_Lo := 0;
+   IW_DelayON_LoLo := 0;
+   IDW_Simulation_Value := 0.0;
+   IW_Time_Filter := 0;
+   IW_CTW[0] := FALSE;
+   IW_CTW[1] := FALSE;
+   IW_CTW[2] := FALSE;
+   IW_CTW[3] := FALSE;
+   IW_CTW[4] := FALSE;
+   IW_CTW[5] := FALSE;
+   IW_CTW[6] := FALSE;
+   IW_CTW[7] := FALSE;
+   IW_CTW[8] := FALSE;
+   IW_CTW[9] := FALSE;
+   IW_CTW[10] := FALSE;
+   IW_CTW[11] := FALSE;
+   IW_CTW[12] := FALSE;
+   IW_CTW[13] := FALSE;
+   IW_CTW[14] := FALSE;
+   IW_CTW[15] := FALSE;
+   IDW_K_Mult := 1.0;
+   IDW_DeadZone := 0.0;
+   IBt_Enable_ControlLevel[0] := TRUE;
+   IBt_Enable_ControlLevel[1] := TRUE;
+   IBt_Enable_ControlLevel[2] := FALSE;
+   IBt_Enable_ControlLevel[3] := FALSE;
+   IBt_Enable_ControlLevel[4] := FALSE;
+   IBt_Enable_ControlLevel[5] := FALSE;
+   IBt_Enable_ControlLevel[6] := FALSE;
+   IBt_Enable_ControlLevel[7] := FALSE;
+   IBt_Block_ControlLevel[0] := FALSE;
+   IBt_Block_ControlLevel[1] := FALSE;
+   IBt_Block_ControlLevel[2] := FALSE;
+   IBt_Block_ControlLevel[3] := FALSE;
+   IBt_Block_ControlLevel[4] := FALSE;
+   IBt_Block_ControlLevel[5] := FALSE;
+   IBt_Block_ControlLevel[6] := FALSE;
+   IBt_Block_ControlLevel[7] := FALSE;
+   QW_STW[0] := FALSE;
+   QW_STW[1] := FALSE;
+   QW_STW[2] := TRUE;
+   QW_STW[3] := FALSE;
+   QW_STW[4] := FALSE;
+   QW_STW[5] := FALSE;
+   QW_STW[6] := FALSE;
+   QW_STW[7] := FALSE;
+   QW_STW[8] := FALSE;
+   QW_STW[9] := FALSE;
+   QW_STW[10] := FALSE;
+   QW_STW[11] := FALSE;
+   QW_STW[12] := FALSE;
+   QW_STW[13] := FALSE;
+   QW_STW[14] := FALSE;
+   QW_STW[15] := FALSE;
+   QW_HWValue := 10704;
+   QDW_ScalledValue := 9.67882;
+   QDW_Message[0] := FALSE;
+   QDW_Message[1] := FALSE;
+   QDW_Message[2] := FALSE;
+   QDW_Message[3] := FALSE;
+   QDW_Message[4] := FALSE;
+   QDW_Message[5] := FALSE;
+   QDW_Message[6] := FALSE;
+   QDW_Message[7] := FALSE;
+   QDW_Message[8] := FALSE;
+   QDW_Message[9] := FALSE;
+   QDW_Message[10] := FALSE;
+   QDW_Message[11] := FALSE;
+   QDW_Message[12] := FALSE;
+   QDW_Message[13] := FALSE;
+   QDW_Message[14] := FALSE;
+   QDW_Message[15] := FALSE;
+   QDW_Message[16] := FALSE;
+
+END_DATA_BLOCK
+

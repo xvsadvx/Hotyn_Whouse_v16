@@ -1,0 +1,85 @@
+﻿DATA_BLOCK "FB_SICS_DR_T2"
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : AD
+FAMILY : SIWAREX
+NAME : SICS_DR
+VERSION : 2.2
+"SICS_DR"
+
+BEGIN
+   ADDR := 280;
+   DB_SCALE := 62;
+   DB_VECTOR := 63;
+   CMD_IN := 230;
+   SEL_PROC_VAL := 16#00;
+   EXT_TARA := 0;
+   CMD_INPR := TRUE;
+   CMD_FOK := FALSE;
+   CMD_ERR := FALSE;
+   CMD_ERR_C := 16#00;
+   REF_COUNT := 16#01;
+   ACT_SEL_PROC_VAL := 16#00;
+   PROC_VAL1 := -25;
+   SC_STATUS := 16#02C0;
+   ERR_MSG_C := 16#00;
+   FB_ERR := FALSE;
+   FB_ERR_C := 16#00;
+   START_UP := FALSE;
+   CMD_EN := TRUE;
+   sb_CMD_EN_OLD := TRUE;
+   sb_DI_OLD := FALSE;
+   sb_BI_OLD := FALSE;
+   sb_DIQ := FALSE;
+   sb_BIQ := FALSE;
+   sb_LB_OLD := TRUE;
+   sb_AF_OLD := FALSE;
+   sb_WRITE_DS := FALSE;
+   sb_SFC_ERR := FALSE;
+   si_CMD_IN_NEW := 0;
+   si_CMD_IN_OLD := 230;
+   si_ANZ_DS := 0;
+   si_NEXT_ADR := 0;
+   si_LB_CNT := 1;
+   sy_CMD := 16#00;
+   sy_DS_NO := 16#1E;
+   sw_IN := 16#0401;
+   sb_CMD_ERR_C := 16#00;
+   si_ADR_DS := 42;
+   si_TMP_SFC_ERR_CNT := 0;
+   ss_APPL_ID := 'SIWAREX CS';
+   sb_APPL_ID_ERR := FALSE;
+   RDREC_1.REQ := TRUE;
+   RDREC_1.ID := 16#0000_0118;
+   RDREC_1.INDEX := 30;
+   RDREC_1.MLEN := 46;
+   RDREC_1.VALID := FALSE;
+   RDREC_1.BUSY := TRUE;
+   RDREC_1.ERROR := FALSE;
+   RDREC_1.STATUS := 16#0070_0200;
+   RDREC_1.LEN := 0;
+   RDREC_1.RECORD := P#DB62.DBX174.0 BYTE 46;
+   WRREC_1.REQ := FALSE;
+   WRREC_1.ID := 16#0000_0000;
+   WRREC_1.INDEX := 0;
+   WRREC_1.LEN := 0;
+   WRREC_1.DONE := FALSE;
+   WRREC_1.BUSY := FALSE;
+   WRREC_1.ERROR := FALSE;
+   WRREC_1.STATUS := 16#0000_0000;
+   WRREC_1.RECORD := NULL;
+   MAX_CMD_OHNE_LS := 199;
+   MAX_LESE_DS := 399;
+   MAX_SCHREIBE_DS := 600;
+   MAX_LESE_DS_VOR_CMD := 605;
+   MAX_SCHREIBE_DS_VOR_CMD := 610;
+   ADR_ANZ_ZYKLEN_LIFE_BIT := 2;
+   ADR_RET_VAL_SFC58_59 := 4;
+   ADR_TMP_SFC_ERR_CNT := 48;
+   c_CMD_ERR_ANLAUF := 16#77;
+   c_CMD_ERR_C_DR_CMD := 16#11;
+   c_CMD_KETTE_ABGEB := 16#00;
+   c_LB_CMD_ABBRUCH := 16#00;
+   c_START_DR_DB_VECTOR := 18;
+
+END_DATA_BLOCK
+

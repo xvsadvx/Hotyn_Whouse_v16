@@ -1,0 +1,119 @@
+﻿DATA_BLOCK "DB_VECTOR_CS_1"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   STRUCT 
+      lenghtdb : Int;
+      POS_CMD601 : Int;
+      POS_CMD602 : Int;
+      POS_CMD603 : Int;
+      POS_CMD604 : Int;
+      POS_CMD605 : Int;
+      POS_CMD606 : Int;
+      POS_CMD607 : Int;
+      POS_CMD608 : Int;
+      POS_CMD609 : Int;
+      POS_CMD610 : Int;
+      DR3 : Struct
+         number : Byte;
+         lenght : Byte;
+         adress : Int;
+      END_STRUCT;
+      DR4 : Struct
+         number : Byte;
+         lenght : Byte;
+         adress : Int;
+      END_STRUCT;
+      DR9 : Struct
+         number : Byte;
+         lenght : Byte;
+         adress : Int;
+      END_STRUCT;
+      DR15 : Struct
+         number : Byte;
+         lenght : Byte;
+         adress : Int;
+      END_STRUCT;
+      DR26 : Struct
+         number : Byte;
+         lenght : Byte;
+         adress : Int;
+      END_STRUCT;
+      DR30 : Struct
+         number : Byte;
+         lenght : Byte;
+         adress : Int;
+      END_STRUCT;
+      DR0 : Struct
+         number : Byte;
+         lenght : Byte;
+         adress : Int;
+      END_STRUCT;
+      LCMD605 : Byte;
+      DR1CMD605 : Byte;
+      DR2CMD605 : Byte;
+      DR5CMD605 : Byte;
+      DR6CMD605 : Byte;
+      DR11CMD605 : Byte;
+      DR12CMD605 : Byte;
+      CMDCMD605 : Byte;
+      LCMD610 : Byte;
+      DR1CMD610 : Byte;
+      DR2CMD610 : Byte;
+      DR5CMD610 : Byte;
+      DR6CMD610 : Byte;
+      CMDCMD610 : Byte;
+      lendbe : Int;
+   END_STRUCT;
+
+
+BEGIN
+   lenghtdb := 66;
+   POS_CMD601 := 0;
+   POS_CMD602 := 0;
+   POS_CMD603 := 0;
+   POS_CMD604 := 0;
+   POS_CMD605 := 50;
+   POS_CMD606 := 0;
+   POS_CMD607 := 0;
+   POS_CMD608 := 0;
+   POS_CMD609 := 0;
+   POS_CMD610 := 58;
+   DR3.number := 16#03;
+   DR3.lenght := 16#38;
+   DR3.adress := 50;
+   DR4.number := 16#04;
+   DR4.lenght := 16#0A;
+   DR4.adress := 106;
+   DR9.number := 16#09;
+   DR9.lenght := 16#2C;
+   DR9.adress := 116;
+   DR15.number := 16#0F;
+   DR15.lenght := 16#02;
+   DR15.adress := 160;
+   DR26.number := 16#1A;
+   DR26.lenght := 16#0C;
+   DR26.adress := 162;
+   DR30.number := 16#1E;
+   DR30.lenght := 16#2E;
+   DR30.adress := 174;
+   DR0.number := 16#00;
+   DR0.lenght := 16#00;
+   DR0.adress := 0;
+   LCMD605 := 16#07;
+   DR1CMD605 := 16#03;
+   DR2CMD605 := 16#04;
+   DR5CMD605 := 16#09;
+   DR6CMD605 := 16#0F;
+   DR11CMD605 := 16#1A;
+   DR12CMD605 := 16#1E;
+   CMDCMD605 := 16#00;
+   LCMD610 := 16#05;
+   DR1CMD610 := 16#03;
+   DR2CMD610 := 16#04;
+   DR5CMD610 := 16#0F;
+   DR6CMD610 := 16#1A;
+   CMDCMD610 := 16#00;
+   lendbe := 66;
+
+END_DATA_BLOCK
+

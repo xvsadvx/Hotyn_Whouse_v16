@@ -1,0 +1,34 @@
+﻿ORGANIZATION_BLOCK "CYC_INT5"
+TITLE = "Cyclic Interrupt"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      OB35_EV_CLASS : Byte;   // Bits 0-3 = 1 (Coming event), Bits 4-7 = 1 (Event class 1)
+      OB35_STRT_INF : Byte;   // 16#36 (OB 35 has started)
+      OB35_PRIORITY : Byte;   // Priority of OB Execution
+      OB35_OB_NUMBR : Byte;   // 35 (Organization block 35, OB35)
+      OB35_RESERVED_1 : Byte;   // Reserved for system
+      OB35_RESERVED_2 : Byte;   // Reserved for system
+      OB35_PHASE_OFFSET : Word;   // Phase offset (msec)
+      OB35_RESERVED_3 : Int;   // Reserved for system
+      OB35_EXC_FREQ : Int;   // Frequency of execution (msec)
+      OB35_DATE_TIME : Date_And_Time;   // Date and time OB35 started
+   END_VAR
+
+
+BEGIN
+	// Опрос Танка 1 (Слот 3 - фоновое чтение веса)
+	"FC_Weighing_Poll"(
+	                   i_boAnyInProgress := "DB_SCALE_CS_1".bo_CMD_IN_PROGRESS,
+	                   i_boCmdEnable     := "DB_SCALE_CS_1".bo_CMD_TRIGGER,
+	                   io_stTask          := "DB_SCALE_CS_1".s_CMD3
+	);
+	
+	// Опрос Танка 2 (Слот 3 - фоновое чтение веса)
+	"FC_Weighing_Poll"(
+	                   i_boAnyInProgress := "DB_SCALE_CS_2".bo_CMD_IN_PROGRESS,
+	                   i_boCmdEnable     := "DB_SCALE_CS_2".bo_CMD_TRIGGER,
+	                   io_stTask          := "DB_SCALE_CS_2".s_CMD3
+	);
+END_ORGANIZATION_BLOCK
+

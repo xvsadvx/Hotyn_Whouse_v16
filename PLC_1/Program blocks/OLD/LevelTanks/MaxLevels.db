@@ -1,0 +1,39 @@
+﻿DATA_BLOCK "MaxLevels"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   STRUCT 
+      MaxLevel_Tank_1 : Real;
+      MaxLevel_Tank_2 : Real;
+      MaxLevel_Tank_3 : Real;
+      MaxLevel_Tank_4 : Real;
+      MaxLevel_Tank_5 : Real;
+      MaxLevel_Tank_6 : Real;
+      MaxLevel_Tank_7 : Real;
+      MaxLevel_Tank_8 : Real;
+      MaxLevel_Tank_9 : Real;
+      MaxLevel_Tank_10 : Real;
+      MaxLevel_Tank_11 : Real;
+      MaxLevel_Tank_12 : Real;
+      MaxLevel_Tank_13 : Real;
+      MaxLevel_Tank_14 : Real;
+   END_STRUCT;
+
+
+BEGIN
+   MaxLevel_Tank_1 := 15.0;
+   MaxLevel_Tank_2 := 15.0;
+   MaxLevel_Tank_3 := 15.0;
+   MaxLevel_Tank_4 := 15.0;
+   MaxLevel_Tank_5 := 15.0;
+   MaxLevel_Tank_6 := 15.0;
+   MaxLevel_Tank_7 := 15.0;
+   MaxLevel_Tank_8 := 15.0;
+   MaxLevel_Tank_9 := 15.0;
+   MaxLevel_Tank_10 := 15.0;
+   MaxLevel_Tank_11 := 13.0;
+   MaxLevel_Tank_12 := 13.0;
+   MaxLevel_Tank_13 := 13.0;
+   MaxLevel_Tank_14 := 13.0;
+
+END_DATA_BLOCK
+

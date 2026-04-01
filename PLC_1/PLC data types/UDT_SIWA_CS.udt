@@ -1,0 +1,121 @@
+﻿TYPE "UDT_SIWA_CS"
+VERSION : 0.0
+   STRUCT
+      i_DB_Lenght : Int := 222;
+      i_MaxLifeBitCyc : Int := 500;
+      i_SFC_ERR_C : Word;
+      i_CMD_INPUT : Int;
+      bo_CMD_TRIGGER : Bool;
+      bo_CMD_IN_PROGRESS : Bool;
+      bo_CMD_FINISHED_OK : Bool;
+      bo_CMD_ERR : Bool;
+      b_CMD_ERR_CODE : Byte;
+      i_PRESET_TARE : Int;
+      b_SELECT_PROC_VAL : Byte;
+      b_SELECTED_PROC_VAL : Byte;
+      i_PROCESS_VALUE : Int;
+      b_INFO_REFRESH_COUNT : Byte;
+      w_SCALE_STATUS : Word;
+      b_OPR_ERR_MSG : Byte;
+      bo_FB_ERR : Bool;
+      b_FB_ERR_CODE : Byte;
+      bo_START_UP_IN_PROGRESS : Bool;
+      s_CMD1 : "UDT_SIWA_Cmd";
+      s_CMD2 : "UDT_SIWA_Cmd";
+      s_CMD3 : "UDT_SIWA_Cmd";
+      w_DB_RES92 : Word;
+      w_DB_RES93 : Word;
+      w_DB_RES94 : Word;
+      w_DB_RES95 : Word;
+      w_DB_RES96 : Word;
+      w_DB_RES97 : Word;
+      w_INT_USE : Word;
+      s_JUST_DAT : Struct
+         w_CALIB_DIGITS0 : Word;
+         w_CALIB_DIGITS1 : Word := W#16#EA60;
+         w_CALIB_DIGITS2 : Word;
+         i_CALIB_WEIGHT1 : Int := 2000;
+         i_CALIB_WEIGHT2 : Int;
+         b_SIGNAL_RANGE : Byte := B#16#2;
+         b_FILT_TYPE : Byte;
+         b_FILT_FREQ : Byte := B#16#4;
+         b_FILT_DEPTH : Byte := B#16#F;
+         s_SCALE_ID : String[10] := 'SIWAREX XX';
+         i_MIN_WR : Int := 20;
+         i_MAX_WR : Int := 2000;
+         i_INCREMENT_WR : Int := 1;
+         i_WEIGHT_ST_STILL : Int := 10;
+         t_TIME_ST_STILL1 : Time := T#1S;
+         b_DEC_POINT : Byte := B#16#2;
+         b_ZERO_NEG_VALUE : Byte := B#16#1;
+         b_ZERO_POS_VALUE : Byte := B#16#3;
+         b_TARA_MAX : Byte := B#16#64;
+         i_Reserve : Int;
+         s_LEGAL_TRADE : String[4] := '----';
+         s_WEGHT_UNIT : String[4] := 'kg  ';
+      END_STRUCT;
+      s_LIMIT_PARA : Struct
+         i_LIMIT1_ON : Int := 400;
+         i_LIMIT1_OFF : Int := 220;
+         i_LIMIT2_ON : Int := 1000;
+         i_LIMIT2_OFF : Int := 980;
+         bo_LIMIT1_PARA : Bool;
+         bo_LIMIT2_PARA : Bool;
+         b_Reserve : Byte;
+      END_STRUCT;
+      s_MODUL_INFO_DATA : Struct
+         s_MODUL_NAME : String[10];
+         s_ORDER_NUM : String[20];
+         w_VERSION_HW : Word;
+         s_VERSION_FW : String[4];
+         w_CRC_CHECK : Word;
+      END_STRUCT;
+      s_TARE_CONTROL : Struct
+         i_TARE_VALUE : Int;
+      END_STRUCT;
+      s_INTERNAL_PROC_VAL : Struct
+         w_CRC_CHECK : Word;
+         b_Reserve : Byte;
+         bo_PRESET_TARA : Bool;
+         d_TARA_X_100 : DInt;
+         d_ZERO_X_100 : DInt;
+      END_STRUCT;
+      s_PROCESS_VALUES : Struct
+         w_CRC_CHECK : Word;
+         bo_STA_WRI_PROT : Bool;
+         bo_STA_WR_MIN : Bool;
+         bo_STA_Reserve1 : Bool;
+         bo_STA_Reserve2 : Bool;
+         bo_STA_Reserve3 : Bool;
+         bo_STA_Reserve4 : Bool;
+         bo_STA_Reserve5 : Bool;
+         bo_STA_ERROR_ON : Bool;
+         bo_STA_LIMIT1_ON : Bool;
+         bo_STA_LIMIT2_ON : Bool;
+         bo_STA_TARED : Bool;
+         bo_STA_TARED_BY_MANUAL : Bool;
+         bo_STA_MAX_9E : Bool;
+         bo_STA_025_D_ZERO : Bool;
+         bo_STA_ST_STAND_SCALE_ON : Bool;
+         bo_STA_SCALE_CALIBRATED : Bool;
+         b_OPR_ERR_MSG : Byte;
+         b_Reserve : Byte;
+         i_GROSS_WEIGHT_PROC : Int;
+         i_NET_WEIGHT_PROC : Int;
+         i_TARE_WEIGHT_PROC : Int;
+         i_GROSS_NET_VALUE : Int;
+         d_GROSS_NET_VALUE_10X : DInt;
+         i_TARE_VALUE : Int;
+         i_ADC_DIGIT : Int;
+         i_ADC_DIGIT_FILTER : Int;
+         s_WEIGHT_ASCII : String[14];
+         i_MILISEC : Int;
+         b_SECONDS : Byte;
+         b_MINUTE : Byte;
+         i_HOURS : Int;
+      END_STRUCT;
+      i_DB_Lenght1 : Int := 222;
+   END_STRUCT;
+
+END_TYPE
+

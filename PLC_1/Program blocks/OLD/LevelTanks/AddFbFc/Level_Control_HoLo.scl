@@ -1,0 +1,63 @@
+﻿FUNCTION_BLOCK "Level_Control_HoLo"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      IB_Enable_Func : Bool;
+      IDW_Actual_Value : Real;
+      IDW_Set_HiHi : Real;
+      IDW_Set_Hi : Real;
+      IDW_Set_LoLo : Real;
+      IDW_Set_Lo : Real;
+      IW_Time_HiHi : Int;
+      IW_Time_Hi : Int;
+      IW_Time_LoLo : Int;
+      IW_Time_Lo : Int;
+   END_VAR
+
+   VAR_OUTPUT 
+      QB_HiHi : Bool;
+      QB_Hi : Bool;
+      QB_LoLo : Bool;
+      QB_Lo : Bool;
+   END_VAR
+
+   VAR 
+      Timer_TON_HiHi {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
+      Timer_TON_Hi {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
+      Timer_TON_LoLo {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
+      Timer_TON_Lo {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
+   END_VAR
+
+   VAR_TEMP 
+      Tm_Time_HI : DInt;
+      Tm_Time_Lo : DInt;
+      Tm_Time_HIHI : DInt;
+      Tm_Time_LOLO : DInt;
+   END_VAR
+
+
+BEGIN
+	//Hi
+	#Tm_Time_HI := INT_TO_DINT(#IW_Time_Hi);
+	#Timer_TON_Hi(IN := #IDW_Actual_Value > #IDW_Set_Hi AND #IB_Enable_Func AND #IDW_Set_Hi <> 0,
+	              PT := DINT_TO_TIME(#Tm_Time_HI * 1000),
+	              
+	              Q => #QB_Hi);
+	
+	//HiHi
+	#Tm_Time_HIHI := INT_TO_DINT(#IW_Time_HiHi);
+	#Timer_TON_HiHi(IN := #IDW_Actual_Value > #IDW_Set_HiHi AND #IB_Enable_Func AND #IDW_Set_HiHi <> 0,
+	                PT := DINT_TO_TIME(#Tm_Time_HIHI * 1000),
+	                Q => #QB_HiHi);
+	//Lo
+	#Tm_Time_Lo := INT_TO_DINT(#IW_Time_Lo);
+	#Timer_TON_Lo(IN := #IDW_Actual_Value < #IDW_Set_Lo AND #IB_Enable_Func AND #IDW_Set_Lo <> 0,
+	              PT := DINT_TO_TIME(#Tm_Time_Lo * 1000),
+	              Q => #QB_Lo);
+	//LoLo
+	#Tm_Time_LOLO := INT_TO_DINT(#IW_Time_LoLo);
+	#Timer_TON_LoLo(IN := #IDW_Actual_Value < #IDW_Set_LoLo AND #IB_Enable_Func AND #IDW_Set_LoLo <> 0,
+	                PT := DINT_TO_TIME(#Tm_Time_LOLO * 1000),
+	                Q => #QB_LoLo);
+END_FUNCTION_BLOCK
+

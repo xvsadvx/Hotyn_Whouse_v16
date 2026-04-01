@@ -1,0 +1,71 @@
+﻿FUNCTION_BLOCK "Smoothing"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      IDW_Input_Value : Real;
+      IW_Time_Smoothing : Int;
+      IB_Gen_In : Bool;
+      IW_Gen_Value : DInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      QDW_Smoothing_Value : Real;
+   END_VAR
+
+   VAR 
+      Value_array : Array[0..100] of Real;
+      St_PointArray : Int;
+      St_Counter : Int;
+      St_Counter_Shift : Int;
+      St_Counter_Summ : Int;
+      St_Summ_Arr : Real;
+   END_VAR
+
+   VAR_TEMP 
+      Temp_UDint : DInt;
+   END_VAR
+
+
+BEGIN
+	#Temp_UDint := #IW_Time_Smoothing;
+	IF #IW_Time_Smoothing>0 THEN
+	        
+	    #St_PointArray := (DINT_TO_INT((#Temp_UDint * 100) / #IW_Gen_Value));
+	    IF #St_PointArray>100
+	    THEN
+	        #St_PointArray := 100;
+	    END_IF;
+	    
+	    //#R_TRIG_Instance(CLK:=#IB_Gen_In);
+	    
+	    IF #IB_Gen_In THEN
+	        
+	        #St_Summ_Arr := 0;
+	        FOR #St_Counter_Shift := #St_PointArray  TO 2 BY -1 DO
+	            #Value_array[#St_Counter_Shift] := #Value_array[#St_Counter_Shift - 1];
+	        END_FOR;
+	        #Value_array[1] := #IDW_Input_Value;
+	        //Обмеження лічильника
+	        IF #St_Counter<#St_PointArray THEN
+	            #St_Counter := #St_Counter + 1;
+	        ELSE
+	            #St_Counter := #St_PointArray;
+	        END_IF;
+	        //Сумування масиву
+	        FOR #St_Counter_Summ := 1 TO #St_Counter DO
+	            #St_Summ_Arr := #St_Summ_Arr + #Value_array[#St_Counter_Summ];
+	        END_FOR;
+	        //Усереднене значення масиву
+	        #QDW_Smoothing_Value := #St_Summ_Arr / (#St_Counter);
+	    END_IF;
+	    
+	ELSE
+	#QDW_Smoothing_Value := #IDW_Input_Value;
+	#St_Counter := 0;
+	END_IF;
+	
+	
+	
+	
+END_FUNCTION_BLOCK
+

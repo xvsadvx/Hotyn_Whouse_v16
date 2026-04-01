@@ -1,0 +1,78 @@
+﻿FUNCTION "Scaling_TSS" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      In_Value : Real;
+      In_Max : Real;
+      In_Min : Real;
+      Out_Max : Real;
+      Out_Min : Real;
+   END_VAR
+
+   VAR_OUTPUT 
+      Out_Value : Real;
+      Fault : Bool;
+      Senser_In_Zero : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      Diap_In : Real;
+      Diap_Out : Real;
+      In_prop : Real;
+      Out_prop_1 : Real;
+      Value_Out : Real;
+      Value_IN : Real;
+      Temp_Sensor_In_Zero : Bool;
+   END_VAR
+
+
+BEGIN
+	#Diap_In := #In_Max - #In_Min;
+	#Diap_Out := #Out_Max - #Out_Min;
+	#Value_IN := #In_Value - #In_Min;
+	IF #In_Max < #In_Min                                   //Перевірка чи максимальні значення не менші мінімальних
+	    OR (#Out_Max < #Out_Min)                         //якщо так то помилка 
+	THEN
+	    #Fault := true;
+	    
+	ELSE
+	    //Перевірка чи апаратне значення не за доступними межами; якщо так то датчик в нулі
+	    // IF #In_Value = 32768
+	    //     OR (#In_Value = -32768)
+	    // THEN
+	    //     #Senser_In_Zero := true;
+	    //     #Temp_Sensor_In_Zero := true;
+	    //     #Out_Value := 0;
+	    // ELSE
+	    //     #Senser_In_Zero := false;
+	    //     #Temp_Sensor_In_Zero := false;
+	    // END_IF;
+	    
+	    #Fault := false;
+	    #In_prop := (#Value_IN * 100) / #Diap_In;                    //Вхід в процентах
+	    #Out_prop_1 := (#Diap_Out * 1) / 100;                       //1 процент від шкали виходу
+	    #Value_Out := #In_prop * #Out_prop_1;                       //Вихід в процентах    
+	    
+	    IF #In_Value > #In_Max
+	        // AND NOT (#Temp_Sensor_In_Zero)
+	    THEN
+	        #Out_Value := #Out_Max;
+	    ELSIF #In_Value < #In_Min
+	        // AND NOT (#Temp_Sensor_In_Zero)
+	    THEN
+	        #Out_Value := #Out_Min;
+	    ELSIF #In_Value >= #In_Min AND #In_Value <= #In_Max
+	        // AND NOT #Temp_Sensor_In_Zero
+	    THEN
+	        #Out_Value := #Out_Min + #Value_Out;
+	    END_IF;
+	    
+	    
+	END_IF;
+	
+	
+	
+	
+	
+END_FUNCTION
+

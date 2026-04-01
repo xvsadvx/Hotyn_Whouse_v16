@@ -1,0 +1,278 @@
+﻿FUNCTION_BLOCK "Analog_In_UDT"
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : SimenCom
+VERSION : 1.0
+   VAR_INPUT 
+      IB_Reset_PLC : Bool := false;
+      IB_Total_Reset : Bool := false;
+      IB_EnablePowerControl : Bool;
+      IB_PowerControl : Bool;
+      IW_HW_UpLevel : Int;
+      IW_HW_LowLevel : Int;
+      IW_Signal_from_Sensor : Int := 0;
+   END_VAR
+
+   VAR_OUTPUT 
+      QW_STW : Array[0..15] of Bool;
+      QDW_ScalledValue : Real;
+      QB_HiHi_Fault : Bool;
+      QB_Hi_Alarm : Bool;
+      QB_Lo_Alarm : Bool;
+      QB_LoLo_Fault : Bool;
+      QB_Sensor_in_Zero : Bool;
+   END_VAR
+
+   VAR_IN_OUT 
+      IUDT_Analog_In : "UDT_Analog_In";
+   END_VAR
+
+   VAR 
+      Timer_TON_Filter {InstructionName := 'TON'; LibVersion := '1.0'} : TON;
+      StB_Filter { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      StDW_Sensor_After_Filter { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Real;
+      StDW_Sensor_After_Scaling : Real;
+      StB_HiHi : Bool;
+      StB_Hi : Bool;
+      StB_LoLo : Bool;
+      StB_Lo : Bool;
+      StB_HiHi_Q : Bool;
+      StB_Hi_Q : Bool;
+      StB_LoLo_Q : Bool;
+      StB_Lo_Q : Bool;
+      StB_PowerFault : Bool;
+      Level_Control_HoLo : "Level_Control_HoLo";
+      Smoothing_Instance : "Smoothing";
+      Level_Control_HoLo_Instance : "Level_Control_HoLo";
+   END_VAR
+
+   VAR_TEMP 
+      TmDW_Sensor_in_real : Real;
+      TmB_Fault : Bool;
+      TmDW_Sensor_After_DeadZone : Real;
+      TmB_Reset_Bit : Bool;
+      TmB_Sensor_In_Zero : Bool;
+      TmDW_OutVal : Real;
+   END_VAR
+
+
+BEGIN
+	// Help info 
+	(*Біти в контрольних
+	    словах:
+	IW_CTW              
+	0   -   Скиданя помилки -Кнопка-    SetBit
+	1   -   Ввімкнути симуляцію -"Галочка"- SetBit
+	2   -           
+	3   -           
+	4   -           
+	5   -           
+	6   -           
+	7   -           
+	8   -           
+	9   -           
+	10  -           
+	11  -           
+	12  -           
+	13  -           
+	14  -           
+	15  -           
+	    ************************************************************************
+	    ************************************************************************
+	QLW_STW     
+	0   -   Все добре
+	1   -   Активне попередження
+	2   -   Загальна аварія
+	3   -   Сигнал обриву давача 
+	4   -   Досягнуто аварійного рівня (HiHi)
+	5   -   Досягнуто рівня попередження (Hi)
+	6   -   Опустилося нижче рівня попередження (Lo)
+	7   -   Опустилося нижче аварійного рівня (LoLo)
+	8   -   Симуляція ввімкнена
+	9   -   Активне скидання помилок
+	10  -   
+	11  -   
+	12  -   
+	13  -   
+	14  -   
+	15  -   
+	
+	    ************************************************************************
+	    ************************************************************************
+	QDW_Message              
+	0   -   Обрив лінії давача  -   Аварія
+	1   -   Досягнуто аварійного рівня (HiHi)   -   Аварія
+	2   -   Опустилося нижче аварійного рівня (LoLo)    -   Аварія
+	3   -       -   
+	4   -       -   
+	5   -       -   
+	6   -       -   
+	7   -       -   
+	8   -       -   
+	9   -       -   
+	10  -           
+	11  -           
+	12  -       -   
+	13  -       -   
+	14  -   Досягнуто рівня попередження (Hi)   -   Попередження
+	15  -   Опустилося нижче рівня попередження (Lo)    -   Попередження
+	16  -   Симуляція ввімкнена -   Подія
+	17  -       -   
+	18  -       -   
+	19  -       -   
+	20  -       -   
+	
+	*) 
+	//Reset
+	#TmB_Reset_Bit := #IB_Reset_PLC OR #IB_Total_Reset OR #IUDT_Analog_In.IW_CTW[0];
+	
+	//Логіка елементі живлення давача
+	IF #IB_EnablePowerControl THEN
+	    // #F_TRIG_PowerControl(CLK := #IB_PowerControl);
+	    #StB_PowerFault := NOT #IB_PowerControl OR (#StB_PowerFault AND NOT #TmB_Reset_Bit);
+	ELSE
+	    #StB_PowerFault := false;
+	END_IF;
+	
+	
+	
+	
+	//Обрив давача
+	IF  #IW_Signal_from_Sensor <= -32768 OR #IW_Signal_from_Sensor >= 32767 OR ((#StB_PowerFault OR NOT #IB_PowerControl) AND #IB_EnablePowerControl)  THEN
+	    #TmB_Sensor_In_Zero := True;
+	    #QB_Sensor_in_Zero := True;
+	ELSE
+	    #TmB_Sensor_In_Zero := False;
+	    #QB_Sensor_in_Zero := False;
+	END_IF;
+	
+	#TmDW_Sensor_in_real := INT_TO_REAL(#IW_Signal_from_Sensor);
+	#IUDT_Analog_In.QW_HWValue := #IW_Signal_from_Sensor;
+	
+	// Згладжування сигналу . Масивне згладжування. Максимум 60 секунд
+	#Smoothing_Instance(IDW_Input_Value := #TmDW_Sensor_in_real,
+	                    IW_Time_Smoothing := #IUDT_Analog_In.IW_Time_Filter,
+	                    IB_Gen_In := "tag_1",
+	                    IW_Gen_Value := 200,
+	                    QDW_Smoothing_Value => #StDW_Sensor_After_Filter);
+	
+	#TmDW_Sensor_in_real := 0;
+	
+	//Масштабування сигналу з множенням на коофіцієнт
+	"Scaling_TSS"(In_Value := #StDW_Sensor_After_Filter,
+	              In_Max := #IW_HW_UpLevel,
+	              In_Min := #IW_HW_LowLevel,
+	              Out_Max := #IUDT_Analog_In.IDW_UpLevel,
+	              Out_Min := #IUDT_Analog_In.IDW_LowLevel,
+	              Out_Value => #TmDW_OutVal,
+	              Fault => #TmB_Fault,
+	              Senser_In_Zero => #TmB_Fault);
+	#StDW_Sensor_After_Scaling := #TmDW_OutVal * #IUDT_Analog_In.IDW_K_Mult;
+	// "Мертва зона" сенсора
+	IF #StDW_Sensor_After_Scaling >= #IUDT_Analog_In.IDW_DeadZone THEN
+	#TmDW_Sensor_After_DeadZone := #StDW_Sensor_After_Scaling;
+	ELSE
+	    #TmDW_Sensor_After_DeadZone := 0;
+	END_IF;
+	
+	
+	// Обмеження симуляційного завдання
+	IF #IUDT_Analog_In.IDW_Simulation_Value > #IUDT_Analog_In.IDW_UpLevel * #IUDT_Analog_In.IDW_K_Mult  THEN
+	    #IUDT_Analog_In.IDW_Simulation_Value := #IUDT_Analog_In.IDW_UpLevel * #IUDT_Analog_In.IDW_K_Mult ;
+	ELSIF #IUDT_Analog_In.IDW_Simulation_Value < #IUDT_Analog_In.IDW_LowLevel * #IUDT_Analog_In.IDW_K_Mult THEN
+	    #IUDT_Analog_In.IDW_Simulation_Value := #IUDT_Analog_In.IDW_LowLevel * #IUDT_Analog_In.IDW_K_Mult ;
+	END_IF;
+	#TmDW_Sensor_in_real := 0;
+	
+	// Симуляція
+	IF #IUDT_Analog_In.IW_CTW[0] THEN
+	    #TmDW_Sensor_in_real := #IUDT_Analog_In.IDW_Simulation_Value;
+	    #IUDT_Analog_In.QW_STW[8] := True;
+	    
+	ELSE
+	    #TmDW_Sensor_in_real := #TmDW_Sensor_After_DeadZone;
+	    #IUDT_Analog_In.QW_STW[8] := False;
+	END_IF;
+	
+	//Блокування виходу при обриві
+	IF NOT #TmB_Sensor_In_Zero OR #IUDT_Analog_In.IW_CTW[1] THEN
+	    #QDW_ScalledValue := #TmDW_Sensor_in_real;
+	    #IUDT_Analog_In.QDW_ScalledValue := #TmDW_Sensor_in_real;
+	ELSE
+	    #QDW_ScalledValue := 0.0;
+	    #IUDT_Analog_In.QDW_ScalledValue := 0.0;
+	    #TmDW_Sensor_in_real := 0.0;
+	END_IF;
+	
+	// Логіка орпцювання аварійних повідомлень по сенсору
+	// #IUDT_Analog_In.IBt_Block_ControlLevel.%X0 := true;
+	// #IUDT_Analog_In.IBt_Block_ControlLevel.%X1 := true;
+	// #IUDT_Analog_In.IBt_Block_ControlLevel.%X2 := true;
+	// #IUDT_Analog_In.IBt_Block_ControlLevel.%X3 := true;
+	#Level_Control_HoLo(IB_Enable_Func := NOT #TmB_Sensor_In_Zero,
+	                    IDW_Actual_Value := #TmDW_Sensor_in_real,
+	                    IDW_Set_HiHi := #IUDT_Analog_In.IDW_HiHi,
+	                    IDW_Set_Hi := #IUDT_Analog_In.IDW_Hi,
+	                    IDW_Set_LoLo := #IUDT_Analog_In.IDW_Lolo,
+	                    IDW_Set_Lo := #IUDT_Analog_In.IDW_Lo,
+	                    IW_Time_HiHi := #IUDT_Analog_In.IW_DelayON_HiHi,
+	                    IW_Time_Hi := #IUDT_Analog_In.IW_DelayON_Hi,
+	                    IW_Time_LoLo := #IUDT_Analog_In.IW_DelayON_LoLo,
+	                    IW_Time_Lo := #IUDT_Analog_In.IW_DelayON_Lo);
+	#StB_HiHi := (#StB_HiHi AND NOT #TmB_Reset_Bit)
+	OR #IUDT_Analog_In.IBt_Enable_ControlLevel[0] AND #Level_Control_HoLo.QB_HiHi;
+	#StB_HiHi_Q := (#StB_HiHi_Q AND NOT #TmB_Reset_Bit)
+	OR #Level_Control_HoLo.QB_HiHi AND #IUDT_Analog_In.IBt_Block_ControlLevel[0];
+	#QB_HiHi_Fault := #StB_HiHi_Q;
+	
+	#StB_Hi := #IUDT_Analog_In.IBt_Enable_ControlLevel[1] AND #Level_Control_HoLo.QB_Hi;
+	#StB_Hi_Q := #Level_Control_HoLo.QB_Hi AND #IUDT_Analog_In.IBt_Block_ControlLevel[1];
+	#QB_Hi_Alarm := #StB_Hi_Q;
+	
+	#StB_Lo := #IUDT_Analog_In.IBt_Enable_ControlLevel[2] AND #Level_Control_HoLo.QB_Lo;
+	#StB_Lo_Q :=  #Level_Control_HoLo.QB_Lo AND #IUDT_Analog_In.IBt_Block_ControlLevel[2];
+	#QB_Lo_Alarm := #StB_Lo_Q;
+	
+	#StB_LoLo := (#StB_LoLo AND NOT #TmB_Reset_Bit)
+	OR #IUDT_Analog_In.IBt_Enable_ControlLevel[3] AND #Level_Control_HoLo.QB_LoLo;
+	#StB_LoLo_Q := (#StB_LoLo_Q AND NOT #TmB_Reset_Bit)
+	OR #Level_Control_HoLo.QB_LoLo AND #IUDT_Analog_In.IBt_Block_ControlLevel[3];
+	#QB_LoLo_Fault := #StB_LoLo_Q;
+	
+	
+	
+	//IWCword
+	#IUDT_Analog_In.IW_CTW[0] := False;
+	
+	//Word of State
+	//Fault
+	#IUDT_Analog_In.QW_STW[0] := #StB_HiHi OR #StB_LoLo OR #TmB_Sensor_In_Zero OR #StB_PowerFault;
+	// Alarm
+	#IUDT_Analog_In.QW_STW[1] := #StB_Hi OR #StB_Lo;
+	// All OK
+	#IUDT_Analog_In.QW_STW[2] := NOT #IUDT_Analog_In.QW_STW[0] AND NOT #IUDT_Analog_In.QW_STW[1];
+	#IUDT_Analog_In.QW_STW[3] := #TmB_Sensor_In_Zero AND (( #IB_PowerControl AND #IB_EnablePowerControl) OR NOT #IB_EnablePowerControl );
+	#IUDT_Analog_In.QW_STW[4] := #StB_HiHi;
+	#IUDT_Analog_In.QW_STW[5] := #StB_Hi;
+	#IUDT_Analog_In.QW_STW[6] := #StB_Lo;
+	#IUDT_Analog_In.QW_STW[7] := #StB_LoLo;
+	
+	#IUDT_Analog_In.QW_STW[9] := #TmB_Reset_Bit;
+	#IUDT_Analog_In.QW_STW[10] := #StB_PowerFault;
+	#IUDT_Analog_In.QW_STW[11] := #IB_PowerControl;
+	
+	//Word of Alarm and fault
+	#IUDT_Analog_In.QDW_Message[0] := #TmB_Sensor_In_Zero;
+	#IUDT_Analog_In.QDW_Message[1] := #StB_HiHi;
+	#IUDT_Analog_In.QDW_Message[2] := #StB_LoLo;
+	#IUDT_Analog_In.QDW_Message[3] := #StB_PowerFault;
+	
+	#IUDT_Analog_In.QDW_Message[14] := #StB_Hi;
+	#IUDT_Analog_In.QDW_Message[15] := #StB_Lo;
+	
+	#IUDT_Analog_In.QDW_Message[16] := #IUDT_Analog_In.QW_STW[8];
+	
+	#QW_STW := #IUDT_Analog_In.QW_STW;
+	
+	
+END_FUNCTION_BLOCK
+

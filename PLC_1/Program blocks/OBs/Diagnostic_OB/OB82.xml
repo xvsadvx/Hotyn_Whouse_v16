@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V16" />
+  <DocumentInfo>
+    <Created>2026-03-31T12:42:57.5562131Z</Created>
+    <ExportSetting>WithDefaults</ExportSetting>
+    <InstalledProducts>
+      <Product>
+        <DisplayName>Totally Integrated Automation Portal</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>TIA Portal Version Control Interface</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>TIA Portal Openness</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>STEP 7 Professional</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>STEP 7 Safety</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>WinCC Advanced</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+    </InstalledProducts>
+  </DocumentInfo>
+  <SW.Blocks.OB ID="0">
+    <AttributeList>
+      <HeaderAuthor />
+      <HeaderFamily />
+      <HeaderName />
+      <HeaderVersion>0.1</HeaderVersion>
+      <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v4">
+  <Section Name="Temp">
+    <Member Name="Temp_0" Datatype="Byte" />
+    <Member Name="Temp_1" Datatype="Byte" />
+    <Member Name="Temp_2" Datatype="Byte" />
+    <Member Name="Temp_3" Datatype="Byte" />
+    <Member Name="Temp_4" Datatype="Byte" />
+    <Member Name="Temp_5" Datatype="Byte" />
+    <Member Name="Temp_6" Datatype="Word" />
+    <Member Name="Temp_7" Datatype="Bool" />
+    <Member Name="Temp_8" Datatype="Bool" />
+    <Member Name="Temp_9" Datatype="Bool" />
+    <Member Name="Temp_10" Datatype="Bool" />
+    <Member Name="Temp_11" Datatype="Bool" />
+    <Member Name="Temp_12" Datatype="Bool" />
+    <Member Name="Temp_13" Datatype="Bool" />
+    <Member Name="Temp_14" Datatype="Bool" />
+    <Member Name="Temp_15" Datatype="Byte" />
+    <Member Name="Temp_16" Datatype="Bool" />
+    <Member Name="Temp_17" Datatype="Bool" />
+    <Member Name="Temp_18" Datatype="Bool" />
+    <Member Name="Temp_19" Datatype="Bool" />
+    <Member Name="Temp_20" Datatype="Bool" />
+    <Member Name="Temp_21" Datatype="Bool" />
+    <Member Name="Temp_22" Datatype="Bool" />
+    <Member Name="Temp_23" Datatype="Bool" />
+    <Member Name="Temp_24" Datatype="Bool" />
+    <Member Name="Temp_25" Datatype="Bool" />
+    <Member Name="Temp_26" Datatype="Bool" />
+    <Member Name="Temp_27" Datatype="Bool" />
+    <Member Name="Temp_28" Datatype="Bool" />
+    <Member Name="Temp_29" Datatype="Bool" />
+    <Member Name="Temp_30" Datatype="Bool" />
+    <Member Name="Temp_31" Datatype="Bool" />
+    <Member Name="Temp_32" Datatype="Date_And_Time" />
+  </Section>
+  <Section Name="Constant" />
+</Sections></Interface>
+      <IsIECCheckEnabled>false</IsIECCheckEnabled>
+      <Name>OB82</Name>
+      <Number>82</Number>
+      <ProgrammingLanguage>FBD</ProgrammingLanguage>
+      <SecondaryType>DiagnosticErrorInterrupt</SecondaryType>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>ru-RU</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-IE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="4" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="5" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="6" CompositionName="Items">
+            <AttributeList>
+              <Culture>ru-RU</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="7" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-IE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="8" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.OB>
+</Document>

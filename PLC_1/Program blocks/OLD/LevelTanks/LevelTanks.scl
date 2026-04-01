@@ -1,0 +1,206 @@
+﻿FUNCTION "LevelTanks" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+
+BEGIN
+	
+	REGION Polska - Tank 1
+	    
+	    "AI_Tank1_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "Pol_sklad_sens",
+	                  IUDT_Analog_In := "UDT_AI_Tank1");
+	    
+	 "CalcVolume_Tank1_DB"(IW_ValueFromSensor:="AI_Tank1_DB".QDW_ScalledValue);
+	 
+	END_REGION
+	
+	REGION Polska - Tank 2
+	    
+	    "AI_Tank2_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "Pol_sens",
+	                  IUDT_Analog_In := "UDT_AI_Tank2");
+	    
+	    "CalcVolume_Tank2_DB"(IW_ValueFromSensor := "AI_Tank2_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Polska - Tank 3
+	    
+	    "AI_Tank3_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "IW_Tank3",
+	                  IUDT_Analog_In := "UDT_AI_Tank3");
+	    
+	    "CalcVolume_Tank3_DB"(IW_ValueFromSensor := "AI_Tank3_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Polska - Tank 4
+	    
+	    "AI_Tank4_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "IW_Tank4",
+	                  IUDT_Analog_In := "UDT_AI_Tank4");
+	    
+	    "CalcVolume_Tank4_DB"(IW_ValueFromSensor := "AI_Tank4_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Polska - Tank 5
+	    
+	    "AI_Tank5_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "IW_Tank5",
+	                  IUDT_Analog_In := "UDT_AI_Tank5");
+	    
+	    "CalcVolume_Tank5_DB"(IW_ValueFromSensor := "AI_Tank5_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Polska - Tank 6
+	    
+	    "AI_Tank6_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "IW_Tank6",
+	                  IUDT_Analog_In := "UDT_AI_Tank6");
+	    
+	    "CalcVolume_Tank6_DB"(IW_ValueFromSensor := "AI_Tank6_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Polska - Tank 7
+	    
+	    "AI_Tank7_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "IW_Tank7",
+	                  IUDT_Analog_In := "UDT_AI_Tank7");
+	    
+	    "CalcVolume_Tank7_DB"(IW_ValueFromSensor := "AI_Tank7_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Polska - Tank 8
+	    
+	    "AI_Tank8_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "IW_Tank8",
+	                  IUDT_Analog_In := "UDT_AI_Tank8");
+	    
+	    "CalcVolume_Tank8_DB"(IW_ValueFromSensor := "AI_Tank8_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Polska - Tank 9
+	    
+	    "AI_Tank9_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "IW_Tank9",
+	                  IUDT_Analog_In := "UDT_AI_Tank9");
+	    
+	    "CalcVolume_Tank9_DB"(IW_ValueFromSensor := "AI_Tank9_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Polska - Tank 10
+	    
+	    "AI_Tank10_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "IW_Tank10",
+	                  IUDT_Analog_In := "UDT_AI_Tank10");
+	    
+	    "CalcVolume_Tank10_DB"(IW_ValueFromSensor := "AI_Tank10_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Bolgarska - Tank 1
+	    
+	    "AI_Tank11_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "IW_Tank11",
+	                  IUDT_Analog_In := "UDT_AI_Tank11");
+	    
+	    "CalcVolume_Tank11_DB"(IW_ValueFromSensor := "AI_Tank11_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Bolgarska - Tank 2
+	    
+	    "AI_Tank12_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                  IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                  IB_EnablePowerControl := FALSE,
+	                  IW_HW_UpLevel := 27648,
+	                  IW_HW_LowLevel := 0,
+	                  IW_Signal_from_Sensor := "IW_Tank12",
+	                  IUDT_Analog_In := "UDT_AI_Tank12");
+	    
+	    "CalcVolume_Tank12_DB"(IW_ValueFromSensor := "AI_Tank12_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Bolgarska - Tank 3
+	    
+	    "AI_Tank13_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                   IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                   IB_EnablePowerControl := FALSE,
+	                   IW_HW_UpLevel := 27648,
+	                   IW_HW_LowLevel := 0,
+	                   IW_Signal_from_Sensor := "IW_Tank13", // Задати 
+	                   IUDT_Analog_In := "UDT_AI_Tank13");
+	    
+	    "CalcVolume_Tank13_DB"(IW_ValueFromSensor := "AI_Tank13_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	REGION Bolgarska - Tank 4
+	    
+	    "AI_Tank14_DB"(IB_Reset_PLC := "Total_DB".Restart_PLC,
+	                   IB_Total_Reset := "Total_DB".Total_Reset_HMI,
+	                   IB_EnablePowerControl := FALSE,
+	                   IW_HW_UpLevel := 27648,
+	                   IW_HW_LowLevel := 0,
+	                   IW_Signal_from_Sensor := "IW_Tank14", // Задати 
+	                   IUDT_Analog_In := "UDT_AI_Tank14");
+	    
+	    "CalcVolume_Tank14_DB"(IW_ValueFromSensor := "AI_Tank14_DB".QDW_ScalledValue);
+	    
+	END_REGION
+	
+	
+	
+END_FUNCTION
+

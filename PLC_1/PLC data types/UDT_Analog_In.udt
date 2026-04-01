@@ -1,0 +1,30 @@
+﻿TYPE "UDT_Analog_In"
+VERSION : 0.1
+   STRUCT
+      IW_HW_UpLevel : Int := 27648;
+      IW_HW_LowLevel : Int := 0;
+      IDW_UpLevel : Real;
+      IDW_LowLevel : Real;
+      IDW_HiHi : Real;
+      IDW_Hi : Real;
+      IDW_Lo : Real;
+      IDW_Lolo : Real;
+      IW_DelayON_HiHi : Int;
+      IW_DelayON_Hi : Int;
+      IW_DelayON_Lo : Int;
+      IW_DelayON_LoLo : Int;
+      IDW_Simulation_Value : Real;
+      IW_Time_Filter : Int;
+      IW_CTW : Array[0..15] of Bool;
+      IDW_K_Mult : Real := 1.0;
+      IDW_DeadZone : Real;
+      IBt_Enable_ControlLevel : Array[0..7] of Bool;
+      IBt_Block_ControlLevel : Array[0..7] of Bool;
+      QW_STW : Array[0..15] of Bool;
+      QW_HWValue : Int;
+      QDW_ScalledValue : Real;
+      QDW_Message : Array[0..16] of Bool;
+   END_STRUCT;
+
+END_TYPE
+

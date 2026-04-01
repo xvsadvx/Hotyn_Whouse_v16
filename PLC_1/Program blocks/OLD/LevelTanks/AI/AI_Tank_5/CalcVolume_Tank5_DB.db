@@ -1,0 +1,19 @@
+﻿DATA_BLOCK "CalcVolume_Tank5_DB"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+"CalculationVolume"
+
+BEGIN
+   IW_Radius := 1.468;
+   IW_ValueFromSensor := 18.26172;
+   IW_K_for_Tonnag := 1.35;
+   IW_K_for_Level := 1.35;
+   QW_Volume := 91.53552;
+   QW_Tonnag := 123.573;
+   QW_RealLevel := 13.5272;
+   sW_S := 6.766776;
+   sW_Volume := 91.53552;
+   sW_RealLevel := 13.5272;
+
+END_DATA_BLOCK
+
