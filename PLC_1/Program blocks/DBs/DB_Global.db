@@ -1,13 +1,16 @@
 ﻿DATA_BLOCK "DB_Global"
 { S7_Optimized_Access := 'FALSE' }
 VERSION : 0.1
+NON_RETAIN
 // 2. GLOBAL DATA (Pure Data only)
    STRUCT 
-      Sys : "UDT_Sys_Info";
+      Sys { ExternalVisible := 'False'; S7_SetPoint := 'False'} : "UDT_Sys_Info";
    END_STRUCT;
 
 
 BEGIN
+   Sys.CycleTime_ms_INT := 10;
+   Sys.CycleTime_ms_REAL := 10.0;
 
 END_DATA_BLOCK
 

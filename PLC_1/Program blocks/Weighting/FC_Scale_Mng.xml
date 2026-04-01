@@ -1,0 +1,1475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V16" />
+  <DocumentInfo>
+    <Created>2026-04-01T13:25:14.3032891Z</Created>
+    <ExportSetting>WithDefaults</ExportSetting>
+    <InstalledProducts>
+      <Product>
+        <DisplayName>Totally Integrated Automation Portal</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>TIA Portal Version Control Interface</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>TIA Portal Openness</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>STEP 7 Professional</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>STEP 7 Safety</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>WinCC Advanced</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+    </InstalledProducts>
+  </DocumentInfo>
+  <SW.Blocks.FC ID="0">
+    <AttributeList>
+      <AutoNumber>true</AutoNumber>
+      <HeaderAuthor />
+      <HeaderFamily />
+      <HeaderName />
+      <HeaderVersion>0.1</HeaderVersion>
+      <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v4">
+  <Section Name="Input" />
+  <Section Name="Output" />
+  <Section Name="InOut" />
+  <Section Name="Temp" />
+  <Section Name="Constant" />
+  <Section Name="Return">
+    <Member Name="Ret_Val" Datatype="Void" />
+  </Section>
+</Sections></Interface>
+      <IsIECCheckEnabled>false</IsIECCheckEnabled>
+      <Name>FC_Scale_Mng</Name>
+      <Number>19</Number>
+      <ProgrammingLanguage>FBD</ProgrammingLanguage>
+      <UDABlockProperties />
+      <UDAEnableTagReadback>false</UDAEnableTagReadback>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>ru-RU</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-IE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="4" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="5" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="LiteralConstant" UId="21">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>260</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="22">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>21</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="23">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>60</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="i_CMD_INPUT" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="b_SELECT_PROC_VAL" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="i_PRESET_TARE" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="bo_CMD_TRIGGER" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="bo_CMD_IN_PROGRESS" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="bo_CMD_FINISHED_OK" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="30">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="bo_CMD_ERR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="31">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="b_CMD_ERR_CODE" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="b_INFO_REFRESH_COUNT" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="33">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="b_SELECTED_PROC_VAL" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="34">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="i_PROCESS_VALUE" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="35">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="w_SCALE_STATUS" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="36">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="b_OPR_ERR_MSG" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="37">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="bo_FB_ERR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="38">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="b_FB_ERR_CODE" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="39">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="bo_START_UP_IN_PROGRESS" />
+      </Symbol>
+    </Access>
+    <Call UId="40">
+      <CallInfo Name="SICS_DR" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="41">
+          <Component Name="FB_SICS_DR_T1" />
+        </Instance>
+        <Parameter Name="ADDR" Section="Input" Type="Int" />
+        <Parameter Name="DB_SCALE" Section="Input" Type="Int" />
+        <Parameter Name="DB_VECTOR" Section="Input" Type="Int" />
+        <Parameter Name="CMD_IN" Section="Input" Type="Int" />
+        <Parameter Name="SEL_PROC_VAL" Section="Input" Type="Byte" />
+        <Parameter Name="EXT_TARA" Section="Input" Type="Int" />
+        <Parameter Name="CMD_INPR" Section="Output" Type="Bool" />
+        <Parameter Name="CMD_FOK" Section="Output" Type="Bool" />
+        <Parameter Name="CMD_ERR" Section="Output" Type="Bool" />
+        <Parameter Name="CMD_ERR_C" Section="Output" Type="Byte" />
+        <Parameter Name="REF_COUNT" Section="Output" Type="Byte" />
+        <Parameter Name="ACT_SEL_PROC_VAL" Section="Output" Type="Byte" />
+        <Parameter Name="PROC_VAL1" Section="Output" Type="Int" />
+        <Parameter Name="SC_STATUS" Section="Output" Type="Word" />
+        <Parameter Name="ERR_MSG_C" Section="Output" Type="Byte" />
+        <Parameter Name="FB_ERR" Section="Output" Type="Bool" />
+        <Parameter Name="FB_ERR_C" Section="Output" Type="Byte" />
+        <Parameter Name="START_UP" Section="Output" Type="Bool" />
+        <Parameter Name="CMD_EN" Section="InOut" Type="Bool" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="43">
+      <OpenCon UId="42" />
+      <NameCon UId="40" Name="en" />
+    </Wire>
+    <Wire UId="44">
+      <IdentCon UId="21" />
+      <NameCon UId="40" Name="ADDR" />
+    </Wire>
+    <Wire UId="45">
+      <IdentCon UId="22" />
+      <NameCon UId="40" Name="DB_SCALE" />
+    </Wire>
+    <Wire UId="46">
+      <IdentCon UId="23" />
+      <NameCon UId="40" Name="DB_VECTOR" />
+    </Wire>
+    <Wire UId="47">
+      <IdentCon UId="24" />
+      <NameCon UId="40" Name="CMD_IN" />
+    </Wire>
+    <Wire UId="48">
+      <IdentCon UId="25" />
+      <NameCon UId="40" Name="SEL_PROC_VAL" />
+    </Wire>
+    <Wire UId="49">
+      <IdentCon UId="26" />
+      <NameCon UId="40" Name="EXT_TARA" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="27" />
+      <NameCon UId="40" Name="CMD_EN" />
+    </Wire>
+    <Wire UId="51">
+      <NameCon UId="40" Name="CMD_INPR" />
+      <IdentCon UId="28" />
+    </Wire>
+    <Wire UId="52">
+      <NameCon UId="40" Name="CMD_FOK" />
+      <IdentCon UId="29" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="40" Name="CMD_ERR" />
+      <IdentCon UId="30" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="40" Name="CMD_ERR_C" />
+      <IdentCon UId="31" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="40" Name="REF_COUNT" />
+      <IdentCon UId="32" />
+    </Wire>
+    <Wire UId="56">
+      <NameCon UId="40" Name="ACT_SEL_PROC_VAL" />
+      <IdentCon UId="33" />
+    </Wire>
+    <Wire UId="57">
+      <NameCon UId="40" Name="PROC_VAL1" />
+      <IdentCon UId="34" />
+    </Wire>
+    <Wire UId="58">
+      <NameCon UId="40" Name="SC_STATUS" />
+      <IdentCon UId="35" />
+    </Wire>
+    <Wire UId="59">
+      <NameCon UId="40" Name="ERR_MSG_C" />
+      <IdentCon UId="36" />
+    </Wire>
+    <Wire UId="60">
+      <NameCon UId="40" Name="FB_ERR" />
+      <IdentCon UId="37" />
+    </Wire>
+    <Wire UId="61">
+      <NameCon UId="40" Name="FB_ERR_C" />
+      <IdentCon UId="38" />
+    </Wire>
+    <Wire UId="62">
+      <NameCon UId="40" Name="START_UP" />
+      <IdentCon UId="39" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>FBD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="6" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="8" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="A" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="B" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="C" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="D" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="E" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="s_PROCESS_VALUES" />
+        <Component Name="bo_STA_ST_STAND_SCALE_ON" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="s_PROCESS_VALUES" />
+        <Component Name="bo_STA_TARED" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="DB_MAP" />
+        <Component Name="Scale_CS_1" />
+        <Component Name="Cmd" />
+        <Component Name="Zero" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="DB_MAP" />
+        <Component Name="Scale_CS_1" />
+        <Component Name="Cmd" />
+        <Component Name="Tare" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="DB_MAP" />
+        <Component Name="Scale_CS_1" />
+        <Component Name="Cmd" />
+        <Component Name="DeleteTare" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="s_CMD1" />
+      </Symbol>
+    </Access>
+    <Call UId="27">
+      <CallInfo Name="FC_Scale_HMI_Cmd" BlockType="FC">
+        <Parameter Name="i_boIsStable" Section="Input" Type="Bool" />
+        <Parameter Name="i_boIsTared" Section="Input" Type="Bool" />
+        <Parameter Name="io_boHMI_Zero" Section="InOut" Type="Bool" />
+        <Parameter Name="io_boHMI_Tare" Section="InOut" Type="Bool" />
+        <Parameter Name="io_boHMI_DeleteTare" Section="InOut" Type="Bool" />
+        <Parameter Name="io_stCmdSlot" Section="InOut" Type="&quot;UDT_SIWA_Cmd&quot;" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="29">
+      <OpenCon UId="28" />
+      <NameCon UId="27" Name="en" />
+    </Wire>
+    <Wire UId="30">
+      <IdentCon UId="21" />
+      <NameCon UId="27" Name="i_boIsStable" />
+    </Wire>
+    <Wire UId="31">
+      <IdentCon UId="22" />
+      <NameCon UId="27" Name="i_boIsTared" />
+    </Wire>
+    <Wire UId="32">
+      <IdentCon UId="23" />
+      <NameCon UId="27" Name="io_boHMI_Zero" />
+    </Wire>
+    <Wire UId="33">
+      <IdentCon UId="24" />
+      <NameCon UId="27" Name="io_boHMI_Tare" />
+    </Wire>
+    <Wire UId="34">
+      <IdentCon UId="25" />
+      <NameCon UId="27" Name="io_boHMI_DeleteTare" />
+    </Wire>
+    <Wire UId="35">
+      <IdentCon UId="26" />
+      <NameCon UId="27" Name="io_stCmdSlot" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>FBD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="F" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="10" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="11" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="12" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="13" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="14" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="15" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="16" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="17" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="bo_CMD_FINISHED_OK" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="bo_CMD_ERR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="i_CMD_INPUT" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="bo_CMD_TRIGGER" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="bo_CMD_IN_PROGRESS" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="s_CMD1" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="s_CMD2" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_1" />
+        <Component Name="s_CMD3" />
+      </Symbol>
+    </Access>
+    <Call UId="29">
+      <CallInfo Name="FC_Scale_Cmd_Mng" BlockType="FC">
+        <Parameter Name="i_boFinishedOk" Section="Input" Type="Bool" />
+        <Parameter Name="i_boErr" Section="Input" Type="Bool" />
+        <Parameter Name="io_iCmdInput" Section="InOut" Type="Int" />
+        <Parameter Name="io_boEnable" Section="InOut" Type="Bool" />
+        <Parameter Name="io_boAnyInProgress" Section="InOut" Type="Bool" />
+        <Parameter Name="io_stTask1" Section="InOut" Type="&quot;UDT_SIWA_Cmd&quot;" />
+        <Parameter Name="io_stTask2" Section="InOut" Type="&quot;UDT_SIWA_Cmd&quot;" />
+        <Parameter Name="io_stTask3" Section="InOut" Type="&quot;UDT_SIWA_Cmd&quot;" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="31">
+      <OpenCon UId="30" />
+      <NameCon UId="29" Name="en" />
+    </Wire>
+    <Wire UId="32">
+      <IdentCon UId="21" />
+      <NameCon UId="29" Name="i_boFinishedOk" />
+    </Wire>
+    <Wire UId="33">
+      <IdentCon UId="22" />
+      <NameCon UId="29" Name="i_boErr" />
+    </Wire>
+    <Wire UId="34">
+      <IdentCon UId="23" />
+      <NameCon UId="29" Name="io_iCmdInput" />
+    </Wire>
+    <Wire UId="35">
+      <IdentCon UId="24" />
+      <NameCon UId="29" Name="io_boEnable" />
+    </Wire>
+    <Wire UId="36">
+      <IdentCon UId="25" />
+      <NameCon UId="29" Name="io_boAnyInProgress" />
+    </Wire>
+    <Wire UId="37">
+      <IdentCon UId="26" />
+      <NameCon UId="29" Name="io_stTask1" />
+    </Wire>
+    <Wire UId="38">
+      <IdentCon UId="27" />
+      <NameCon UId="29" Name="io_stTask2" />
+    </Wire>
+    <Wire UId="39">
+      <IdentCon UId="28" />
+      <NameCon UId="29" Name="io_stTask3" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>FBD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="18" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="19" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="1A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="1B" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="1C" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="1D" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="1E" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="1F" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="20" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="LiteralConstant" UId="21">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>280</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="22">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>62</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="23">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>63</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="i_CMD_INPUT" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="b_SELECT_PROC_VAL" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="i_PRESET_TARE" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="bo_CMD_TRIGGER" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="bo_CMD_IN_PROGRESS" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="bo_CMD_FINISHED_OK" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="30">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="bo_CMD_ERR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="31">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="b_CMD_ERR_CODE" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="b_INFO_REFRESH_COUNT" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="33">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="b_SELECTED_PROC_VAL" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="34">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="i_PROCESS_VALUE" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="35">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="w_SCALE_STATUS" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="36">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="b_OPR_ERR_MSG" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="37">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="bo_FB_ERR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="38">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="b_FB_ERR_CODE" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="39">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="bo_START_UP_IN_PROGRESS" />
+      </Symbol>
+    </Access>
+    <Call UId="40">
+      <CallInfo Name="SICS_DR" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="41">
+          <Component Name="FB_SICS_DR_T2" />
+        </Instance>
+        <Parameter Name="ADDR" Section="Input" Type="Int" />
+        <Parameter Name="DB_SCALE" Section="Input" Type="Int" />
+        <Parameter Name="DB_VECTOR" Section="Input" Type="Int" />
+        <Parameter Name="CMD_IN" Section="Input" Type="Int" />
+        <Parameter Name="SEL_PROC_VAL" Section="Input" Type="Byte" />
+        <Parameter Name="EXT_TARA" Section="Input" Type="Int" />
+        <Parameter Name="CMD_INPR" Section="Output" Type="Bool" />
+        <Parameter Name="CMD_FOK" Section="Output" Type="Bool" />
+        <Parameter Name="CMD_ERR" Section="Output" Type="Bool" />
+        <Parameter Name="CMD_ERR_C" Section="Output" Type="Byte" />
+        <Parameter Name="REF_COUNT" Section="Output" Type="Byte" />
+        <Parameter Name="ACT_SEL_PROC_VAL" Section="Output" Type="Byte" />
+        <Parameter Name="PROC_VAL1" Section="Output" Type="Int" />
+        <Parameter Name="SC_STATUS" Section="Output" Type="Word" />
+        <Parameter Name="ERR_MSG_C" Section="Output" Type="Byte" />
+        <Parameter Name="FB_ERR" Section="Output" Type="Bool" />
+        <Parameter Name="FB_ERR_C" Section="Output" Type="Byte" />
+        <Parameter Name="START_UP" Section="Output" Type="Bool" />
+        <Parameter Name="CMD_EN" Section="InOut" Type="Bool" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="43">
+      <OpenCon UId="42" />
+      <NameCon UId="40" Name="en" />
+    </Wire>
+    <Wire UId="44">
+      <IdentCon UId="21" />
+      <NameCon UId="40" Name="ADDR" />
+    </Wire>
+    <Wire UId="45">
+      <IdentCon UId="22" />
+      <NameCon UId="40" Name="DB_SCALE" />
+    </Wire>
+    <Wire UId="46">
+      <IdentCon UId="23" />
+      <NameCon UId="40" Name="DB_VECTOR" />
+    </Wire>
+    <Wire UId="47">
+      <IdentCon UId="24" />
+      <NameCon UId="40" Name="CMD_IN" />
+    </Wire>
+    <Wire UId="48">
+      <IdentCon UId="25" />
+      <NameCon UId="40" Name="SEL_PROC_VAL" />
+    </Wire>
+    <Wire UId="49">
+      <IdentCon UId="26" />
+      <NameCon UId="40" Name="EXT_TARA" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="27" />
+      <NameCon UId="40" Name="CMD_EN" />
+    </Wire>
+    <Wire UId="51">
+      <NameCon UId="40" Name="CMD_INPR" />
+      <IdentCon UId="28" />
+    </Wire>
+    <Wire UId="52">
+      <NameCon UId="40" Name="CMD_FOK" />
+      <IdentCon UId="29" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="40" Name="CMD_ERR" />
+      <IdentCon UId="30" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="40" Name="CMD_ERR_C" />
+      <IdentCon UId="31" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="40" Name="REF_COUNT" />
+      <IdentCon UId="32" />
+    </Wire>
+    <Wire UId="56">
+      <NameCon UId="40" Name="ACT_SEL_PROC_VAL" />
+      <IdentCon UId="33" />
+    </Wire>
+    <Wire UId="57">
+      <NameCon UId="40" Name="PROC_VAL1" />
+      <IdentCon UId="34" />
+    </Wire>
+    <Wire UId="58">
+      <NameCon UId="40" Name="SC_STATUS" />
+      <IdentCon UId="35" />
+    </Wire>
+    <Wire UId="59">
+      <NameCon UId="40" Name="ERR_MSG_C" />
+      <IdentCon UId="36" />
+    </Wire>
+    <Wire UId="60">
+      <NameCon UId="40" Name="FB_ERR" />
+      <IdentCon UId="37" />
+    </Wire>
+    <Wire UId="61">
+      <NameCon UId="40" Name="FB_ERR_C" />
+      <IdentCon UId="38" />
+    </Wire>
+    <Wire UId="62">
+      <NameCon UId="40" Name="START_UP" />
+      <IdentCon UId="39" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>FBD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="21" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="22" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="23" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="24" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="25" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="26" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="27" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="28" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="29" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="s_PROCESS_VALUES" />
+        <Component Name="bo_STA_ST_STAND_SCALE_ON" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="s_PROCESS_VALUES" />
+        <Component Name="bo_STA_TARED" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="DB_MAP" />
+        <Component Name="Scale_CS_2" />
+        <Component Name="Cmd" />
+        <Component Name="Zero" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="DB_MAP" />
+        <Component Name="Scale_CS_2" />
+        <Component Name="Cmd" />
+        <Component Name="Tare" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="DB_MAP" />
+        <Component Name="Scale_CS_2" />
+        <Component Name="Cmd" />
+        <Component Name="DeleteTare" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="s_CMD1" />
+      </Symbol>
+    </Access>
+    <Call UId="27">
+      <CallInfo Name="FC_Scale_HMI_Cmd" BlockType="FC">
+        <Parameter Name="i_boIsStable" Section="Input" Type="Bool" />
+        <Parameter Name="i_boIsTared" Section="Input" Type="Bool" />
+        <Parameter Name="io_boHMI_Zero" Section="InOut" Type="Bool" />
+        <Parameter Name="io_boHMI_Tare" Section="InOut" Type="Bool" />
+        <Parameter Name="io_boHMI_DeleteTare" Section="InOut" Type="Bool" />
+        <Parameter Name="io_stCmdSlot" Section="InOut" Type="&quot;UDT_SIWA_Cmd&quot;" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="29">
+      <OpenCon UId="28" />
+      <NameCon UId="27" Name="en" />
+    </Wire>
+    <Wire UId="30">
+      <IdentCon UId="21" />
+      <NameCon UId="27" Name="i_boIsStable" />
+    </Wire>
+    <Wire UId="31">
+      <IdentCon UId="22" />
+      <NameCon UId="27" Name="i_boIsTared" />
+    </Wire>
+    <Wire UId="32">
+      <IdentCon UId="23" />
+      <NameCon UId="27" Name="io_boHMI_Zero" />
+    </Wire>
+    <Wire UId="33">
+      <IdentCon UId="24" />
+      <NameCon UId="27" Name="io_boHMI_Tare" />
+    </Wire>
+    <Wire UId="34">
+      <IdentCon UId="25" />
+      <NameCon UId="27" Name="io_boHMI_DeleteTare" />
+    </Wire>
+    <Wire UId="35">
+      <IdentCon UId="26" />
+      <NameCon UId="27" Name="io_stCmdSlot" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>FBD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="2A" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="2B" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="2C" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="2D" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="2E" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="2F" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="30" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="31" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="32" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="bo_CMD_FINISHED_OK" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="bo_CMD_ERR" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="23">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="i_CMD_INPUT" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="bo_CMD_TRIGGER" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="25">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="bo_CMD_IN_PROGRESS" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="s_CMD1" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="s_CMD2" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="DB_SCALE_CS_2" />
+        <Component Name="s_CMD3" />
+      </Symbol>
+    </Access>
+    <Call UId="29">
+      <CallInfo Name="FC_Scale_Cmd_Mng" BlockType="FC">
+        <Parameter Name="i_boFinishedOk" Section="Input" Type="Bool" />
+        <Parameter Name="i_boErr" Section="Input" Type="Bool" />
+        <Parameter Name="io_iCmdInput" Section="InOut" Type="Int" />
+        <Parameter Name="io_boEnable" Section="InOut" Type="Bool" />
+        <Parameter Name="io_boAnyInProgress" Section="InOut" Type="Bool" />
+        <Parameter Name="io_stTask1" Section="InOut" Type="&quot;UDT_SIWA_Cmd&quot;" />
+        <Parameter Name="io_stTask2" Section="InOut" Type="&quot;UDT_SIWA_Cmd&quot;" />
+        <Parameter Name="io_stTask3" Section="InOut" Type="&quot;UDT_SIWA_Cmd&quot;" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="31">
+      <OpenCon UId="30" />
+      <NameCon UId="29" Name="en" />
+    </Wire>
+    <Wire UId="32">
+      <IdentCon UId="21" />
+      <NameCon UId="29" Name="i_boFinishedOk" />
+    </Wire>
+    <Wire UId="33">
+      <IdentCon UId="22" />
+      <NameCon UId="29" Name="i_boErr" />
+    </Wire>
+    <Wire UId="34">
+      <IdentCon UId="23" />
+      <NameCon UId="29" Name="io_iCmdInput" />
+    </Wire>
+    <Wire UId="35">
+      <IdentCon UId="24" />
+      <NameCon UId="29" Name="io_boEnable" />
+    </Wire>
+    <Wire UId="36">
+      <IdentCon UId="25" />
+      <NameCon UId="29" Name="io_boAnyInProgress" />
+    </Wire>
+    <Wire UId="37">
+      <IdentCon UId="26" />
+      <NameCon UId="29" Name="io_stTask1" />
+    </Wire>
+    <Wire UId="38">
+      <IdentCon UId="27" />
+      <NameCon UId="29" Name="io_stTask2" />
+    </Wire>
+    <Wire UId="39">
+      <IdentCon UId="28" />
+      <NameCon UId="29" Name="io_stTask3" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>FBD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="33" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="34" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="35" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="36" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="37" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="38" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="39" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="3A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="3B" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="DBl_SCALE_CS_1" />
+        <Component Name="Data" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="DB_MAP" />
+        <Component Name="Scale_CS_1" />
+      </Symbol>
+    </Access>
+    <Call UId="23">
+      <CallInfo Name="FB_Map_Siwarex_Core" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="24">
+          <Component Name="iFB_Map_Siwarex_Core" />
+        </Instance>
+        <Parameter Name="io_Scale_DB" Section="InOut" Type="&quot;UDT_SIWA_CS&quot;" />
+        <Parameter Name="io_Core" Section="InOut" Type="&quot;UDT_Siwarex_Core&quot;" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="26">
+      <OpenCon UId="25" />
+      <NameCon UId="23" Name="en" />
+    </Wire>
+    <Wire UId="27">
+      <IdentCon UId="21" />
+      <NameCon UId="23" Name="io_Scale_DB" />
+    </Wire>
+    <Wire UId="28">
+      <IdentCon UId="22" />
+      <NameCon UId="23" Name="io_Core" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>FBD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="3C" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="3D" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="3E" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="3F" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="40" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="41" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="42" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="43" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="44" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="DBl_SCALE_CS_2" />
+        <Component Name="Data" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="DB_MAP" />
+        <Component Name="Scale_CS_2" />
+      </Symbol>
+    </Access>
+    <Call UId="23">
+      <CallInfo Name="FB_Map_Siwarex_Core" BlockType="FB">
+        <Instance Scope="GlobalVariable" UId="24">
+          <Component Name="iFB_Map_Siwarex_Core" />
+        </Instance>
+        <Parameter Name="io_Scale_DB" Section="InOut" Type="&quot;UDT_SIWA_CS&quot;" />
+        <Parameter Name="io_Core" Section="InOut" Type="&quot;UDT_Siwarex_Core&quot;" />
+      </CallInfo>
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="26">
+      <OpenCon UId="25" />
+      <NameCon UId="23" Name="en" />
+    </Wire>
+    <Wire UId="27">
+      <IdentCon UId="21" />
+      <NameCon UId="23" Name="io_Scale_DB" />
+    </Wire>
+    <Wire UId="28">
+      <IdentCon UId="22" />
+      <NameCon UId="23" Name="io_Core" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>FBD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="45" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="46" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="47" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="48" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="49" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="4A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="4B" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="4C" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="4D" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource />
+          <ProgrammingLanguage>FBD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="4E" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="4F" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="50" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="51" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="52" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="53" CompositionName="Items">
+                <AttributeList>
+                  <Culture>ru-RU</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="54" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-IE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="55" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="56" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="57" CompositionName="Items">
+            <AttributeList>
+              <Culture>ru-RU</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="58" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-IE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="59" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FC>
+</Document>

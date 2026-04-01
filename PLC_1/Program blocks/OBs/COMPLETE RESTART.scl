@@ -16,7 +16,6 @@ VERSION : 0.1
 
 
 BEGIN
-	"Total_DB".first_scan := TRUE;
-	
+	;
 END_ORGANIZATION_BLOCK
 

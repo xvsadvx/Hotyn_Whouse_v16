@@ -1,8 +1,8 @@
-﻿DATA_BLOCK "DB_Wh_MOL"
+﻿DATA_BLOCK "DBl_SCALE_CS_2"
 { S7_Optimized_Access := 'FALSE' }
 VERSION : 0.1
    STRUCT 
-      Tank : Array[1..12] of "UDT_Tank_Full";
+      Data { S7_SetPoint := 'False'} : "UDT_SIWA_CS";
    END_STRUCT;
 
 

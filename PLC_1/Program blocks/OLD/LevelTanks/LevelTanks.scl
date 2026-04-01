@@ -11,7 +11,7 @@ BEGIN
 	                  IB_EnablePowerControl := FALSE,
 	                  IW_HW_UpLevel := 27648,
 	                  IW_HW_LowLevel := 0,
-	                  IW_Signal_from_Sensor := "Pol_sklad_sens",
+	                  IW_Signal_from_Sensor := "IW_Tank1",
 	                  IUDT_Analog_In := "UDT_AI_Tank1");
 	    
 	 "CalcVolume_Tank1_DB"(IW_ValueFromSensor:="AI_Tank1_DB".QDW_ScalledValue);
@@ -25,7 +25,7 @@ BEGIN
 	                  IB_EnablePowerControl := FALSE,
 	                  IW_HW_UpLevel := 27648,
 	                  IW_HW_LowLevel := 0,
-	                  IW_Signal_from_Sensor := "Pol_sens",
+	                  IW_Signal_from_Sensor := "IW_Tank2",
 	                  IUDT_Analog_In := "UDT_AI_Tank2");
 	    
 	    "CalcVolume_Tank2_DB"(IW_ValueFromSensor := "AI_Tank2_DB".QDW_ScalledValue);

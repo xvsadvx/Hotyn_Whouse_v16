@@ -5,15 +5,12 @@ NON_RETAIN
    STRUCT 
       Total_Reset_HMI : Bool;
       Restart_PLC : Bool;
-      first_scan : Bool;
-      glb_cycle_time_ms : Int;
    END_STRUCT;
 
 
 BEGIN
    Total_Reset_HMI := FALSE;
    Restart_PLC := FALSE;
-   glb_cycle_time_ms := 10;
 
 END_DATA_BLOCK
 
