@@ -36,7 +36,10 @@ VERSION : 8.0
       temp_rMinPhys : Real;
       temp_rMaxPhys : Real;
       temp_boResetFilter : Bool;
-      temp_iFilterTime : Int;
+      temp_iFilterTime : Real;
+      temp_rHWRange : Real;
+      temp_iLimit_Max : Int;
+      temp_iLimit_Min : Int;
    END_VAR
 
 
@@ -116,6 +119,16 @@ BEGIN
 	        #io_stOut.Status.Sim_Active := FALSE;
 	        #io_stOut.Raw := #i_iRawSignal;
 	        
+	        #temp_rHWRange := INT_TO_REAL(#io_stConfig.HW_Max) - INT_TO_REAL(#io_stConfig.HW_Min);
+	        
+	        #temp_iLimit_Max := REAL_TO_INT(INT_TO_REAL(#io_stConfig.HW_Max) + ("C_DIAG_OVER" * #temp_rHWRange));
+	        #temp_iLimit_Min := REAL_TO_INT(INT_TO_REAL(#io_stConfig.HW_Min) + ("C_DIAG_UNDER" * #temp_rHWRange));
+	        
+	        #io_stOut.Status.WireBreak := #i_iRawSignal < #temp_iLimit_Min;
+	        #io_stOut.Status.Underrange := (#i_iRawSignal < #io_stConfig.HW_Min) AND (#i_iRawSignal >= #temp_iLimit_Min);
+	        #io_stOut.Status.Overrange := (#i_iRawSignal > #io_stConfig.HW_Max) AND (#i_iRawSignal <= #temp_iLimit_Max);
+	        #io_stOut.Status.Overflow := #i_iRawSignal > #temp_iLimit_Max;
+	        
 	        "FC_AnalogDiag"(
 	                        i_iRawSignal := #i_iRawSignal,
 	                        i_iHW_Min := #io_stConfig.HW_Min,
@@ -142,7 +155,7 @@ BEGIN
 	        ELSE
 	            // А) Расчет миллиампер
 	            #temp_rMA := 4.0 + ((INT_TO_REAL(#i_iRawSignal) - INT_TO_REAL(#io_stConfig.HW_Min)) /
-	            (INT_TO_REAL(#io_stConfig.HW_Max) - INT_TO_REAL(#io_stConfig.HW_Min))) * 16.0;
+	                                #temp_rHWRange) * 16.0;
 	            #io_stOut.Value_mA := #temp_rMA;
 	            
 	            // Б) Нормализация (0.0 ... 1.0)
@@ -197,23 +210,23 @@ BEGIN
 	    // =========================================================
 	    // ШАГ 4. ФИЛЬТРАЦИЯ & PRE-LOAD 
 	    // =========================================================
-	    #temp_boResetFilter := #temp_boSimActive OR
-	    #io_stOut.Status.WireBreak OR
-	    #io_stOut.Status.Overflow OR
-	    #stat_boWasInvalid;
-	    
-	    #temp_iFilterTime := LIMIT(MN := 0, IN := #io_stConfig.FilterTime_ms, MX := 32000);
+	    #temp_boResetFilter := #io_stOut.Status.WireBreak OR
+	                        #io_stOut.Status.Overflow OR
+	                        #stat_boWasInvalid OR
+	                        "isFirstScan"();
+	
+	    #temp_iFilterTime := INT_TO_REAL(LIMIT(MN := 0, IN := #io_stConfig.FilterTime_ms, MX := 32000));
 	    
 	    "FC_Filter_PT1"(
 	                    i_rRawValue := #temp_rScaled,
-	                    i_rTimeFilter_ms := INT_TO_REAL(#temp_iFilterTime),
+	                    i_rTimeFilter_ms := #temp_iFilterTime,
 	                    i_boReset := #temp_boResetFilter,
 	                    io_rFilteredValue := #io_stOut.Value_Filtered
 	    );
 	    
 	    #stat_boWasInvalid := #io_stOut.Status.WireBreak OR
-	    #io_stOut.Status.Overflow OR
-	    #io_stOut.Status.ConfigError;
-	    
+	                        #io_stOut.Status.Overflow OR
+	                        #io_stOut.Status.ConfigError;
+	                    
 END_FUNCTION_BLOCK
 

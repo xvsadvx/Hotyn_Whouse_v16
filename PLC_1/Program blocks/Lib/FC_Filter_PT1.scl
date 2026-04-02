@@ -1,6 +1,9 @@
 ﻿FUNCTION "FC_Filter_PT1" : Void
 { S7_Optimized_Access := 'FALSE' }
-VERSION : 0.1
+VERSION : 1.3
+// ==========================================
+// МАТЕМАТИКА: ФИЛЬТР ЭКСПОНЕНЦИАЛЬНОГО СГЛАЖИВАНИЯ (PT1)
+// ==========================================
    VAR_INPUT 
       i_rRawValue : Real;
       i_rTimeFilter_ms : Real;
@@ -18,19 +21,29 @@ VERSION : 0.1
 
 
 BEGIN
+	#temp_rCycleTime_ms := "getCycleTime"();
 	
-	IF #i_boReset THEN
+	//Защита
+	// -Ресет фильтра
+	// -Защита от системного сбоя (если ПЛК выдал dt <= 0)
+	// -Умный Safe State (по правилу Найквиста)
+	//    Если заданное время фильтра меньше половины цикла ПЛК,
+	//    фильтрация физически невозможна. Просто пробрасываем сигнал напрямую.
+	IF #i_boReset OR #temp_rCycleTime_ms <= 0.000001 OR #i_rTimeFilter_ms < (#temp_rCycleTime_ms / 2.0) THEN
 	    #io_rFilteredValue := #i_rRawValue;
 	    RETURN;
 	END_IF;
-	#temp_rCycleTime_ms := "getCycleTime"();
-	IF #temp_rCycleTime_ms <= 0.000001 THEN
+	
+	IF #i_rTimeFilter_ms < 50.0 THEN
+	    #temp_rAlpha := 1.0;
+	    #io_rFilteredValue := #i_rRawValue;
 	    RETURN;
 	END_IF;
+	
+	
+	// 3. Математика PT1
 	#temp_rAlpha := #temp_rCycleTime_ms / (#i_rTimeFilter_ms + #temp_rCycleTime_ms);
 	#io_rFilteredValue := #io_rFilteredValue + #temp_rAlpha * (#i_rRawValue - #io_rFilteredValue);
-	
-	
 	
 END_FUNCTION
 

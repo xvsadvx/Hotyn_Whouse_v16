@@ -28,14 +28,26 @@ VERSION : 1.2
 
    VAR_TEMP 
       temp_FilterTime : Time;
+      temp_boDisabled : Bool;
+      temp_boNorm : Bool;
+      temp_boInvert : Bool;
    END_VAR
 
 
 BEGIN
+	    
+	    #temp_boDisabled := #io_stConfig.Mode = 3;
+	    
+	    IF #temp_boDisabled THEN
+	        #stat_Mode := 0;
+	        RETURN;
+	    END_IF;
+	    
 	    // =========================================================
 	    // 1. ПРОВЕРКА РЕЖИМА И ПРЕОБРАЗОВАНИЕ ВРЕМЕНИ
 	    // =========================================================
-	    IF #io_stConfig.Mode > 2 OR #io_stConfig.Mode < 0 THEN
+	    
+	    IF #stat_Mode < 0 OR #stat_Mode > 2 THEN
 	        #stat_Mode := 0;
 	    ELSE
 	        #stat_Mode := #io_stConfig.Mode;

@@ -1,4 +1,4 @@
-FUNCTION "FC_Wh_MOL_Mng" : Void
+﻿FUNCTION "FC_Wh_MOL_Mng" : Void
 { S7_Optimized_Access := 'FALSE' }
 VERSION : 0.1
    VAR_TEMP 
@@ -8,73 +8,73 @@ VERSION : 0.1
 
 BEGIN
 	// ---------------------------------------------------------------
-	// Склад: МОЛОЧНЫЕ (MOL) — 12 баков
+	// Склад: Молдавский (MOL) — 12 баков
 	// ---------------------------------------------------------------
 	
-	"iDB_MOL_Tank_Log_1"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_1,
+	"iDB_MOL_Tank_Log_1"(i_iRaw_AI:= "DB_IO_MAP".AI_MOL_Tank_1,
 	                     i_rRaw_Siwa := 0.0,
-	                     i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_1,
-	                     io_Tank     := "DB_Wh_MOL".Tank[1]);
+	                     i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_1,
+	                     io_Tank := "DB_Wh_MOL".Tank[1]);
 	
-	"iDB_MOL_Tank_Log_2"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_2,
+	"iDB_MOL_Tank_Log_2"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_2,
 	                     i_rRaw_Siwa := 0.0,
-	                     i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_2,
-	                     io_Tank     := "DB_Wh_MOL".Tank[2]);
+	                     i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_2,
+	                     io_Tank := "DB_Wh_MOL".Tank[2]);
 	
-	"iDB_MOL_Tank_Log_3"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_3,
+	"iDB_MOL_Tank_Log_3"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_3,
 	                     i_rRaw_Siwa := 0.0,
-	                     i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_3,
-	                     io_Tank     := "DB_Wh_MOL".Tank[3]);
+	                     i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_3,
+	                     io_Tank := "DB_Wh_MOL".Tank[3]);
 	
-	"iDB_MOL_Tank_Log_4"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_4,
+	"iDB_MOL_Tank_Log_4"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_4,
 	                     i_rRaw_Siwa := 0.0,
-	                     i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_4,
-	                     io_Tank     := "DB_Wh_MOL".Tank[4]);
+	                     i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_4,
+	                     io_Tank := "DB_Wh_MOL".Tank[4]);
 	
-	"iDB_MOL_Tank_Log_5"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_5,
+	"iDB_MOL_Tank_Log_5"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_5,
 	                     i_rRaw_Siwa := 0.0,
-	                     i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_5,
-	                     io_Tank     := "DB_Wh_MOL".Tank[5]);
+	                     i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_5,
+	                     io_Tank := "DB_Wh_MOL".Tank[5]);
 	
-	"iDB_MOL_Tank_Log_6"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_6,
+	"iDB_MOL_Tank_Log_6"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_6,
 	                     i_rRaw_Siwa := 0.0,
-	                     i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_6,
-	                     io_Tank     := "DB_Wh_MOL".Tank[6]);
+	                     i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_6,
+	                     io_Tank := "DB_Wh_MOL".Tank[6]);
 	
-	"iDB_MOL_Tank_Log_7"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_7,
+	"iDB_MOL_Tank_Log_7"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_7,
 	                     i_rRaw_Siwa := 0.0,
-	                     i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_7,
-	                     io_Tank     := "DB_Wh_MOL".Tank[7]);
+	                     i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_7,
+	                     io_Tank := "DB_Wh_MOL".Tank[7]);
 	
-	"iDB_MOL_Tank_Log_8"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_8,
+	"iDB_MOL_Tank_Log_8"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_8,
 	                     i_rRaw_Siwa := 0.0,
-	                     i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_8,
-	                     io_Tank     := "DB_Wh_MOL".Tank[8]);
+	                     i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_8,
+	                     io_Tank := "DB_Wh_MOL".Tank[8]);
 	
-	"iDB_MOL_Tank_Log_9"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_9,
+	"iDB_MOL_Tank_Log_9"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_9,
 	                     i_rRaw_Siwa := 0.0,
-	                     i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_9,
-	                     io_Tank     := "DB_Wh_MOL".Tank[9]);
+	                     i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_9,
+	                     io_Tank := "DB_Wh_MOL".Tank[9]);
 	
-	"iDB_MOL_Tank_Log_10"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_10,
+	"iDB_MOL_Tank_Log_10"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_10,
 	                      i_rRaw_Siwa := 0.0,
-	                      i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_10,
-	                      io_Tank     := "DB_Wh_MOL".Tank[10]);
+	                      i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_10,
+	                      io_Tank := "DB_Wh_MOL".Tank[10]);
 	
-	"iDB_MOL_Tank_Log_11"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_11,
+	"iDB_MOL_Tank_Log_11"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_11,
 	                      i_rRaw_Siwa := 0.0,
-	                      i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_11,
-	                      io_Tank     := "DB_Wh_MOL".Tank[11]);
+	                      i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_11,
+	                      io_Tank := "DB_Wh_MOL".Tank[11]);
 	
-	"iDB_MOL_Tank_Log_12"(i_iRaw_AI  := "DB_IO_MAP".AI_MOL_Tank_12,
+	"iDB_MOL_Tank_Log_12"(i_iRaw_AI := "DB_IO_MAP".AI_MOL_Tank_12,
 	                      i_rRaw_Siwa := 0.0,
-	                      i_boRaw_DI  := "DB_IO_MAP".DI_MOL_Tank_12,
-	                      io_Tank     := "DB_Wh_MOL".Tank[12]);
+	                      i_boRaw_DI := "DB_IO_MAP".DI_MOL_Tank_12,
+	                      io_Tank := "DB_Wh_MOL".Tank[12]);
 	
 	// HMI маппинг
 	FOR #temp_Ind := 1 TO 12 DO
 	    "FC_Map_SmallTank_HMI"(i_Tank_Internal := "DB_Wh_MOL".Tank[#temp_Ind],
-	                           io_HMI_Tank     := "DB_MAP".HMI_MOL_SmalTank[#temp_Ind]);
+	                           io_HMI_Tank := "DB_MAP".HMI_MOL_SmalTank[#temp_Ind]);
 	END_FOR;
-	
 END_FUNCTION
+

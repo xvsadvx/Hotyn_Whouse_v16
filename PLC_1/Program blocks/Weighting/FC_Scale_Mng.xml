@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V16" />
   <DocumentInfo>
-    <Created>2026-04-01T13:25:14.3032891Z</Created>
+    <Created>2026-04-02T14:56:58.1721838Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -1220,40 +1220,18 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
   <Parts>
-    <Access Scope="GlobalVariable" UId="21">
-      <Symbol>
-        <Component Name="DBl_SCALE_CS_1" />
-        <Component Name="Data" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="DB_MAP" />
-        <Component Name="Scale_CS_1" />
-      </Symbol>
-    </Access>
-    <Call UId="23">
+    <Call UId="21">
       <CallInfo Name="FB_Map_Siwarex_Core" BlockType="FB">
-        <Instance Scope="GlobalVariable" UId="24">
+        <Instance Scope="GlobalVariable" UId="22">
           <Component Name="iFB_Map_Siwarex_Core" />
         </Instance>
-        <Parameter Name="io_Scale_DB" Section="InOut" Type="&quot;UDT_SIWA_CS&quot;" />
-        <Parameter Name="io_Core" Section="InOut" Type="&quot;UDT_Siwarex_Core&quot;" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="26">
-      <OpenCon UId="25" />
-      <NameCon UId="23" Name="en" />
-    </Wire>
-    <Wire UId="27">
-      <IdentCon UId="21" />
-      <NameCon UId="23" Name="io_Scale_DB" />
-    </Wire>
-    <Wire UId="28">
-      <IdentCon UId="22" />
-      <NameCon UId="23" Name="io_Core" />
+    <Wire UId="24">
+      <OpenCon UId="23" />
+      <NameCon UId="21" Name="en" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -1306,163 +1284,21 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="44" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v4">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="21">
-      <Symbol>
-        <Component Name="DBl_SCALE_CS_2" />
-        <Component Name="Data" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="DB_MAP" />
-        <Component Name="Scale_CS_2" />
-      </Symbol>
-    </Access>
-    <Call UId="23">
-      <CallInfo Name="FB_Map_Siwarex_Core" BlockType="FB">
-        <Instance Scope="GlobalVariable" UId="24">
-          <Component Name="iFB_Map_Siwarex_Core" />
-        </Instance>
-        <Parameter Name="io_Scale_DB" Section="InOut" Type="&quot;UDT_SIWA_CS&quot;" />
-        <Parameter Name="io_Core" Section="InOut" Type="&quot;UDT_Siwarex_Core&quot;" />
-      </CallInfo>
-    </Call>
-  </Parts>
-  <Wires>
-    <Wire UId="26">
-      <OpenCon UId="25" />
-      <NameCon UId="23" Name="en" />
-    </Wire>
-    <Wire UId="27">
-      <IdentCon UId="21" />
-      <NameCon UId="23" Name="io_Scale_DB" />
-    </Wire>
-    <Wire UId="28">
-      <IdentCon UId="22" />
-      <NameCon UId="23" Name="io_Core" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>FBD</ProgrammingLanguage>
-        </AttributeList>
+      <MultilingualText ID="44" CompositionName="Title">
         <ObjectList>
-          <MultilingualText ID="45" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="46" CompositionName="Items">
-                <AttributeList>
-                  <Culture>ru-RU</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="47" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-IE</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="48" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="49" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="4A" CompositionName="Items">
-                <AttributeList>
-                  <Culture>ru-RU</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="4B" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-IE</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="4C" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="4D" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource />
-          <ProgrammingLanguage>FBD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="4E" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="4F" CompositionName="Items">
-                <AttributeList>
-                  <Culture>ru-RU</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="50" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-IE</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="51" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="52" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="53" CompositionName="Items">
-                <AttributeList>
-                  <Culture>ru-RU</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="54" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-IE</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="55" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <MultilingualText ID="56" CompositionName="Title">
-        <ObjectList>
-          <MultilingualTextItem ID="57" CompositionName="Items">
+          <MultilingualTextItem ID="45" CompositionName="Items">
             <AttributeList>
               <Culture>ru-RU</Culture>
               <Text />
             </AttributeList>
           </MultilingualTextItem>
-          <MultilingualTextItem ID="58" CompositionName="Items">
+          <MultilingualTextItem ID="46" CompositionName="Items">
             <AttributeList>
               <Culture>en-IE</Culture>
               <Text />
             </AttributeList>
           </MultilingualTextItem>
-          <MultilingualTextItem ID="59" CompositionName="Items">
+          <MultilingualTextItem ID="47" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text />

@@ -23,69 +23,65 @@ VERSION : 1.2
 
    VAR_TEMP 
       temp_Tank : "UDT_Tank_Full";
-      temp_rCalcInput : Real;
       temp_boIsSiwa : Bool;
       temp_boInhibitAI : Bool;
+      temp_ResetError : Bool;
    END_VAR
 
 
 BEGIN
 	#temp_Tank := #io_Tank;
-	(*
+	
 	// 0. ПРОВЕРКА НАЛИЧИЯ (Is_Present)
-	// Если датчик не установлен в конфиге - не мучаем контроллер расчетами
-	IF NOT #temp_Tank.DI_Conf.Is_Present AND NOT #temp_Tank.AI_Conf.Is_Present THEN
+	// Если датчик не установлен в конфиге - не мучаем контроллер расчетами (DI_Conf.Mode = 3 канал отключен, AI_Conf.Mode - первый бит канал отключен)
+	IF (#temp_Tank.DI_Conf.Mode = 3) AND ((#temp_Tank.AI_Conf.Mode AND 16#0001) = 16#0001) THEN
 	    RETURN;
 	END_IF;
-	*)
 	
 	// 1. ОБРАБОТКА АНАЛОГОВОГО КАНАЛА
-	// Вызываем твой блок масштабирования (всегда, т.к. там фильтрация)
-	#stat_AI(i_iRawSignal := #i_iRaw_AI,
-	         io_stConfig  := #temp_Tank.AI_Conf,
-	         io_stOut     := #temp_Tank.AI_Out,
-	         i_rSimValue  := 0.0);
 	
+	#stat_AI(i_iRawSignal := #i_iRaw_AI,
+	         io_stConfig := #temp_Tank.AI_Conf,
+	         io_stOut := #temp_Tank.AI_Out,
+	         i_rSimValue := #i_rRaw_Siwa);
+	
+	
+	// 2. ВЫЗОВ МАТЕМАТИКИ
 	// Определяем источник (Бит 16#0020 в Mode)
 	#temp_boIsSiwa := (#temp_Tank.AI_Conf.Mode AND 16#0020) = 16#0020;
 	
-	IF #temp_boIsSiwa THEN
-	    #temp_rCalcInput := #i_rRaw_Siwa;
-	ELSE
-	    #temp_rCalcInput := #temp_Tank.AI_Out.Value_Filtered;
-	END_IF;
-	
-	// 2. ВЫЗОВ МАТЕМАТИКИ
-	"FC_Tank_Calc"(i_rValue  := #temp_rCalcInput,
+	"FC_Tank_Calc"(i_rValue := #temp_Tank.AI_Out.Value_Filtered,
 	               i_boIsSiwa := #temp_boIsSiwa,
-	               io_Geom   := #temp_Tank.Geom,
-	               iq_Calc   := #temp_Tank.Calc);
+	               io_Geom := #temp_Tank.Geom,
+	               iq_Calc := #temp_Tank.Calc);
 	
 	// 3. АВАРИИ ПО УРОВНЮ (AI)
 	// Глушим алармы AI при аппаратных ошибках (Inhibit)
 	#temp_boInhibitAI := #temp_Tank.AI_Out.Status.WireBreak OR
-	#temp_Tank.AI_Out.Status.Overflow OR
-	#temp_Tank.AI_Out.Status.ConfigError;
-	
-	#stat_AI_Alarm(i_rValue    := #temp_Tank.AI_Out.Value_Filtered, // Алармы всегда по %
-	               i_boReset   := #temp_Tank.Cmd.ResetError,
+	                    #temp_Tank.AI_Out.Status.Overflow OR
+	                    #temp_Tank.AI_Out.Status.ConfigError;
+	                    
+	#temp_ResetError := #temp_Tank.Cmd.ResetError;
+	#temp_Tank.Cmd.ResetError := FALSE;
+	#stat_AI_Alarm(i_rValue := #temp_Tank.AI_Out.Value_Filtered,
+	               i_boReset := #temp_ResetError,
 	               i_boInhibit := #temp_boInhibitAI,
 	               io_stConfig := #temp_Tank.AI_Alarm_Conf,
-	               io_stOut    := #temp_Tank.AI_Alarm);
+	               io_stOut := #temp_Tank.AI_Alarm);
+	
 	
 	// 4. ОБРАБОТКА ДАТЧИКА ВЕРХНЕГО УРОВНЯ (DI)
 	// Чистим дребезг
-	#stat_DI(i_boRaw     := #i_boRaw_DI,
+	#stat_DI(i_boRaw := #i_boRaw_DI,
 	         io_stConfig := #temp_Tank.DI_Conf,
-	         io_stOut    := #temp_Tank.DI_Out);
+	         io_stOut := #temp_Tank.DI_Out);
 	
 	// Логика аварии ВУ (независима от AI)
-	#stat_DI_Alarm(i_boSignal  := #temp_Tank.DI_Out.Value,
-	               i_boReset   := #temp_Tank.Cmd.ResetError,
+	#stat_DI_Alarm(i_boSignal := #temp_Tank.DI_Out.Value,
+	               i_boReset := #temp_ResetError,
 	               i_boInhibit := FALSE,//temp_Tank.DI_Alarm_Conf.Inhibit_Manual,
 	               io_stConfig := #temp_Tank.DI_Alarm_Conf,
-	               io_stOut    := #temp_Tank.DI_Alarm);
-	
+	               io_stOut := #temp_Tank.DI_Alarm);
 	#io_Tank := #temp_Tank;
 	
 END_FUNCTION_BLOCK

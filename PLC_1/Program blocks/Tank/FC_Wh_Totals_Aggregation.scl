@@ -1,0 +1,34 @@
+﻿FUNCTION "FC_Wh_Totals_Aggregation" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_IN_OUT 
+      io_Tanks : "UDT_HMI_SmallTank";
+      io_Whouse : "UDT_HMI_Whouse";
+   END_VAR
+
+   VAR_TEMP 
+      temp_AnyAlarm : Bool;
+   END_VAR
+
+
+BEGIN
+	        // Агрегация объемов и весов
+	        #io_Whouse.Total_Volume_m3 := #io_Whouse.Total_Volume_m3 + #io_Tanks.Volume_m3; 
+	        #io_Whouse.Total_Weight_t := #io_Whouse.Total_Weight_t + #io_Tanks.Weight_t; 
+	        
+	        // Проверка наличия аварий в танке (HH, H, L, LL или DI) 
+	        IF #io_Tanks.Status_Alarms.HH OR
+	            #io_Tanks.Status_Alarms.H OR
+	            #io_Tanks.Status_Alarms.L OR
+	            #io_Tanks.Status_Alarms.LL OR
+	            #io_Tanks.Status_Alarms.DI
+	        THEN
+	            #io_Whouse.Tanks_In_Alarm := #io_Whouse.Tanks_In_Alarm + 1;
+	        END_IF;
+	        
+	        // Трансляция глобальной команды "Сброс всех аварий" [cite: 56, 82]
+	        IF #io_Whouse.Cmd_Word.Reset_All THEN
+	            #io_Tanks.Cmd.Reset := TRUE;
+	        END_IF;
+END_FUNCTION
+

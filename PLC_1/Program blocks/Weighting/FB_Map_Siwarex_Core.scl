@@ -8,13 +8,13 @@ VERSION : 1.4
 // Описание: Адаптированный маппинг из UDT_SIWA_CS. Обработка раздельных кодов 
 //           ошибок (модуля и драйвера). Встроенный таймер Watchdog в STAT.
 // ==============================================================================
-   VAR_IN_OUT 
-      io_Scale_DB : "UDT_SIWA_CS";   // Системный интерфейс Siwarex CS
-      io_Core : "UDT_Siwarex_Core";   // Плоская структура
-   END_VAR
-
    VAR 
-      stat_Diag : Struct   // Внутренняя память для Watchdog
+      stat_Diag_CS_1 : Struct   // Внутренняя память для Watchdog
+         Old_Count : Byte;
+         Old_Weight : Real;
+         Last_Change_ms : Real;
+      END_STRUCT;
+      stat_Diag_CS_2 : Struct   // Внутренняя память для Watchdog
          Old_Count : Byte;
          Old_Weight : Real;
          Last_Change_ms : Real;
@@ -29,41 +29,80 @@ VERSION : 1.4
 
 BEGIN
 	    // 1. Веса
-	    #io_Core.Weight_Gross_kg := INT_TO_REAL(#io_Scale_DB.s_PROCESS_VALUES.i_GROSS_WEIGHT_PROC);
-	    #io_Core.Weight_Net_kg := INT_TO_REAL(#io_Scale_DB.s_PROCESS_VALUES.i_NET_WEIGHT_PROC);
-	    #io_Core.Weight_Tare_kg := INT_TO_REAL(#io_Scale_DB.s_PROCESS_VALUES.i_TARE_WEIGHT_PROC);
+	    "DB_MAP".Scale_CS_1.Weight_Gross_kg := INT_TO_REAL("DB_SCALE_CS_1".s_PROCESS_VALUES.i_GROSS_WEIGHT_PROC);
+	    "DB_MAP".Scale_CS_1.Weight_Net_kg := INT_TO_REAL("DB_SCALE_CS_1".s_PROCESS_VALUES.i_NET_WEIGHT_PROC);
+	    "DB_MAP".Scale_CS_1.Weight_Tare_kg := INT_TO_REAL("DB_SCALE_CS_1".s_PROCESS_VALUES.i_TARE_WEIGHT_PROC);
 	    
 	    // 2. Диагностика (Коды ошибок) - извлекаем типы Byte в Int
 	    // Операционная ошибка
-	    #io_Core.Error_Op_Msg := BYTE_TO_INT(#io_Scale_DB.s_PROCESS_VALUES.b_OPR_ERR_MSG);
+	    "DB_MAP".Scale_CS_1.Error_Op_Msg := BYTE_TO_INT("DB_SCALE_CS_1".s_PROCESS_VALUES.b_OPR_ERR_MSG);
 	    // Ошибка драйвера
-	    #io_Core.Error_FB_Code := BYTE_TO_INT(#io_Scale_DB.b_FB_ERR_CODE);
+	    "DB_MAP".Scale_CS_1.Error_FB_Code := BYTE_TO_INT("DB_SCALE_CS_1".b_FB_ERR_CODE);
 	    
 	    // 3. Диагностика (Биты)
-	    #io_Core.Status.Standstill := #io_Scale_DB.s_PROCESS_VALUES.bo_STA_ST_STAND_SCALE_ON;
-	    #io_Core.Status.Limit_1 := #io_Scale_DB.s_PROCESS_VALUES.bo_STA_LIMIT1_ON;
-	    #io_Core.Status.Limit_2 := #io_Scale_DB.s_PROCESS_VALUES.bo_STA_LIMIT2_ON;
-	    #io_Core.Status.Fault_HW := #io_Scale_DB.s_PROCESS_VALUES.bo_STA_ERROR_ON;
-	    #io_Core.Status.Limit_Max := #io_Scale_DB.s_PROCESS_VALUES.bo_STA_MAX_9E;
-	    #io_Core.Status.Fault_FB := #io_Scale_DB.bo_FB_ERR; // Флаг ошибки FB
+	    "DB_MAP".Scale_CS_1.Status.Standstill := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_ST_STAND_SCALE_ON;
+	    "DB_MAP".Scale_CS_1.Status.Limit_1 := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_LIMIT1_ON;
+	    "DB_MAP".Scale_CS_1.Status.Limit_2 := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_LIMIT2_ON;
+	    "DB_MAP".Scale_CS_1.Status.Fault_HW := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_ERROR_ON;
+	    "DB_MAP".Scale_CS_1.Status.Limit_Max := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_MAX_9E;
+	    "DB_MAP".Scale_CS_1.Status.Fault_FB := "DB_SCALE_CS_1".bo_FB_ERR; // Флаг ошибки FB
+	    
 	    
 	    // 4. Логика Watchdog (Контроль зависания)
-	    #temp_Value_Changed := (#io_Core.Weight_Net_kg <> #stat_Diag.Old_Weight);
-	    #temp_Counter_Changed := (#io_Scale_DB.b_INFO_REFRESH_COUNT <> #stat_Diag.Old_Count);
+	    #temp_Value_Changed := ("DB_MAP".Scale_CS_1.Weight_Net_kg <> #stat_Diag_CS_1.Old_Weight);
+	    #temp_Counter_Changed := ("DB_SCALE_CS_1".b_INFO_REFRESH_COUNT <> #stat_Diag_CS_1.Old_Count);
 	    
 	    IF #temp_Value_Changed OR #temp_Counter_Changed THEN
-	        #stat_Diag.Last_Change_ms := 0.0;
-	        #stat_Diag.Old_Weight := #io_Core.Weight_Net_kg;
-	        #stat_Diag.Old_Count := #io_Scale_DB.b_INFO_REFRESH_COUNT;
-	        #io_Core.Status.Comm_Fault := FALSE;
+	        #stat_Diag_CS_1.Last_Change_ms := 0.0;
+	        #stat_Diag_CS_1.Old_Weight := "DB_MAP".Scale_CS_1.Weight_Net_kg;
+	        #stat_Diag_CS_1.Old_Count := "DB_SCALE_CS_1".b_INFO_REFRESH_COUNT;
+	        "DB_MAP".Scale_CS_1.Status.Comm_Fault := FALSE;
 	    ELSE
-	        #stat_Diag.Last_Change_ms := #stat_Diag.Last_Change_ms + "getCycleTime"();
+	        #stat_Diag_CS_1.Last_Change_ms := #stat_Diag_CS_1.Last_Change_ms + "getCycleTime"();
 	    END_IF;
 	    
-	    IF #stat_Diag.Last_Change_ms > 5000.0 THEN
-	        #io_Core.Status.Comm_Fault := TRUE;
+	    IF #stat_Diag_CS_1.Last_Change_ms > 5000.0 THEN
+	        "DB_MAP".Scale_CS_1.Status.Comm_Fault := TRUE;
 	    END_IF;
 	    
+	    
+	    
+	    
+	    // 1. Веса
+	    "DB_MAP".Scale_CS_2.Weight_Gross_kg := INT_TO_REAL("DB_SCALE_CS_2".s_PROCESS_VALUES.i_GROSS_WEIGHT_PROC);
+	    "DB_MAP".Scale_CS_2.Weight_Net_kg := INT_TO_REAL("DB_SCALE_CS_2".s_PROCESS_VALUES.i_NET_WEIGHT_PROC);
+	    "DB_MAP".Scale_CS_2.Weight_Tare_kg := INT_TO_REAL("DB_SCALE_CS_2".s_PROCESS_VALUES.i_TARE_WEIGHT_PROC);
+	    
+	    // 2. Диагностика (Коды ошибок) - извлекаем типы Byte в Int
+	    // Операционная ошибка
+	    "DB_MAP".Scale_CS_2.Error_Op_Msg := BYTE_TO_INT("DB_SCALE_CS_2".s_PROCESS_VALUES.b_OPR_ERR_MSG);
+	    // Ошибка драйвера
+	    "DB_MAP".Scale_CS_2.Error_FB_Code := BYTE_TO_INT("DB_SCALE_CS_2".b_FB_ERR_CODE);
+	    
+	    // 3. Диагностика (Биты)
+	    "DB_MAP".Scale_CS_2.Status.Standstill := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_ST_STAND_SCALE_ON;
+	    "DB_MAP".Scale_CS_2.Status.Limit_1 := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_LIMIT1_ON;
+	    "DB_MAP".Scale_CS_2.Status.Limit_2 := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_LIMIT2_ON;
+	    "DB_MAP".Scale_CS_2.Status.Fault_HW := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_ERROR_ON;
+	    "DB_MAP".Scale_CS_2.Status.Limit_Max := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_MAX_9E;
+	    "DB_MAP".Scale_CS_2.Status.Fault_FB := "DB_SCALE_CS_2".bo_FB_ERR; // Флаг ошибки FB
+	    
+	    // 4. Логика Watchdog (Контроль зависания)
+	    #temp_Value_Changed := ("DB_MAP".Scale_CS_2.Weight_Net_kg <> #stat_Diag_CS_2.Old_Weight);
+	    #temp_Counter_Changed := ("DB_SCALE_CS_2".b_INFO_REFRESH_COUNT <> #stat_Diag_CS_2.Old_Count);
+	    
+	    IF #temp_Value_Changed OR #temp_Counter_Changed THEN
+	        #stat_Diag_CS_2.Last_Change_ms := 0.0;
+	        #stat_Diag_CS_2.Old_Weight := "DB_MAP".Scale_CS_2.Weight_Net_kg;
+	        #stat_Diag_CS_2.Old_Count := "DB_SCALE_CS_2".b_INFO_REFRESH_COUNT;
+	        "DB_MAP".Scale_CS_2.Status.Comm_Fault := FALSE;
+	    ELSE
+	        #stat_Diag_CS_2.Last_Change_ms := #stat_Diag_CS_2.Last_Change_ms + "getCycleTime"();
+	    END_IF;
+	    
+	    IF #stat_Diag_CS_2.Last_Change_ms > 5000.0 THEN
+	        "DB_MAP".Scale_CS_2.Status.Comm_Fault := TRUE;
+	    END_IF;
 	    
 END_FUNCTION_BLOCK
 
