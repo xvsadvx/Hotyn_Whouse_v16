@@ -8,7 +8,7 @@ VERSION : 0.1
 
 BEGIN
 	// ---------------------------------------------------------------
-	// Склад: Болгарский (BUL) — 4 бака
+	// Склад: Болгарский (BUL) — 4 танка
 	// ---------------------------------------------------------------
 	
 	"iDB_BUL_Tank_Log_1"(i_iRaw_AI := "DB_IO_MAP".AI_BUL_Tank_1,
@@ -32,7 +32,7 @@ BEGIN
 	                     io_Tank := "DB_Wh_BUL".Tank[4]);
 	
 	// HMI маппинг
-	FOR #temp_Ind := 1 TO 4 DO
+	FOR #temp_Ind := 1 TO "c_Count_BUL" DO
 	    "FC_Map_SmallTank_HMI"(i_Tank_Internal := "DB_Wh_BUL".Tank[#temp_Ind],
 	                           io_HMI_Tank := "DB_MAP".HMI_BUL_SmalTank[#temp_Ind]);
 	END_FOR;

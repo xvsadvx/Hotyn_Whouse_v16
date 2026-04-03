@@ -8,7 +8,7 @@ VERSION : 0.1
 
 BEGIN
 	// ---------------------------------------------------------------
-	// Склад: Польский (POL) — 10 баков
+	// Склад: Польский (POL) — 10 танков
 	// ---------------------------------------------------------------
 	
 	"iDB_POL_Tank_Log_1"(i_iRaw_AI := "DB_IO_MAP".AI_POL_Tank_1,
@@ -62,7 +62,7 @@ BEGIN
 	                      io_Tank := "DB_Wh_POL".Tank[10]);
 	
 	// HMI маппинг
-	FOR #temp_Ind := 1 TO 10 DO
+	FOR #temp_Ind := 1 TO "c_Count_POL" DO
 	    "FC_Map_SmallTank_HMI"(i_Tank_Internal := "DB_Wh_POL".Tank[#temp_Ind],
 	                           io_HMI_Tank := "DB_MAP".HMI_POL_SmalTank[#temp_Ind]);
 	END_FOR;
