@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V16" />
   <DocumentInfo>
-    <Created>2026-04-02T14:56:55.2811285Z</Created>
+    <Created>2026-04-03T07:38:35.4122171Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -675,177 +675,21 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="4D" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource />
-          <ProgrammingLanguage>FBD</ProgrammingLanguage>
-        </AttributeList>
+      <MultilingualText ID="4D" CompositionName="Title">
         <ObjectList>
-          <MultilingualText ID="4E" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="4F" CompositionName="Items">
-                <AttributeList>
-                  <Culture>ru-RU</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="50" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-IE</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="51" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="52" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="53" CompositionName="Items">
-                <AttributeList>
-                  <Culture>ru-RU</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="54" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-IE</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="55" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="56" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource />
-          <ProgrammingLanguage>FBD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="57" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="58" CompositionName="Items">
-                <AttributeList>
-                  <Culture>ru-RU</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="59" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-IE</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="5A" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="5B" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="5C" CompositionName="Items">
-                <AttributeList>
-                  <Culture>ru-RU</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="5D" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-IE</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="5E" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="5F" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource />
-          <ProgrammingLanguage>FBD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="60" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="61" CompositionName="Items">
-                <AttributeList>
-                  <Culture>ru-RU</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="62" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-IE</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="63" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="64" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="65" CompositionName="Items">
-                <AttributeList>
-                  <Culture>ru-RU</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="66" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-IE</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-              <MultilingualTextItem ID="67" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <MultilingualText ID="68" CompositionName="Title">
-        <ObjectList>
-          <MultilingualTextItem ID="69" CompositionName="Items">
+          <MultilingualTextItem ID="4E" CompositionName="Items">
             <AttributeList>
               <Culture>ru-RU</Culture>
               <Text>"Main Program Sweep (Cycle)"</Text>
             </AttributeList>
           </MultilingualTextItem>
-          <MultilingualTextItem ID="6A" CompositionName="Items">
+          <MultilingualTextItem ID="4F" CompositionName="Items">
             <AttributeList>
               <Culture>en-IE</Culture>
               <Text>"Main Program Sweep (Cycle)"</Text>
             </AttributeList>
           </MultilingualTextItem>
-          <MultilingualTextItem ID="6B" CompositionName="Items">
+          <MultilingualTextItem ID="50" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>"Main Program Sweep (Cycle)"</Text>

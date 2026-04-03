@@ -1,0 +1,87 @@
+﻿FUNCTION "FC_Scale_Mng" : Void
+TITLE = Весовые модули Siwarex CS — Оркестратор
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : S7C
+FAMILY : Weight
+VERSION : 2.0
+// ==============================================================================
+// Описание: Управляет двумя весовыми модулями Siwarex CS (Tank 2 и Tank 3 на TRN).
+//
+// Структура вызовов (на каждый модуль):
+//   Сеть 1: SICS_DR      — системный FB Siemens, драйвер Siwarex (не трогать!)
+//   Сеть 2: FC_Scale_HMI_Cmd — обработка кнопок оператора (Zero/Tare/DeleteTare)
+//   Сеть 3: FC_Scale_Cmd_Mng — очередь команд (Task1=HMI > Task2 > Task3=Poll)
+//
+// Циклический опрос DR30 (чтение весов) — вынесен в OB35 через FC_Weighing_Poll.
+//
+// Адреса модулей (ADDR):
+//   CS_1: ADDR=260, DB_SCALE=21, DB_VECTOR=60
+//   CS_2: ADDR=280, DB_SCALE=62, DB_VECTOR=63
+// ==============================================================================
+
+BEGIN
+	// ============================================================
+	// МОДУЛЬ CS_1 (Вызов инстансов)
+	// ============================================================
+	"FC_Scale_Instance"();
+	
+	// ============================================================
+	// МОДУЛЬ CS_1 (Танк TRN-2, тензодатчик)
+	// ============================================================
+	
+	// Шаг 1: Кнопки HMI → формирование задачи в слот CMD1
+	"FC_Scale_HMI_Cmd"(
+	                   i_boIsStable := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_ST_STAND_SCALE_ON,
+	                   i_boIsTared := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_TARED,
+	                   io_boHMI_Zero := "DB_MAP".Scale_CS_1.Cmd.Zero,
+	                   io_boHMI_Tare := "DB_MAP".Scale_CS_1.Cmd.Tare,
+	                   io_boHMI_DeleteTare := "DB_MAP".Scale_CS_1.Cmd.DeleteTare,
+	                   io_stCmdSlot := "DB_SCALE_CS_1".s_CMD1
+	);
+	
+	// Шаг 2: Диспетчер очереди → выдаёт команду в модуль
+	"FC_Scale_Cmd_Mng"(
+	                   i_boFinishedOk := "DB_SCALE_CS_1".bo_CMD_FINISHED_OK,
+	                   i_boErr := "DB_SCALE_CS_1".bo_CMD_ERR,
+	                   io_iCmdInput := "DB_SCALE_CS_1".i_CMD_INPUT,
+	                   io_boEnable := "DB_SCALE_CS_1".bo_CMD_TRIGGER,
+	                   io_boAnyInProgress := "DB_SCALE_CS_1".bo_CMD_IN_PROGRESS,
+	                   io_stTask1 := "DB_SCALE_CS_1".s_CMD1,
+	                   io_stTask2 := "DB_SCALE_CS_1".s_CMD2,
+	                   io_stTask3 := "DB_SCALE_CS_1".s_CMD3
+	);
+	
+	// ============================================================
+	// МОДУЛЬ CS_2 (Танк TRN-3, тензодатчик)
+	// ============================================================
+	
+	// Шаг 1: Кнопки HMI → формирование задачи в слот CMD1
+	"FC_Scale_HMI_Cmd"(
+	                   i_boIsStable := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_ST_STAND_SCALE_ON,
+	                   i_boIsTared := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_TARED,
+	                   io_boHMI_Zero := "DB_MAP".Scale_CS_2.Cmd.Zero,
+	                   io_boHMI_Tare := "DB_MAP".Scale_CS_2.Cmd.Tare,
+	                   io_boHMI_DeleteTare := "DB_MAP".Scale_CS_2.Cmd.DeleteTare,
+	                   io_stCmdSlot := "DB_SCALE_CS_2".s_CMD1
+	);
+	
+	// Шаг 2: Диспетчер очереди → выдаёт команду в модуль
+	"FC_Scale_Cmd_Mng"(
+	                   i_boFinishedOk := "DB_SCALE_CS_2".bo_CMD_FINISHED_OK,
+	                   i_boErr := "DB_SCALE_CS_2".bo_CMD_ERR,
+	                   io_iCmdInput := "DB_SCALE_CS_2".i_CMD_INPUT,
+	                   io_boEnable := "DB_SCALE_CS_2".bo_CMD_TRIGGER,
+	                   io_boAnyInProgress := "DB_SCALE_CS_2".bo_CMD_IN_PROGRESS,
+	                   io_stTask1 := "DB_SCALE_CS_2".s_CMD1,
+	                   io_stTask2 := "DB_SCALE_CS_2".s_CMD2,
+	                   io_stTask3 := "DB_SCALE_CS_2".s_CMD3
+	);
+	
+	// ============================================================
+	// МАППИНГ → DB_MAP (веса, статусы, Watchdog)
+	// Вызов FB_Map_Siwarex_Core через единственный iDB
+	// ============================================================
+	"iDB_Map_Siwarex_Core"();
+	
+END_FUNCTION
+
