@@ -7,13 +7,13 @@ VERSION : 0.1
       Value_Scaled : Real;   // Физика ПОСЛЕ клампа (ограниченная шкалой)
       Value_Filtered : Real;   // Финальное сглаженное значение (для HMI и алармов)
       Status : Struct
+         Disabled : Bool;   // Выравнивание
          WireBreak : Bool;
          Underrange : Bool;
          Overrange : Bool;
          Overflow : Bool;
          Sim_Active : Bool;
          ConfigError : Bool;
-         Pad_Bit_6 : Bool;   // Выравнивание
          Pad_Bit_7 : Bool;   // Выравнивание
          Pad_Byte : Byte;   // Выравнивание структуры до 1 Word
       END_STRUCT;

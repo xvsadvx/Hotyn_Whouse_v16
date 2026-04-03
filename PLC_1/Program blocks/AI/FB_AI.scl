@@ -1,9 +1,9 @@
 ﻿FUNCTION_BLOCK "FB_AI"
 TITLE = Functional block from AI
 { S7_Optimized_Access := 'FALSE' }
-AUTHOR : Gemini
+AUTHOR : 'SS&AIs'
 FAMILY : Arhive
-VERSION : 8.0
+VERSION : 8.1
 // -----------------------------------------------------------------------------
 // БЛОК ОБРАБОТКИ АНАЛОГОВОГО СИГНАЛА (FB_AI)
 // -----------------------------------------------------------------------------
@@ -53,6 +53,7 @@ BEGIN
 	    #temp_boPreSqrtCut := (#io_stConfig.Mode AND 16#0008) = 16#0008;
 	    #temp_boFinalClamp := (#io_stConfig.Mode AND 16#0010) = 16#0010;
 	    
+	    #io_stOut.Status.Disabled := #temp_boDisabled;
 	    // 0.1 Режим полного отключения канала
 	    IF #temp_boDisabled THEN
 	        #io_stOut.Value_Unclamped := 0.0;
@@ -121,6 +122,7 @@ BEGIN
 	        
 	        #temp_rHWRange := INT_TO_REAL(#io_stConfig.HW_Max) - INT_TO_REAL(#io_stConfig.HW_Min);
 	        
+	        //HW диагностика
 	        #temp_iLimit_Max := REAL_TO_INT(INT_TO_REAL(#io_stConfig.HW_Max) + ("C_DIAG_OVER" * #temp_rHWRange));
 	        #temp_iLimit_Min := REAL_TO_INT(INT_TO_REAL(#io_stConfig.HW_Min) + ("C_DIAG_UNDER" * #temp_rHWRange));
 	        
@@ -128,18 +130,6 @@ BEGIN
 	        #io_stOut.Status.Underrange := (#i_iRawSignal < #io_stConfig.HW_Min) AND (#i_iRawSignal >= #temp_iLimit_Min);
 	        #io_stOut.Status.Overrange := (#i_iRawSignal > #io_stConfig.HW_Max) AND (#i_iRawSignal <= #temp_iLimit_Max);
 	        #io_stOut.Status.Overflow := #i_iRawSignal > #temp_iLimit_Max;
-	        
-	        "FC_AnalogDiag"(
-	                        i_iRawSignal := #i_iRawSignal,
-	                        i_iHW_Min := #io_stConfig.HW_Min,
-	                        i_iHW_Max := #io_stConfig.HW_Max,
-	                        i_rCoef_Under := "C_DIAG_UNDER",
-	                        i_rCoef_Over := "C_DIAG_OVER",
-	                        o_boWireBreak => #io_stOut.Status.WireBreak,
-	                        o_boUnderrange => #io_stOut.Status.Underrange,
-	                        o_boOverrange => #io_stOut.Status.Overrange,
-	                        o_boOverflow => #io_stOut.Status.Overflow
-	        );
 	        
 	        // =========================================================
 	        // ШАГ 3. МАТЕМАТИКА
