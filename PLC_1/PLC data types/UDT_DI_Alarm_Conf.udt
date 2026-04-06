@@ -1,5 +1,5 @@
 ﻿TYPE "UDT_DI_Alarm_Conf"
-VERSION : 0.1
+VERSION : 0.2
 // =============================================================================
 // СТРУКТУРЫ ДЛЯ ДИСКРЕТНОГО АЛАРМА (FB_DI_Alarm)
 // =============================================================================
@@ -13,7 +13,7 @@ VERSION : 0.1
       Pad_Bit_6 { S7_SetPoint := 'True'} : Bool;   // Резерв
       Pad_Bit_7 { S7_SetPoint := 'True'} : Bool;   // Резерв
       Pad_Byte { S7_SetPoint := 'True'} : Byte;   // Выравнивание
-      Delay { S7_SetPoint := 'True'} : Int;   // Задержка срабатывания (в СЕКУНДАХ)
+      Delay { S7_SetPoint := 'True'} : Int := 1;   // Задержка срабатывания (в СЕКУНДАХ)
    END_STRUCT;
 
 END_TYPE

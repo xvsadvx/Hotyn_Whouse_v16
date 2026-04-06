@@ -1,5 +1,5 @@
 ﻿TYPE "UDT_Sys_Info"
-VERSION : 0.1
+VERSION : 0.2
 // ===============================================================
 // Master Project: S7C_Master_AI_Test (S7-300 COMPLIANT)
 // Platform: S7-300 / IM 151-8
@@ -9,8 +9,8 @@ VERSION : 0.1
 // 1. DATA TYPES (UDTs)
    STRUCT
       FirstScan { ExternalVisible := 'False'} : Bool;
-      CycleTime_ms_INT { ExternalVisible := 'False'} : Int;
-      CycleTime_ms_REAL { ExternalVisible := 'False'} : Real;
+      CycleTime_ms_INT { ExternalVisible := 'False'} : Int := 1;
+      CycleTime_ms_REAL { ExternalVisible := 'False'} : Real := 1.0;
    END_STRUCT;
 
 END_TYPE

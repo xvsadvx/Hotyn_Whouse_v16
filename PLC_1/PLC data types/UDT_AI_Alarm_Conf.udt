@@ -1,5 +1,5 @@
 ﻿TYPE "UDT_AI_Alarm_Conf"
-VERSION : 0.1
+VERSION : 0.2
    STRUCT
       En_Alarm : Struct
          HiHi { S7_SetPoint := 'True'} : Bool;
@@ -15,11 +15,11 @@ VERSION : 0.1
       Hi { S7_SetPoint := 'True'} : Real;
       Lo { S7_SetPoint := 'True'} : Real;
       LoLo { S7_SetPoint := 'True'} : Real;
-      Delay_HiHi { S7_SetPoint := 'True'} : Int;
-      Delay_Hi { S7_SetPoint := 'True'} : Int;
-      Delay_Lo { S7_SetPoint := 'True'} : Int;
-      Delay_LoLo { S7_SetPoint := 'True'} : Int;
-      Hysteresis { S7_SetPoint := 'True'} : Real;
+      Delay_HiHi { S7_SetPoint := 'True'} : Int := 1;
+      Delay_Hi { S7_SetPoint := 'True'} : Int := 1;
+      Delay_Lo { S7_SetPoint := 'True'} : Int := 1;
+      Delay_LoLo { S7_SetPoint := 'True'} : Int := 1;
+      Hysteresis { S7_SetPoint := 'True'} : Real := 2.0;
    END_STRUCT;
 
 END_TYPE
