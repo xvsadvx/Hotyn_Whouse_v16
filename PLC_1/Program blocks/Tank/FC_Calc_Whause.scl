@@ -13,12 +13,19 @@ BEGIN
 	
 	"DB_MAP".HMI_Whouse.TRN.Total_Volume_m3 := 0.0;
 	"DB_MAP".HMI_Whouse.TRN.Total_Weight_t := 0.0;
+	"DB_MAP".HMI_Whouse.TRN.Total_Ullage_pct := 0.0;
+	"DB_MAP".HMI_Whouse.TRN.Total_Ullage_m3 := 0.0;
 	"DB_MAP".HMI_Whouse.TRN.Tanks_In_Alarm := 0;
 	
 	FOR #temp_i := 1 TO "c_Count_TRN" DO
-	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_MAP".HMI_TRN_SmalTank[#temp_i],
+	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_Wh_TRN1".Tank[#temp_i],
 	                               io_Whouse := "DB_MAP".HMI_Whouse.TRN);
 	END_FOR;
+	
+	IF ("DB_MAP".HMI_Whouse.TRN.Total_Volume_m3 + "DB_MAP".HMI_Whouse.TRN.Total_Ullage_m3) >= 0.001 THEN
+	    "DB_MAP".HMI_Whouse.TRN.Total_Ullage_pct :=
+	    "DB_MAP".HMI_Whouse.TRN.Total_Ullage_m3 / ("DB_MAP".HMI_Whouse.TRN.Total_Volume_m3 + "DB_MAP".HMI_Whouse.TRN.Total_Ullage_m3) * 100.0;
+	END_IF;
 	
 	"DB_MAP".HMI_Whouse.TRN.Status_Word.Global_Alarm := ("DB_MAP".HMI_Whouse.TRN.Tanks_In_Alarm > 0);
 	
@@ -32,13 +39,19 @@ BEGIN
 	// ==============================================================================
 	"DB_MAP".HMI_Whouse.POL.Total_Volume_m3 := 0.0;
 	"DB_MAP".HMI_Whouse.POL.Total_Weight_t := 0.0;
+	"DB_MAP".HMI_Whouse.POL.Total_Ullage_pct := 0.0;
+	"DB_MAP".HMI_Whouse.POL.Total_Ullage_m3 := 0.0;
 	"DB_MAP".HMI_Whouse.POL.Tanks_In_Alarm := 0;
 	
 	FOR #temp_i := 1 TO "c_Count_POL" DO
-	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_MAP".HMI_POL_SmalTank[#temp_i],
+	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_Wh_POL1".Tank[#temp_i],
 	                               io_Whouse := "DB_MAP".HMI_Whouse.POL);
 	END_FOR;
 	
+	IF ("DB_MAP".HMI_Whouse.POL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.POL.Total_Ullage_m3) >= 0.001 THEN
+	    "DB_MAP".HMI_Whouse.POL.Total_Ullage_pct :=
+	        "DB_MAP".HMI_Whouse.POL.Total_Ullage_m3 / ("DB_MAP".HMI_Whouse.POL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.POL.Total_Ullage_m3) * 100.0;
+	END_IF;
 	"DB_MAP".HMI_Whouse.POL.Status_Word.Global_Alarm := ("DB_MAP".HMI_Whouse.POL.Tanks_In_Alarm > 0);
 	
 	// Сброс глобальной кнопки после прохода цикла
@@ -51,12 +64,19 @@ BEGIN
 	// ==============================================================================
 	"DB_MAP".HMI_Whouse.BUL.Total_Volume_m3 := 0.0;
 	"DB_MAP".HMI_Whouse.BUL.Total_Weight_t := 0.0;
+	"DB_MAP".HMI_Whouse.BUL.Total_Ullage_pct := 0.0;
+	"DB_MAP".HMI_Whouse.BUL.Total_Ullage_m3 := 0.0;
 	"DB_MAP".HMI_Whouse.BUL.Tanks_In_Alarm := 0;
 	
 	FOR #temp_i := 1 TO "c_Count_BUL" DO
-	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_MAP".HMI_BUL_SmalTank[#temp_i],
+	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_Wh_BUL1".Tank[#temp_i],
 	                               io_Whouse := "DB_MAP".HMI_Whouse.BUL);
 	END_FOR;
+	
+	IF ("DB_MAP".HMI_Whouse.BUL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.BUL.Total_Ullage_m3) >= 0.001 THEN
+	    "DB_MAP".HMI_Whouse.BUL.Total_Ullage_pct :=
+	        "DB_MAP".HMI_Whouse.BUL.Total_Ullage_m3 / ("DB_MAP".HMI_Whouse.BUL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.BUL.Total_Ullage_m3) * 100.0;
+	END_IF;
 	
 	"DB_MAP".HMI_Whouse.BUL.Status_Word.Global_Alarm := ("DB_MAP".HMI_Whouse.BUL.Tanks_In_Alarm > 0);
 	
@@ -70,12 +90,19 @@ BEGIN
 	// ==============================================================================
 	"DB_MAP".HMI_Whouse.MOL.Total_Volume_m3 := 0.0;
 	"DB_MAP".HMI_Whouse.MOL.Total_Weight_t := 0.0;
+	"DB_MAP".HMI_Whouse.MOL.Total_Ullage_pct := 0.0;
+	"DB_MAP".HMI_Whouse.MOL.Total_Ullage_m3 := 0.0;
 	"DB_MAP".HMI_Whouse.MOL.Tanks_In_Alarm := 0;
 	
 	FOR #temp_i := 1 TO "c_Count_MOL" DO
-	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_MAP".HMI_MOL_SmalTank[#temp_i],
+	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_Wh_MOL1".Tank[#temp_i],
 	                               io_Whouse := "DB_MAP".HMI_Whouse.MOL);
 	END_FOR;
+	
+	IF ("DB_MAP".HMI_Whouse.MOL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.MOL.Total_Ullage_m3) >= 0.001 THEN
+	    "DB_MAP".HMI_Whouse.MOL.Total_Ullage_pct :=
+	    "DB_MAP".HMI_Whouse.MOL.Total_Ullage_m3 / ("DB_MAP".HMI_Whouse.MOL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.MOL.Total_Ullage_m3) * 100.0;
+	END_IF;
 	
 	"DB_MAP".HMI_Whouse.MOL.Status_Word.Global_Alarm := ("DB_MAP".HMI_Whouse.MOL.Tanks_In_Alarm > 0);
 	

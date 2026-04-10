@@ -5,12 +5,21 @@ NON_RETAIN
 // 2. GLOBAL DATA (Pure Data only)
    STRUCT 
       Sys { ExternalVisible := 'False'; S7_SetPoint := 'False'} : "UDT_Sys_Info";
+      c_stDI_Mode { ExternalVisible := 'False'} : Struct
+         None { ExternalVisible := 'False'} : Int;
+         NOpen { ExternalVisible := 'False'} : Int;
+         NClose { ExternalVisible := 'False'} : Int;
+         Disabled { ExternalVisible := 'False'} : Int;
+      END_STRUCT;
    END_STRUCT;
 
 
 BEGIN
    Sys.CycleTime_ms_INT := 10;
    Sys.CycleTime_ms_REAL := 10.0;
+   c_stDI_Mode.NOpen := 1;
+   c_stDI_Mode.NClose := 2;
+   c_stDI_Mode.Disabled := 3;
 
 END_DATA_BLOCK
 

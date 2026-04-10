@@ -2,7 +2,7 @@
 { S7_Optimized_Access := 'FALSE' }
 VERSION : 0.1
    VAR_IN_OUT 
-      io_Tanks : "UDT_HMI_SmallTank";
+      io_Tanks : "UDT_Tank_Full";
       io_Whouse : "UDT_HMI_Whouse";
    END_VAR
 
@@ -13,22 +13,23 @@ VERSION : 0.1
 
 BEGIN
 	        // Агрегация объемов и весов
-	        #io_Whouse.Total_Volume_m3 := #io_Whouse.Total_Volume_m3 + #io_Tanks.Volume_m3; 
-	        #io_Whouse.Total_Weight_t := #io_Whouse.Total_Weight_t + #io_Tanks.Weight_t; 
-	        
+	        #io_Whouse.Total_Volume_m3 := #io_Whouse.Total_Volume_m3 + #io_Tanks.Calc.Volume_m3;
+	        #io_Whouse.Total_Weight_t := #io_Whouse.Total_Weight_t + #io_Tanks.Calc.Weight_t;
+	        #io_Whouse.Total_Ullage_m3 := #io_Whouse.Total_Ullage_m3 + (#io_Tanks.Calc.Max_Volume_m3 - #io_Tanks.Calc.Volume_m3);
+	
 	        // Проверка наличия аварий в танке (HH, H, L, LL или DI) 
-	        IF #io_Tanks.Status_Alarms.HH OR
-	            #io_Tanks.Status_Alarms.H OR
-	            #io_Tanks.Status_Alarms.L OR
-	            #io_Tanks.Status_Alarms.LL OR
-	            #io_Tanks.Status_Alarms.DI
+	        IF #io_Tanks.AI_Alarm.HiHi OR
+	            #io_Tanks.AI_Alarm.Hi OR
+	            #io_Tanks.AI_Alarm.Lo OR
+	            #io_Tanks.AI_Alarm.LoLo OR
+	            #io_Tanks.DI_Alarm.Alarm
 	        THEN
 	            #io_Whouse.Tanks_In_Alarm := #io_Whouse.Tanks_In_Alarm + 1;
 	        END_IF;
 	        
 	        // Трансляция глобальной команды "Сброс всех аварий" [cite: 56, 82]
 	        IF #io_Whouse.Cmd_Word.Reset_All THEN
-	            #io_Tanks.Cmd.Reset := TRUE;
+	            #io_Tanks.Cmd.ResetError := TRUE;
 	        END_IF;
 END_FUNCTION
 

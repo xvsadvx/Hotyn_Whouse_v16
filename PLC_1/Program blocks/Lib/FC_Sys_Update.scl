@@ -13,8 +13,8 @@ VERSION : 0.1
 
 
 BEGIN
+	"DB_Global".Sys.FirstScan := (#i_Scan_1 <> B#16#03);
 	
-	"DB_Global".Sys.FirstScan := (#i_Scan_1 = 16#01);
 	"DB_Global".Sys.CycleTime_ms_INT := #i_Prev_Cycle;
 	IF #i_Prev_Cycle <= 0 THEN
 	    #tmp_dint := 1;

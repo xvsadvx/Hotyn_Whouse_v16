@@ -11,7 +11,7 @@ VERSION : 1.2
 // - Кодировка при сохранении: UTF-8 with BOM
 // ==============================================================================
    VAR_INPUT 
-      i_boRaw : Bool;   // Сырой физический вход
+      i_boRaw { ExternalVisible := 'False'} : Bool;   // Сырой физический вход
    END_VAR
 
    VAR_IN_OUT 
@@ -20,10 +20,10 @@ VERSION : 1.2
    END_VAR
 
    VAR 
-      stat_TonFlt {InstructionName := 'TON'; LibVersion := '1.0'; S7_SetPoint := 'False'} : TON;   // Задержка включения
-      stat_TofFlt {InstructionName := 'TOF'; LibVersion := '1.0'; S7_SetPoint := 'False'} : TOF;   // Задержка выключения
-      stat_Mode : Int;   // Текущий рабочий режим
-      stat_OldMode : Int;   // Предыдущий режим для отслеживания изменений
+      stat_TonFlt {InstructionName := 'TON'; LibVersion := '1.0'; ExternalVisible := 'False'; S7_SetPoint := 'False'} : TON;   // Задержка включения
+      stat_TofFlt {InstructionName := 'TOF'; LibVersion := '1.0'; ExternalVisible := 'False'; S7_SetPoint := 'False'} : TOF;   // Задержка выключения
+      stat_Mode { ExternalVisible := 'False'} : Int;   // Текущий рабочий режим
+      stat_OldMode { ExternalVisible := 'False'} : Int;   // Предыдущий режим для отслеживания изменений
    END_VAR
 
    VAR_TEMP 
@@ -36,21 +36,20 @@ VERSION : 1.2
 
 BEGIN
 	    
-	    #temp_boDisabled := #io_stConfig.Mode = 3;
+	    #temp_boDisabled := (#io_stConfig.Mode = "DB_Global".c_stDI_Mode.Disabled);
 	    
 	    IF #temp_boDisabled THEN
-	        #stat_Mode := 0;
+	        #stat_Mode := "DB_Global".c_stDI_Mode.None;
 	        RETURN;
 	    END_IF;
 	    
 	    // =========================================================
 	    // 1. ПРОВЕРКА РЕЖИМА И ПРЕОБРАЗОВАНИЕ ВРЕМЕНИ
 	    // =========================================================
+	    #stat_Mode := #io_stConfig.Mode;
 	    
-	    IF #stat_Mode < 0 OR #stat_Mode > 2 THEN
-	        #stat_Mode := 0;
-	    ELSE
-	        #stat_Mode := #io_stConfig.Mode;
+	    IF #stat_Mode < 0 OR #stat_Mode > "DB_Global".c_stDI_Mode.Disabled THEN
+	        #stat_Mode := "DB_Global".c_stDI_Mode.None;
 	    END_IF;
 	    
 	    // Преобразуем мс (Int) в формат Time
@@ -72,7 +71,7 @@ BEGIN
 	    // =========================================================
 	    // 3. ЛОГИКА ФИЛЬТРАЦИИ И ИНВЕРСИИ
 	    // =========================================================
-	    IF #stat_Mode = 0 THEN
+	    IF #stat_Mode = "DB_Global".c_stDI_Mode.None THEN
 	        // Режим 0: Прямая передача сигнала (без фильтра)
 	        #io_stOut.Value := #i_boRaw;
 	        
@@ -91,12 +90,12 @@ BEGIN
 	        
 	        // Включение (TON отработал) -> сигнал стабильно TRUE
 	        IF #stat_TonFlt.Q THEN
-	            #io_stOut.Value := (#stat_Mode = 1); // 1 = Прямой, 2 = Инверсный
+	            #io_stOut.Value := (#stat_Mode = "DB_Global".c_stDI_Mode.NOpen); 
 	        END_IF;
 	        
 	        // Выключение (TOF отработал) -> сигнал стабильно FALSE
 	        IF NOT #stat_TofFlt.Q THEN
-	            #io_stOut.Value := (#stat_Mode <> 1); // Сбрасываем соответственно режиму
+	            #io_stOut.Value := (#stat_Mode <> "DB_Global".c_stDI_Mode.NOpen); // Сбрасываем соответственно режиму
 	        END_IF;
 	    END_IF;
 	    

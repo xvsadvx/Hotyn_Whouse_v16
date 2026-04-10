@@ -9,41 +9,45 @@ VERSION : 0.1
 //           в плоскую HMI-структуру. Включает конвертацию массы в тонны 
 //           и сквозную передачу статусных битов.
 // ==============================================================================
-   VAR_INPUT 
-      i_Tank_Internal : "UDT_Tank_Full";   // Рабочая (внутренняя) структура танка
-   END_VAR
-
    VAR_IN_OUT 
+      io_Tank_Internal : "UDT_Tank_Full";   // Рабочая (внутренняя) структура танка
       io_HMI_Tank : "UDT_HMI_SmallTank";   // Плоская структура для панели оператора
    END_VAR
 
 
 BEGIN
 	        // --- Основные технологические параметры ---
-	        #io_HMI_Tank.Level_m := #i_Tank_Internal.Calc.Level_m;
-	        #io_HMI_Tank.Volume_m3 := #i_Tank_Internal.Calc.Volume_m3;
-	        #io_HMI_Tank.Percent_prc := #i_Tank_Internal.Calc.Level_Pct;
-	        #io_HMI_Tank.Weight_t := #i_Tank_Internal.Calc.Weight_t;
+	        #io_HMI_Tank.Level_m := #io_Tank_Internal.Calc.Level_m;
+	        #io_HMI_Tank.Volume_m3 := #io_Tank_Internal.Calc.Volume_m3;
+	        #io_HMI_Tank.Percent_prc := #io_Tank_Internal.Calc.Level_Pct;
+	        #io_HMI_Tank.Weight_t := #io_Tank_Internal.Calc.Weight_t;
+	        
+	        // --- Минимально фильтруем убрав шубу ---
+	        "FC_Filter_PT1"(i_rRawValue:=#io_Tank_Internal.AI_Out.Value_Unclamped,
+	                        i_rTimeFilter_ms := 100.0,
+	                        i_boReset:="isFirstScan"(),
+	                        io_rFilteredValue:=#io_HMI_Tank.Level_Raw_m);
 	        
 	        // --- Геометрия для шкалы HMI ---
-	        #io_HMI_Tank.Height_Full_m := #i_Tank_Internal.Geom.Height_Full_m;
-	        
+	        #io_HMI_Tank.Height_Full_m := #io_Tank_Internal.Geom.Height_Full_m;
+	
 	        // --- Статусные биты аварий ---
-	        #io_HMI_Tank.Status_Alarms.DI := #i_Tank_Internal.DI_Alarm.Alarm;
-	        #io_HMI_Tank.Status_Alarms.HH := #i_Tank_Internal.AI_Alarm.HiHi;
-	        #io_HMI_Tank.Status_Alarms.H := #i_Tank_Internal.AI_Alarm.Hi;
-	        #io_HMI_Tank.Status_Alarms.L := #i_Tank_Internal.AI_Alarm.Lo;
-	        #io_HMI_Tank.Status_Alarms.LL := #i_Tank_Internal.AI_Alarm.LoLo;
+	        #io_HMI_Tank.Status_Alarms.DI := #io_Tank_Internal.DI_Alarm.Alarm;
+	        #io_HMI_Tank.Status_Alarms.HH := #io_Tank_Internal.AI_Alarm.HiHi;
+	        #io_HMI_Tank.Status_Alarms.H := #io_Tank_Internal.AI_Alarm.Hi;
+	        #io_HMI_Tank.Status_Alarms.L := #io_Tank_Internal.AI_Alarm.Lo;
+	        #io_HMI_Tank.Status_Alarms.LL := #io_Tank_Internal.AI_Alarm.LoLo;
 	        
 	        // --- Диагностика AI ---
-	        #io_HMI_Tank.Status_AI.WireBreak := #i_Tank_Internal.AI_Out.Status.WireBreak;
-	        #io_HMI_Tank.Status_AI.Underrange := #i_Tank_Internal.AI_Out.Status.Underrange;
-	        #io_HMI_Tank.Status_AI.Overrange := #i_Tank_Internal.AI_Out.Status.Overrange;
-	        #io_HMI_Tank.Status_AI.Overflow := #i_Tank_Internal.AI_Out.Status.Overflow;
-	        #io_HMI_Tank.Status_AI.ConfigError := #i_Tank_Internal.AI_Out.Status.ConfigError;
+	        #io_HMI_Tank.Status_AI.WireBreak := #io_Tank_Internal.AI_Out.Status.WireBreak;
+	        #io_HMI_Tank.Status_AI.Underrange := #io_Tank_Internal.AI_Out.Status.Underrange;
+	        #io_HMI_Tank.Status_AI.Overrange := #io_Tank_Internal.AI_Out.Status.Overrange;
+	        #io_HMI_Tank.Status_AI.Overflow := #io_Tank_Internal.AI_Out.Status.Overflow;
+	        #io_HMI_Tank.Status_AI.ConfigError := #io_Tank_Internal.AI_Out.Status.ConfigError;
 	        
 	        // --- Команды HMI -> Tank (сброс ошибок) ---
-	//        #i_Tank_Internal.Cmd.ResetError := #io_HMI_Tank.Cmd.Reset;
+	        #io_Tank_Internal.Cmd.ResetError := #io_HMI_Tank.Cmd.Reset;
+	        #io_HMI_Tank.Cmd.Reset := FALSE;
 	        
 END_FUNCTION
 

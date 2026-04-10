@@ -8,8 +8,8 @@ VERSION : 8.1
 // БЛОК ОБРАБОТКИ АНАЛОГОВОГО СИГНАЛА (FB_AI)
 // -----------------------------------------------------------------------------
    VAR_INPUT 
-      i_iRawSignal : Int;
-      i_rSimValue : Real;
+      i_iRawSignal { ExternalVisible := 'False'} : Int;
+      i_rSimValue { ExternalVisible := 'False'} : Real;
    END_VAR
 
    VAR_IN_OUT 
@@ -18,15 +18,10 @@ VERSION : 8.1
    END_VAR
 
    VAR 
-      stat_boWasInvalid : Bool := TRUE;
+      stat_boWasInvalid { ExternalVisible := 'False'} : Bool := TRUE;
    END_VAR
 
    VAR_TEMP 
-      temp_boDisabled : Bool;
-      temp_boSimActive : Bool;
-      temp_boUseSqrt : Bool;
-      temp_boPreSqrtCut : Bool;
-      temp_boFinalClamp : Bool;
       temp_rMA : Real;
       temp_rNorm : Real;
       temp_rCutoff_Norm : Real;
@@ -47,15 +42,10 @@ BEGIN
 	    // =========================================================
 	    // ШАГ 0. РАСШИФРОВКА БИТОВОГО СЛОВА (Mode)
 	    // =========================================================
-	    #temp_boDisabled := (#io_stConfig.Mode AND 16#0001) = 16#0001;
-	    #temp_boSimActive := (#io_stConfig.Mode AND 16#0002) = 16#0002;
-	    #temp_boUseSqrt := (#io_stConfig.Mode AND 16#0004) = 16#0004;
-	    #temp_boPreSqrtCut := (#io_stConfig.Mode AND 16#0008) = 16#0008;
-	    #temp_boFinalClamp := (#io_stConfig.Mode AND 16#0010) = 16#0010;
 	    
-	    #io_stOut.Status.Disabled := #temp_boDisabled;
+	    #io_stOut.Status.Disabled := #io_stConfig.Mode.Disabled;
 	    // 0.1 Режим полного отключения канала
-	    IF #temp_boDisabled THEN
+	    IF #io_stOut.Status.Disabled THEN
 	        #io_stOut.Value_Unclamped := 0.0;
 	        #io_stOut.Value_Scaled := 0.0;
 	        #io_stOut.Value_Filtered := 0.0;
@@ -105,7 +95,7 @@ BEGIN
 	    // =========================================================
 	    // ШАГ 1 & 2. СИМУЛЯЦИЯ И ДИАГНОСТИКА
 	    // =========================================================
-	    IF #temp_boSimActive THEN
+	    IF #io_stConfig.Mode.SimActive THEN
 	        #io_stOut.Status.Sim_Active := TRUE;
 	        
 	        #io_stOut.Status.WireBreak := FALSE;
@@ -123,7 +113,7 @@ BEGIN
 	        #temp_rHWRange := INT_TO_REAL(#io_stConfig.HW_Max) - INT_TO_REAL(#io_stConfig.HW_Min);
 	        
 	        //HW диагностика
-	        #temp_iLimit_Max := REAL_TO_INT(INT_TO_REAL(#io_stConfig.HW_Max) + ("C_DIAG_OVER" * #temp_rHWRange));
+	        #temp_iLimit_Max := REAL_TO_INT(INT_TO_REAL(#io_stConfig.HW_Min) + ("C_DIAG_OVER" * #temp_rHWRange));
 	        #temp_iLimit_Min := REAL_TO_INT(INT_TO_REAL(#io_stConfig.HW_Min) + ("C_DIAG_UNDER" * #temp_rHWRange));
 	        
 	        #io_stOut.Status.WireBreak := #i_iRawSignal < #temp_iLimit_Min;
@@ -152,9 +142,9 @@ BEGIN
 	            #temp_rNorm := (#temp_rMA - #io_stConfig.Calib_mA_Min) / #temp_rRange_mA;
 	            
 	            // В & Г) Работа с корнем (Отсечка и извлечение)
-	            IF #temp_boUseSqrt THEN
+	            IF #io_stConfig.Mode.UseSqrt THEN
 	                
-	                IF #temp_boPreSqrtCut THEN
+	                IF #io_stConfig.Mode.PreSqrtCut THEN
 	                    #temp_rCutoff_Norm := #io_stConfig.Cutoff / #temp_rRange_Phys;
 	                    #temp_rCutoff_Norm := #temp_rCutoff_Norm * #temp_rCutoff_Norm;
 	                    
@@ -175,7 +165,7 @@ BEGIN
 	            #temp_rScaled := #io_stConfig.Scale_Min + (#temp_rNorm * #temp_rRange_Phys);
 	            
 	            // Е) Классический CutOff (только если не применялся Pre-Sqrt)
-	            IF NOT (#temp_boPreSqrtCut AND #temp_boUseSqrt) THEN
+	            IF NOT (#io_stConfig.Mode.PreSqrtCut AND #io_stConfig.Mode.UseSqrt) THEN
 	                IF ABS(#temp_rScaled) < ABS(#io_stConfig.Cutoff) THEN
 	                    #temp_rScaled := 0.0;
 	                END_IF;
@@ -189,7 +179,7 @@ BEGIN
 	    // =========================================================
 	    // ШАГ 3.5. ФИНАЛЬНЫЙ CLAMP
 	    // =========================================================
-	    IF #temp_boFinalClamp THEN
+	    IF #io_stConfig.Mode.FinalClamp THEN
 	        #temp_rMinPhys := MIN(IN1 := #io_stConfig.Scale_Min, IN2 := #io_stConfig.Scale_Max);
 	        #temp_rMaxPhys := MAX(IN1 := #io_stConfig.Scale_Min, IN2 := #io_stConfig.Scale_Max);
 	        #temp_rScaled := LIMIT(MN := #temp_rMinPhys, IN := #temp_rScaled, MX := #temp_rMaxPhys);

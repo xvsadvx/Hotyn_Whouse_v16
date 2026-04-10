@@ -1,13 +1,13 @@
-﻿FUNCTION_BLOCK "FB_DI_Alarm"
+﻿FUNCTION_BLOCK "FB_DI_Alarm1"
 { S7_Optimized_Access := 'FALSE' }
 VERSION : 1.0
 // =============================================================================
 // БЛОК ДИСКРЕТНОГО АЛАРМА
 // =============================================================================
    VAR_INPUT 
-      i_boSignal : Bool;   // Обработанный сигнал (от FB_DI)
-      i_boReset : Bool;   // Команда сброса (Квитирование)
-      i_boInhibit : Bool;   // Блокировка (например, при потере питания шкафа)
+      i_boSignal { ExternalVisible := 'False'} : Bool;   // Обработанный сигнал (от FB_DI)
+      i_boReset { ExternalVisible := 'False'} : Bool;   // Команда сброса (Квитирование)
+      i_boInhibit { ExternalVisible := 'False'} : Bool;   // Блокировка (например, при потере питания шкафа)
    END_VAR
 
    VAR_IN_OUT 
@@ -16,8 +16,8 @@ VERSION : 1.0
    END_VAR
 
    VAR 
-      stat_TonAlarm {InstructionName := 'TON'; LibVersion := '1.0'; S7_SetPoint := 'False'} : TON;   // Таймер задержки срабатывания
-      stat_InputInv : Bool;   // Внутренний статус после учета инверсии
+      stat_TonAlarm {InstructionName := 'TON'; LibVersion := '1.0'; ExternalVisible := 'False'; S7_SetPoint := 'False'} : TON;   // Таймер задержки срабатывания
+      stat_InputInv { ExternalVisible := 'False'} : Bool;   // Внутренний статус после учета инверсии
    END_VAR
 
 

@@ -7,7 +7,7 @@ VERSION : 0.1
       Value_Scaled : Real;   // Физика ПОСЛЕ клампа (ограниченная шкалой)
       Value_Filtered : Real;   // Финальное сглаженное значение (для HMI и алармов)
       Status : Struct
-         Disabled : Bool;   // Выравнивание
+         Disabled : Bool;
          WireBreak : Bool;
          Underrange : Bool;
          Overrange : Bool;

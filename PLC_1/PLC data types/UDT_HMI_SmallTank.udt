@@ -6,48 +6,46 @@ VERSION : 0.1
 //        Статусные слова развернуты побитово с жестким выравниванием 
 //        до 16 бит (WORD) для прямого маппинга в библиотеку WinCC.
    STRUCT
-      Level_m : Real;          // Текущий уровень (м)
-      Volume_m3 : Real;        // Рассчитанный объем (м3)
-      Weight_t : Real;         // Рассчитанная масса (т)
-      Percent_prc : Real;      // Уровень в процентах (%)
-      Height_Full_m : Real;    // Полная высота танка (м) — для шкалы HMI
-      // --- Развернутое слово Status_Alarms (Ровно 2 байта) ---
+      Level_Raw_m : Real;   // Текущий уровень "сырой сигнал"(м)
+      Level_m : Real;   // Текущий уровень (м)
+      Volume_m3 : Real;   // Рассчитанный объем (м3)
+      Weight_t : Real;   // Рассчитанная масса (т)
+      Percent_prc : Real;   // Уровень в процентах (%)
+      Height_Full_m : Real;   // Полная высота танка (м) — для шкалы HMI --- Развернутое слово Status_Alarms (Ровно 2 байта) ---
       Status_Alarms : Struct
-         DI : Bool;            // ПЛК Бит 0.0 -> WinCC Бит 8
-         HH : Bool;            // ПЛК Бит 0.1 -> WinCC Бит 9
-         H : Bool;             // ПЛК Бит 0.2 -> WinCC Бит 10
-         L : Bool;             // ПЛК Бит 0.3 -> WinCC Бит 11
-         LL : Bool;            // ПЛК Бит 0.4 -> WinCC Бит 12
-         Pad_0_5 : Bool;       // Выравнивание
-         Pad_0_6 : Bool;       // Выравнивание
-         Pad_0_7 : Bool;       // Выравнивание
-         Pad_Byte : Byte;      // Резервный младший байт (WinCC Биты 0..7)
-      // --- Развернутое слово Status_AI (Ровно 2 байта) ---
+         DI : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 8
+         HH : Bool;   // ПЛК Бит 0.1 -> WinCC Бит 9
+         H : Bool;   // ПЛК Бит 0.2 -> WinCC Бит 10
+         L : Bool;   // ПЛК Бит 0.3 -> WinCC Бит 11
+         LL : Bool;   // ПЛК Бит 0.4 -> WinCC Бит 12
+         Pad_0_5 : Bool;   // Выравнивание
+         Pad_0_6 : Bool;   // Выравнивание
+         Pad_0_7 : Bool;   // Выравнивание
+         Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7) --- Развернутое слово Status_AI (Ровно 2 байта) ---
       END_STRUCT;
       Status_AI : Struct
-         WireBreak : Bool;     // ПЛК Бит 0.0 -> WinCC Бит 8
-         Underrange : Bool;    // ПЛК Бит 0.1 -> WinCC Бит 9
-         Overrange : Bool;     // ПЛК Бит 0.2 -> WinCC Бит 10
-         Overflow : Bool;      // ПЛК Бит 0.3 -> WinCC Бит 11
+         WireBreak : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 8
+         Underrange : Bool;   // ПЛК Бит 0.1 -> WinCC Бит 9
+         Overrange : Bool;   // ПЛК Бит 0.2 -> WinCC Бит 10
+         Overflow : Bool;   // ПЛК Бит 0.3 -> WinCC Бит 11
          ConfigError : Bool;   // ПЛК Бит 0.4 -> WinCC Бит 12
-         Pad_0_5 : Bool;       // Выравнивание
-         Pad_0_6 : Bool;       // Выравнивание
-         Pad_0_7 : Bool;       // Выравнивание
-         Pad_Byte : Byte;      // Резервный младший байт (WinCC Биты 0..7)
-      // --- Развернутое слово Cmd_Word (Ровно 2 байта) ---
+         Pad_0_5 : Bool;   // Выравнивание
+         Pad_0_6 : Bool;   // Выравнивание
+         Pad_0_7 : Bool;   // Выравнивание
+         Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7) --- Развернутое слово Cmd_Word (Ровно 2 байта) ---
       END_STRUCT;
       Cmd : Struct
-         Reset : Bool;         // ПЛК Бит 0.0 -> WinCC Бит 8 (Кнопка сброса)
-         Pad_0_1 : Bool;       // Выравнивание
-         Pad_0_2 : Bool;       // Выравнивание
-         Pad_0_3 : Bool;       // Выравнивание
-         Pad_0_4 : Bool;       // Выравнивание
-         Pad_0_5 : Bool;       // Выравнивание
-         Pad_0_6 : Bool;       // Выравнивание
-         Pad_0_7 : Bool;       // Выравнивание
-         Pad_Byte : Byte;      // Резервный младший байт (WinCC Биты 0..7)
+         Reset : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 8 (Кнопка сброса)
+         Pad_0_1 : Bool;   // Выравнивание
+         Pad_0_2 : Bool;   // Выравнивание
+         Pad_0_3 : Bool;   // Выравнивание
+         Pad_0_4 : Bool;   // Выравнивание
+         Pad_0_5 : Bool;   // Выравнивание
+         Pad_0_6 : Bool;   // Выравнивание
+         Pad_0_7 : Bool;   // Выравнивание
+         Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7)
       END_STRUCT;
-      Spare_Real_1 : Real;     // Резерв для сохранения смещений
    END_STRUCT;
 
 END_TYPE
+

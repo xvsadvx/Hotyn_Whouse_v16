@@ -1,7 +1,17 @@
 ﻿TYPE "UDT_AI_Conf"
-VERSION : 0.1
+VERSION : 0.2
    STRUCT
-      Mode { S7_SetPoint := 'True'} : Word := 16#0010;   // ПО УМОЛЧАНИЮ: Взведен Bit 4 (Final Clamp)
+      Mode : Struct
+         Disabled : Bool;
+         SimActive : Bool;
+         UseSqrt : Bool;
+         PreSqrtCut : Bool := True;// ПО УМОЛЧАНИЮ: Взведен Bit 4 (Final Clamp)
+         FinalClamp : Bool;
+         Pad_Bit_5 : Bool;
+         Pad_Bit_6 : Bool;
+         Pad_Bit_7 : Bool;   // Выравнивание
+         Pad_Byte : Byte;   // Выравнивание структуры до 1 Word
+      END_STRUCT;
       Scale_Min { S7_SetPoint := 'True'} : Real := 0.0;   // Мин. физической шкалы
       Scale_Max { S7_SetPoint := 'True'} : Real := 100.0;   // Макс. физической шкалы
       Calib_mA_Min { S7_SetPoint := 'True'} : Real := 4.0;   // Ток при Scale_Min

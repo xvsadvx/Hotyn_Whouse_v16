@@ -1,5 +1,6 @@
 ﻿DATA_BLOCK "iDB_TRN_Tank_Log_3"
 { S7_Optimized_Access := 'FALSE' }
+AUTHOR : Gemini
 FAMILY : Archive
 VERSION : 1.2
 NON_RETAIN

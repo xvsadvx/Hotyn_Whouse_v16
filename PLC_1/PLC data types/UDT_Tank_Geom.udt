@@ -2,9 +2,11 @@
 VERSION : 0.1
 // Физические параметры и настройки танка
    STRUCT
-      Radius_m { S7_SetPoint := 'True'} : Real;      // Радиус танка (м)
-      Height_Full_m { S7_SetPoint := 'True'} : Real; // Максимальная рабочая высота (м)
-      Density_tm3 { S7_SetPoint := 'True'} : Real;   // Плотность продукта (т/м3)
-      Sensor_Offset_m { S7_SetPoint := 'True'} : Real; // Смещение нуля датчика (м)
+      Radius_m { S7_SetPoint := 'True'} : Real := 1.5;   // Радиус танка (м)
+      Height_Full_m { S7_SetPoint := 'True'} : Real := 15.0;   // Максимальная рабочая высота (м)
+      Density_tm3 { S7_SetPoint := 'True'} : Real := 1.35;   // Плотность продукта (т/м3)
+      Sensor_Offset_m { S7_SetPoint := 'True'} : Real;   // Смещение нуля датчика (м)
    END_STRUCT;
+
 END_TYPE
+

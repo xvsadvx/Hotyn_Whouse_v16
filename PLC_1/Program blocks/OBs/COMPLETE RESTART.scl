@@ -16,59 +16,7 @@ VERSION : 0.1
 
 
 BEGIN
-	(*
-	"DB_SCALE_CS_1".bo_CMD_FINISHED_OK := FALSE;
-	"DB_SCALE_CS_1".bo_CMD_ERR := FALSE;
-	*)
-	"DB_SCALE_CS_1".i_CMD_INPUT := 0;
-	"DB_SCALE_CS_1".bo_CMD_TRIGGER := FALSE;
-	"DB_SCALE_CS_1".bo_CMD_IN_PROGRESS := FALSE;
 	
-	"DB_SCALE_CS_1".s_CMD1.i_Code := 0;
-	"DB_SCALE_CS_1".s_CMD1.bo_Trigger := FALSE;
-	"DB_SCALE_CS_1".s_CMD1.bo_InProgress := FALSE;
-	"DB_SCALE_CS_1".s_CMD1.bo_FinishedOk := FALSE;
-	"DB_SCALE_CS_1".s_CMD1.bo_FinishedError := FALSE;
-	
-	"DB_SCALE_CS_1".s_CMD2.i_Code := 0;
-	"DB_SCALE_CS_1".s_CMD2.bo_Trigger := FALSE;
-	"DB_SCALE_CS_1".s_CMD2.bo_InProgress := FALSE;
-	"DB_SCALE_CS_1".s_CMD2.bo_FinishedOk := FALSE;
-	"DB_SCALE_CS_1".s_CMD2.bo_FinishedError := FALSE;
-	
-	"DB_SCALE_CS_1".s_CMD3.i_Code := 0;
-	"DB_SCALE_CS_1".s_CMD3.bo_Trigger := FALSE;
-	"DB_SCALE_CS_1".s_CMD3.bo_InProgress := FALSE;
-	"DB_SCALE_CS_1".s_CMD3.bo_FinishedOk := FALSE;
-	"DB_SCALE_CS_1".s_CMD3.bo_FinishedError := FALSE;
-	
-	
-	
-	(*
-	"DB_SCALE_CS_2".bo_CMD_FINISHED_OK := FALSE;
-	"DB_SCALE_CS_2".bo_CMD_ERR := FALSE;
-	*)
-	"DB_SCALE_CS_2".i_CMD_INPUT := 0;
-	"DB_SCALE_CS_2".bo_CMD_TRIGGER := FALSE;
-	"DB_SCALE_CS_2".bo_CMD_IN_PROGRESS := FALSE;
-	
-	"DB_SCALE_CS_2".s_CMD1.i_Code := 0;
-	"DB_SCALE_CS_2".s_CMD1.bo_Trigger := FALSE;
-	"DB_SCALE_CS_2".s_CMD1.bo_InProgress := FALSE;
-	"DB_SCALE_CS_2".s_CMD1.bo_FinishedOk := FALSE;
-	"DB_SCALE_CS_2".s_CMD1.bo_FinishedError := FALSE;
-	
-	"DB_SCALE_CS_2".s_CMD2.i_Code := 0;
-	"DB_SCALE_CS_2".s_CMD2.bo_Trigger := FALSE;
-	"DB_SCALE_CS_2".s_CMD2.bo_InProgress := FALSE;
-	"DB_SCALE_CS_2".s_CMD2.bo_FinishedOk := FALSE;
-	"DB_SCALE_CS_2".s_CMD2.bo_FinishedError := FALSE;
-	
-	"DB_SCALE_CS_2".s_CMD3.i_Code := 0;
-	"DB_SCALE_CS_2".s_CMD3.bo_Trigger := FALSE;
-	"DB_SCALE_CS_2".s_CMD3.bo_InProgress := FALSE;
-	"DB_SCALE_CS_2".s_CMD3.bo_FinishedOk := FALSE;
-	"DB_SCALE_CS_2".s_CMD3.bo_FinishedError := FALSE;
-	
+	"FC_ResetScaleCmd"();
 END_ORGANIZATION_BLOCK
 

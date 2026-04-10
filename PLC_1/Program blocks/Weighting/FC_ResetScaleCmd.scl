@@ -1,0 +1,26 @@
+﻿FUNCTION "FC_ResetScaleCmd" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      tmp_Cmd : "UDT_SIWA_Cmd";
+      tmp_Cmd_Raw AT tmp_Cmd : Array[0..3] of Byte;
+   END_VAR
+
+
+BEGIN
+	// Зачищаем все 4 байта включая паддинг
+	#tmp_Cmd_Raw[0] := 16#00;
+	#tmp_Cmd_Raw[1] := 16#00;
+	#tmp_Cmd_Raw[2] := 16#00;
+	#tmp_Cmd_Raw[3] := 16#00;
+	
+	// Применяем ко всем слотам обоих модулей
+	"DB_SCALE_CS_1".s_CMD1 := #tmp_Cmd;
+	"DB_SCALE_CS_1".s_CMD2 := #tmp_Cmd;
+	"DB_SCALE_CS_1".s_CMD3 := #tmp_Cmd;
+	
+	"DB_SCALE_CS_2".s_CMD1 := #tmp_Cmd;
+	"DB_SCALE_CS_2".s_CMD2 := #tmp_Cmd;
+	"DB_SCALE_CS_2".s_CMD3 := #tmp_Cmd;
+END_FUNCTION
+

@@ -1,9 +1,9 @@
-TYPE "UDT_HMI_Whouse"
+﻿TYPE "UDT_HMI_Whouse"
 TITLE = Сводка склада для HMI
 { S7_Optimized_Access := 'FALSE' }
 AUTHOR : S7A_Lib
 FAMILY : HMI_Type
-VERSION : 0.1
+VERSION : 0.2
 // ==============================================================================
 // Описание: Агрегированные данные склада (тоталы, счетчики, глобальные 
 //           статусы) для отображения на главном экране WinCC.
@@ -12,6 +12,7 @@ VERSION : 0.1
         Total_Volume_m3 : REAL;   // Суммарный объем продукта на складе
         Total_Weight_t : REAL;    // Суммарная масса (тонны)
         Total_Ullage_m3 : REAL;   // Доступное свободное место (м3)
+		Total_Ullage_pct : REAL;  // Доступное свободное место (%)
         Tanks_In_Alarm : INT;     // Количество танков в состоянии аварии
         
         // --- Глобальные статусы склада (Ровно 2 байта) ---
@@ -40,6 +41,5 @@ VERSION : 0.1
             Pad_Byte : BYTE;      // Резервный младший байт (WinCC Биты 0..7)
         END_STRUCT;
         
-        Spare_Real_1 : REAL;      // Резерв для сохранения смещений
     END_STRUCT;
 END_TYPE

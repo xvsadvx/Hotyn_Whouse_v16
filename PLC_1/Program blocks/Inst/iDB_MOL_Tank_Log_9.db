@@ -1,4 +1,4 @@
-DATA_BLOCK "iDB_MOL_Tank_Log_9"
+﻿DATA_BLOCK "iDB_MOL_Tank_Log_9"
 { S7_Optimized_Access := 'FALSE' }
 AUTHOR : Gemini
 FAMILY : Archive
@@ -9,3 +9,4 @@ NON_RETAIN
 BEGIN
 
 END_DATA_BLOCK
+

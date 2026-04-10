@@ -1,4 +1,4 @@
-﻿DATA_BLOCK "DB_Wh_TRN"
+﻿DATA_BLOCK "DB_Wh_TRN1"
 { S7_Optimized_Access := 'FALSE' }
 VERSION : 0.1
    STRUCT 

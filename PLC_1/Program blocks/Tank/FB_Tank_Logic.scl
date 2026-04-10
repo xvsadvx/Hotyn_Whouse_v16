@@ -18,7 +18,7 @@ VERSION : 1.2
       stat_AI : "FB_AI";
       stat_AI_Alarm : "FB_AI_Alarm";
       stat_DI : "FB_DI";
-      stat_DI_Alarm : "FB_DI_Alarm";
+      stat_DI_Alarm : "FB_DI_Alarm1";
    END_VAR
 
    VAR_TEMP 
@@ -26,16 +26,26 @@ VERSION : 1.2
       temp_boIsSiwa : Bool;
       temp_boInhibitAI : Bool;
       temp_ResetError : Bool;
+      temp_Value : Real;
    END_VAR
 
 
 BEGIN
+	// Ограничение компилятора S7-300/400:
+	//      невозможно динамически пересчитать POINTER для вложенной IN_OUT структуры, потому используем временную переменную
 	#temp_Tank := #io_Tank;
 	
 	// 0. ПРОВЕРКА НАЛИЧИЯ (Is_Present)
 	// Если датчик не установлен в конфиге - не мучаем контроллер расчетами (DI_Conf.Mode = 3 канал отключен, AI_Conf.Mode - первый бит канал отключен)
-	IF (#temp_Tank.DI_Conf.Mode = 3) AND ((#temp_Tank.AI_Conf.Mode AND 16#0001) = 16#0001) THEN
+	IF #temp_Tank.DI_Conf.Mode = "DB_Global".c_stDI_Mode.Disabled AND #temp_Tank.AI_Conf.Mode.Disabled THEN
 	    RETURN;
+	END_IF;
+	
+	// Читаем зафиксированную команду из слепка
+	#temp_ResetError := #temp_Tank.Cmd.ResetError;
+	// Если команда пришла, гасим ее НАПРЯМУЮ в io_Tank
+	IF #temp_ResetError THEN
+	    #io_Tank.Cmd.ResetError := FALSE;
 	END_IF;
 	
 	// 1. ОБРАБОТКА АНАЛОГОВОГО КАНАЛА
@@ -47,8 +57,7 @@ BEGIN
 	
 	
 	// 2. ВЫЗОВ МАТЕМАТИКИ
-	// Определяем источник (Бит 16#0020 в Mode)
-	#temp_boIsSiwa := (#temp_Tank.AI_Conf.Mode AND 16#0020) = 16#0020;
+	#temp_boIsSiwa := #temp_Tank.AI_Conf.Mode.SimActive;
 	
 	"FC_Tank_Calc"(i_rValue := #temp_Tank.AI_Out.Value_Filtered,
 	               i_boIsSiwa := #temp_boIsSiwa,
@@ -61,9 +70,14 @@ BEGIN
 	                    #temp_Tank.AI_Out.Status.Overflow OR
 	                    #temp_Tank.AI_Out.Status.ConfigError;
 	                    
-	#temp_ResetError := #temp_Tank.Cmd.ResetError;
-	#temp_Tank.Cmd.ResetError := FALSE;
-	#stat_AI_Alarm(i_rValue := #temp_Tank.AI_Out.Value_Filtered,
+	//В алармах обрабатываем реальный уровень, а не уровень без учета плотности(12 * 1.35 - датчик), или вес для весовых танков 
+	IF #temp_boIsSiwa THEN
+	    #temp_Value := #temp_Tank.Calc.Weight_t * 1000.0;// kg vs t ???
+	ELSE
+	    #temp_Value := #temp_Tank.Calc.Level_m;
+	END_IF;
+	    
+	#stat_AI_Alarm(i_rValue := #temp_Value, //#temp_Tank.AI_Out.Value_Filtered
 	               i_boReset := #temp_ResetError,
 	               i_boInhibit := #temp_boInhibitAI,
 	               io_stConfig := #temp_Tank.AI_Alarm_Conf,
@@ -79,10 +93,20 @@ BEGIN
 	// Логика аварии ВУ (независима от AI)
 	#stat_DI_Alarm(i_boSignal := #temp_Tank.DI_Out.Value,
 	               i_boReset := #temp_ResetError,
-	               i_boInhibit := FALSE,//temp_Tank.DI_Alarm_Conf.Inhibit_Manual,
+	               i_boInhibit := (#temp_Tank.DI_Conf.Mode = "DB_Global".c_stDI_Mode.Disabled),
 	               io_stConfig := #temp_Tank.DI_Alarm_Conf,
 	               io_stOut := #temp_Tank.DI_Alarm);
-	#io_Tank := #temp_Tank;
+	
+	//Передаем только то что реально изменилось в ПЛК
+	#io_Tank.AI_Out := #temp_Tank.AI_Out;
+	#io_Tank.AI_Alarm := #temp_Tank.AI_Alarm;
+	
+	#io_Tank.DI_Out := #temp_Tank.DI_Out;
+	#io_Tank.DI_Alarm := #temp_Tank.DI_Alarm;
+	
+	#io_Tank.Calc := #temp_Tank.Calc;
+	
+	
 	
 END_FUNCTION_BLOCK
 

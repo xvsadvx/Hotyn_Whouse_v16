@@ -55,7 +55,7 @@ BEGIN
 	        #iq_Calc.Level_m := #iq_Calc.Volume_m3 / #temp_rArea;
 	    ELSE
 	        // --- РЕЖИМ УРОВНЯ (Вход в м) ---
-	        #iq_Calc.Level_m := #i_rValue + #io_Geom.Sensor_Offset_m;
+	        #iq_Calc.Level_m := #i_rValue / #temp_rDensity + #io_Geom.Sensor_Offset_m;
 	        #iq_Calc.Volume_m3 := #iq_Calc.Level_m * #temp_rArea;
 	        
 	        // Вес вычисляем из объема
