@@ -23,14 +23,14 @@ BEGIN
 	        #io_HMI_Tank.Weight_t := #io_Tank_Internal.Calc.Weight_t;
 	        
 	        // --- Минимально фильтруем убрав шубу ---
-	        "FC_Filter_PT1"(i_rRawValue:=#io_Tank_Internal.AI_Out.Value_Unclamped,
+	        "FC_Filter_PT1"(i_rRawValue := #io_Tank_Internal.AI_Out.Value_Unclamped,
 	                        i_rTimeFilter_ms := 100.0,
-	                        i_boReset:="isFirstScan"(),
-	                        io_rFilteredValue:=#io_HMI_Tank.Level_Raw_m);
+	                        i_boReset := "isFirstScan"(),
+	                        io_rFilteredValue := #io_HMI_Tank.Level_Raw_m);
 	        
 	        // --- Геометрия для шкалы HMI ---
 	        #io_HMI_Tank.Height_Full_m := #io_Tank_Internal.Geom.Height_Full_m;
-	
+	        
 	        // --- Статусные биты аварий ---
 	        #io_HMI_Tank.Status_Alarms.DI := #io_Tank_Internal.DI_Alarm.Alarm;
 	        #io_HMI_Tank.Status_Alarms.HH := #io_Tank_Internal.AI_Alarm.HiHi;
@@ -39,6 +39,7 @@ BEGIN
 	        #io_HMI_Tank.Status_Alarms.LL := #io_Tank_Internal.AI_Alarm.LoLo;
 	        
 	        // --- Диагностика AI ---
+	        #io_HMI_Tank.Status_AI.Disabled := #io_Tank_Internal.AI_Out.Status.Disabled;
 	        #io_HMI_Tank.Status_AI.WireBreak := #io_Tank_Internal.AI_Out.Status.WireBreak;
 	        #io_HMI_Tank.Status_AI.Underrange := #io_Tank_Internal.AI_Out.Status.Underrange;
 	        #io_HMI_Tank.Status_AI.Overrange := #io_Tank_Internal.AI_Out.Status.Overrange;

@@ -24,12 +24,12 @@ VERSION : 0.1
          Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7) --- Развернутое слово Status_AI (Ровно 2 байта) ---
       END_STRUCT;
       Status_AI : Struct
-         WireBreak : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 8
-         Underrange : Bool;   // ПЛК Бит 0.1 -> WinCC Бит 9
-         Overrange : Bool;   // ПЛК Бит 0.2 -> WinCC Бит 10
-         Overflow : Bool;   // ПЛК Бит 0.3 -> WinCC Бит 11
-         ConfigError : Bool;   // ПЛК Бит 0.4 -> WinCC Бит 12
-         Pad_0_5 : Bool;   // Выравнивание
+         Disabled : Bool;   // Отключено
+         WireBreak : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 9
+         Underrange : Bool;   // ПЛК Бит 0.1 -> WinCC Бит 10
+         Overrange : Bool;   // ПЛК Бит 0.2 -> WinCC Бит 11
+         Overflow : Bool;   // ПЛК Бит 0.3 -> WinCC Бит 12
+         ConfigError : Bool;   // ПЛК Бит 0.4 -> WinCC Бит 13
          Pad_0_6 : Bool;   // Выравнивание
          Pad_0_7 : Bool;   // Выравнивание
          Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7) --- Развернутое слово Cmd_Word (Ровно 2 байта) ---
