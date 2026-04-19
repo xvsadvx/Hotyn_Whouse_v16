@@ -14,21 +14,21 @@ BEGIN
 	"iDB_TRN_Tank_Log_1"(i_iRaw_AI := "DB_IO_MAP".AI_TRN_Tank_1,
 	                     i_rRaw_Siwa := 0.0,
 	                     i_boRaw_DI := "DB_IO_MAP".DI_TRN_Tank_1,
-	                     io_Tank := "DB_Wh_TRN1".Tank[1]);
+	                     io_Tank := "DB_Wh_TRN".Tank[1]);
 	
 	
 	"iDB_TRN_Tank_Log_2"(i_iRaw_AI := 0,
 	                     i_rRaw_Siwa := "DB_IO_MAP".AI_TRN_WTank_2,
 	                     i_boRaw_DI := "DB_IO_MAP".DI_TRN_WTank_2,
-	                     io_Tank := "DB_Wh_TRN1".Tank[2]);
+	                     io_Tank := "DB_Wh_TRN".Tank[2]);
 	
 	"iDB_TRN_Tank_Log_3"(i_iRaw_AI := 0,
 	                     i_rRaw_Siwa := "DB_IO_MAP".AI_TRN_WTank_3,
 	                     i_boRaw_DI := "DB_IO_MAP".DI_TRN_WTank_3,
-	                     io_Tank := "DB_Wh_TRN1".Tank[3]);
+	                     io_Tank := "DB_Wh_TRN".Tank[3]);
 	
 	FOR #temp_Ind := 1 TO "c_Count_TRN" DO
-	    "FC_Map_SmallTank_HMI"(io_Tank_Internal := "DB_Wh_TRN1".Tank[#temp_Ind],
+	    "FC_Map_SmallTank_HMI"(io_Tank_Internal := "DB_Wh_TRN".Tank[#temp_Ind],
 	                           io_HMI_Tank := "DB_MAP".HMI_TRN_SmalTank[#temp_Ind]);
 	END_FOR;
 	
