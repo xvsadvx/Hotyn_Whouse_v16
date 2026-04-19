@@ -3,7 +3,7 @@ TITLE = Маппинг HMI малого танка
 { S7_Optimized_Access := 'FALSE' }
 AUTHOR : S7A_Lib
 FAMILY : HMI_Map
-VERSION : 0.1
+VERSION : 0.2
 // ==============================================================================
 // Описание: Перекладывает данные из внутренней структуры малого танка 
 //           в плоскую HMI-структуру. Включает конвертацию массы в тонны 
@@ -19,7 +19,7 @@ BEGIN
 	        // --- Основные технологические параметры ---
 	        #io_HMI_Tank.Level_m := #io_Tank_Internal.Calc.Level_m;
 	        #io_HMI_Tank.Volume_m3 := #io_Tank_Internal.Calc.Volume_m3;
-	        #io_HMI_Tank.Percent_prc := #io_Tank_Internal.Calc.Level_Pct;
+	        #io_HMI_Tank.Level_pct := #io_Tank_Internal.Calc.Level_Pct;
 	        #io_HMI_Tank.Weight_t := #io_Tank_Internal.Calc.Weight_t;
 	        
 	        // --- Минимально фильтруем убрав шубу ---

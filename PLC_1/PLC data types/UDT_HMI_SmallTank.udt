@@ -1,18 +1,18 @@
 ﻿TYPE "UDT_HMI_SmallTank"
 TITLE = Данные малого танка для HMI
-VERSION : 0.1
+VERSION : 0.2
 //Описание:
 //        Плоская структура малого танка для обмена с панелью оператора.
 //        Статусные слова развернуты побитово с жестким выравниванием 
 //        до 16 бит (WORD) для прямого маппинга в библиотеку WinCC.
    STRUCT
+      Height_Full_m : Real;   // Полная высота танка (м)
       Level_Raw_m : Real;   // Текущий уровень "сырой сигнал"(м)
-      Level_m : Real;   // Текущий уровень (м)
-      Volume_m3 : Real;   // Рассчитанный объем (м3)
       Weight_t : Real;   // Рассчитанная масса (т)
-      Percent_prc : Real;   // Уровень в процентах (%)
-      Height_Full_m : Real;   // Полная высота танка (м) — для шкалы HMI --- Развернутое слово Status_Alarms (Ровно 2 байта) ---
-      Status_Alarms : Struct
+      Level_m : Real;   // Текущий уровень (м)
+      Level_pct : Real;   // Уровень в процентах (%)
+      Volume_m3 : Real;   // Рассчитанный объем (м3)
+      Status_Alarms : Struct   //  — для шкалы HMI --- Развернутое слово Status_Alarms (Ровно 2 байта) ---
          DI : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 8
          HH : Bool;   // ПЛК Бит 0.1 -> WinCC Бит 9
          H : Bool;   // ПЛК Бит 0.2 -> WinCC Бит 10
@@ -24,12 +24,12 @@ VERSION : 0.1
          Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7) --- Развернутое слово Status_AI (Ровно 2 байта) ---
       END_STRUCT;
       Status_AI : Struct
-         Disabled : Bool;   // Отключено
-         WireBreak : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 9
-         Underrange : Bool;   // ПЛК Бит 0.1 -> WinCC Бит 10
-         Overrange : Bool;   // ПЛК Бит 0.2 -> WinCC Бит 11
-         Overflow : Bool;   // ПЛК Бит 0.3 -> WinCC Бит 12
-         ConfigError : Bool;   // ПЛК Бит 0.4 -> WinCC Бит 13
+         Disabled : Bool;   // Отключено. ПЛК Бит 0.0 -> WinCC Бит 8
+         WireBreak : Bool;   // Обрыв. ПЛК Бит 0.1 -> WinCC Бит 9
+         Underrange : Bool;   // Выход за шкалу низ. ПЛК Бит 0.2 -> WinCC Бит 10
+         Overrange : Bool;   // Выход за шкалу верх. ПЛК Бит 0.3 -> WinCC Бит 11
+         Overflow : Bool;   // Перегруз. ПЛК Бит 0.4 -> WinCC Бит 12
+         ConfigError : Bool;   // Ошибка конфигурации. ПЛК Бит 0.5 -> WinCC Бит 13
          Pad_0_6 : Bool;   // Выравнивание
          Pad_0_7 : Bool;   // Выравнивание
          Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7) --- Развернутое слово Cmd_Word (Ровно 2 байта) ---
