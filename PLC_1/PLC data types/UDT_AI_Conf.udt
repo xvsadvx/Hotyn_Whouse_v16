@@ -1,12 +1,12 @@
 ﻿TYPE "UDT_AI_Conf"
-VERSION : 0.2
+VERSION : 0.1
    STRUCT
       Mode : Struct
          Disabled : Bool;
          SimActive : Bool;
          UseSqrt : Bool;
-         PreSqrtCut : Bool := True;// ПО УМОЛЧАНИЮ: Взведен Bit 4 (Final Clamp)
-         FinalClamp : Bool;
+         PreSqrtCut : Bool := false;
+         FinalClamp : Bool := true;   // ПО УМОЛЧАНИЮ: Взведен Bit 4 (Final Clamp)
          Pad_Bit_5 : Bool;
          Pad_Bit_6 : Bool;
          Pad_Bit_7 : Bool;   // Выравнивание
@@ -17,7 +17,7 @@ VERSION : 0.2
       Calib_mA_Min { S7_SetPoint := 'True'} : Real := 4.0;   // Ток при Scale_Min
       Calib_mA_Max { S7_SetPoint := 'True'} : Real := 20.0;   // Ток при Scale_Max
       Cutoff { S7_SetPoint := 'True'} : Real := 0.02;   // Порог отсечения шума около нуля
-      FilterTime_ms { S7_SetPoint := 'True'} : Int := 2000;   // Время фильтра PT1 в миллисекундах (0..32000) --- Границы железа ---
+      FilterTime_ms { S7_SetPoint := 'True'} : Int := 1000;   // Время фильтра PT1 в миллисекундах (0..32000) --- Границы железа ---
       HW_Min { S7_SetPoint := 'True'} : Int := "C_HW_MIN";   // Аппаратный минимум
       HW_Max { S7_SetPoint := 'True'} : Int := "C_HW_MAX";   // Аппаратный максимум
    END_STRUCT;
