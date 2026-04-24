@@ -44,7 +44,7 @@ BEGIN
 	    // =========================================================
 	    // 1. ТРАНСЛЯЦИЯ СТАТУСОВ ДЛЯ HMI (En_Out)
 	    // =========================================================
-	    #io_stOut.En_HiHi := #io_stConfig.En_Alarm.HiHi AND NOT #i_boInhibit ;
+	    #io_stOut.En_HiHi := #io_stConfig.En_Alarm.HiHi AND NOT #i_boInhibit;
 	    #io_stOut.En_Hi := #io_stConfig.En_Alarm.Hi AND NOT #i_boInhibit;
 	    #io_stOut.En_Lo := #io_stConfig.En_Alarm.Lo AND NOT #i_boInhibit;
 	    #io_stOut.En_LoLo := #io_stConfig.En_Alarm.LoLo AND NOT #i_boInhibit;
@@ -85,16 +85,16 @@ BEGIN
 	    // Таймер не считает, если сработала блокировка датчика (Inhibit) 
 	    // или аларм выключен в настройках.
 	    #stat_TonHiHi(IN := #stat_RawHiHi AND #io_stConfig.En_Alarm.HiHi AND NOT #i_boInhibit,
-	                  PT := DINT_TO_TIME(#io_stConfig.Delay_HiHi)*1000 + t#1ms );//gr-ny 300
+	                  PT := DINT_TO_TIME(#io_stConfig.Delay_HiHi) * 1000 + t#1ms);//gr-ny 300
 	    
 	    #stat_TonHi(IN := #stat_RawHi AND #io_stConfig.En_Alarm.Hi AND NOT #i_boInhibit,
-	                PT := DINT_TO_TIME(#io_stConfig.Delay_Hi)*1000 + t#1ms );//gr-ny 300
+	                PT := DINT_TO_TIME(#io_stConfig.Delay_Hi) * 1000 + t#1ms);//gr-ny 300
 	    
 	    #stat_TonLo(IN := #stat_RawLo AND #io_stConfig.En_Alarm.Lo AND NOT #i_boInhibit,
-	                PT := DINT_TO_TIME(#io_stConfig.Delay_Lo)*1000 + t#1ms);//gr-ny 300
+	                PT := DINT_TO_TIME(#io_stConfig.Delay_Lo) * 1000 + t#1ms);//gr-ny 300
 	    
 	    #stat_TonLoLo(IN := #stat_RawLoLo AND #io_stConfig.En_Alarm.LoLo AND NOT #i_boInhibit,
-	                  PT := DINT_TO_TIME(#io_stConfig.Delay_LoLo)*1000 + t#1ms);//gr-ny 300
+	                  PT := DINT_TO_TIME(#io_stConfig.Delay_LoLo) * 1000 + t#1ms);//gr-ny 300
 	    
 	    // =========================================================
 	    // 4. ФИКСАЦИЯ (LATCH) И СБРОС АВАРИЙ

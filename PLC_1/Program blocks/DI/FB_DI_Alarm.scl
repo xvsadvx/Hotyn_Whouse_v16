@@ -1,4 +1,4 @@
-﻿FUNCTION_BLOCK "FB_DI_Alarm1"
+﻿FUNCTION_BLOCK "FB_DI_Alarm"
 { S7_Optimized_Access := 'FALSE' }
 VERSION : 1.0
 // =============================================================================
