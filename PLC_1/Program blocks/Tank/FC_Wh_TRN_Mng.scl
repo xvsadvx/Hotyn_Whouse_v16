@@ -29,7 +29,7 @@ BEGIN
 	
 	FOR #temp_Ind := 1 TO "c_Count_TRN" DO
 	    "FC_Map_SmallTank_HMI"(io_Tank_Internal := "DB_Wh_TRN".Tank[#temp_Ind],
-	                           io_HMI_Tank := "DB_MAP".HMI_TRN_SmalTank[#temp_Ind]);
+	                           io_HMI_Tank := "DB_HMI_MAP".TRN_SmalTank[#temp_Ind]);
 	END_FOR;
 	
 END_FUNCTION

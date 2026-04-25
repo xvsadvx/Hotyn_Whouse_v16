@@ -2,6 +2,7 @@
 { S7_Optimized_Access := 'FALSE' }
 VERSION : 0.1
    STRUCT 
+      Spare_Word : DWord;
       Tank : Array[1..4] of "UDT_Tank_Full";
    END_STRUCT;
 

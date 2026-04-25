@@ -1,6 +1,6 @@
 ﻿TYPE "UDT_HMI_SmallTank"
 TITLE = Данные малого танка для HMI
-VERSION : 0.2
+VERSION : 0.3
 //Описание:
 //        Плоская структура малого танка для обмена с панелью оператора.
 //        Статусные слова развернуты побитово с жестким выравниванием 
@@ -11,40 +11,34 @@ VERSION : 0.2
       Weight_t : Real;   // Рассчитанная масса (т)
       Level_m : Real;   // Текущий уровень (м)
       Level_pct : Real;   // Уровень в процентах (%)
-      Volume_m3 : Real;   // Рассчитанный объем (м3)
-      Status_Alarms : Struct   //  — для шкалы HMI --- Развернутое слово Status_Alarms (Ровно 2 байта) ---
-         DI : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 8
-         HH : Bool;   // ПЛК Бит 0.1 -> WinCC Бит 9
-         H : Bool;   // ПЛК Бит 0.2 -> WinCC Бит 10
-         L : Bool;   // ПЛК Бит 0.3 -> WinCC Бит 11
-         LL : Bool;   // ПЛК Бит 0.4 -> WinCC Бит 12
-         Pad_0_5 : Bool;   // Выравнивание
-         Pad_0_6 : Bool;   // Выравнивание
-         Pad_0_7 : Bool;   // Выравнивание
-         Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7) --- Развернутое слово Status_AI (Ровно 2 байта) ---
-      END_STRUCT;
-      Status_AI : Struct
-         Disabled : Bool;   // Отключено. ПЛК Бит 0.0 -> WinCC Бит 8
-         WireBreak : Bool;   // Обрыв. ПЛК Бит 0.1 -> WinCC Бит 9
-         Underrange : Bool;   // Выход за шкалу низ. ПЛК Бит 0.2 -> WinCC Бит 10
-         Overrange : Bool;   // Выход за шкалу верх. ПЛК Бит 0.3 -> WinCC Бит 11
-         Overflow : Bool;   // Перегруз. ПЛК Бит 0.4 -> WinCC Бит 12
-         ConfigError : Bool;   // Ошибка конфигурации. ПЛК Бит 0.5 -> WinCC Бит 13
-         Pad_0_6 : Bool;   // Выравнивание
-         Pad_0_7 : Bool;   // Выравнивание
-         Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7) --- Развернутое слово Cmd_Word (Ровно 2 байта) ---
-      END_STRUCT;
-      Cmd : Struct
-         Reset : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 8 (Кнопка сброса)
-         Pad_0_1 : Bool;   // Выравнивание
-         Pad_0_2 : Bool;   // Выравнивание
-         Pad_0_3 : Bool;   // Выравнивание
-         Pad_0_4 : Bool;   // Выравнивание
-         Pad_0_5 : Bool;   // Выравнивание
-         Pad_0_6 : Bool;   // Выравнивание
-         Pad_0_7 : Bool;   // Выравнивание
-         Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7)
-      END_STRUCT;
+      Volume_m3 : Real;   // Рассчитанный объем (м3)  — для шкалы HMI --- Развернутое слово Status_Alarms (Ровно 2 байта) ---
+      Alarm_DI : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 8
+      Alarm_HH : Bool;   // ПЛК Бит 0.1 -> WinCC Бит 9
+      Alarm_H : Bool;   // ПЛК Бит 0.2 -> WinCC Бит 10
+      Alarm_L : Bool;   // ПЛК Бит 0.3 -> WinCC Бит 11
+      Alarm_LL : Bool;   // ПЛК Бит 0.4 -> WinCC Бит 12
+      Alarm_Pad_0_5 : Bool;   // Выравнивание
+      Alarm_Pad_0_6 : Bool;   // Выравнивание
+      Alarm_Pad_0_7 : Bool;   // Выравнивание
+      Alarm_Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7)--- Развернутое слово Status каналов (Ровно 2 байта) ---
+      Status_DI_Disabled : Bool;   // DI Отключено. ПЛК Бит 0.0 -> WinCC Бит 8
+      Status_DI_Value : Bool;   // Резерв. ПЛК Бит 0.1 -> WinCC Бит 9
+      Status_AI_Disabled : Bool;   // Отключено. ПЛК Бит 0.2 -> WinCC Бит 10
+      Status_AI_WireBreak : Bool;   // Обрыв. ПЛК Бит 0.3 -> WinCC Бит 11
+      Status_AI_Underrange : Bool;   // Выход за шкалу низ. ПЛК Бит 0.4 -> WinCC Бит 12
+      Status_AI_Overrange : Bool;   // Выход за шкалу верх. ПЛК Бит 0.5 -> WinCC Бит 13
+      Status_AI_Overflow : Bool;   // Перегруз. ПЛК Бит 0.6 -> WinCC Бит 14
+      Status_AI_ConfigError : Bool;   // Ошибка конфигурации. ПЛК Бит 0.7 -> WinCC Бит 15
+      Pad_Byte : Byte;   // Резервный младший байт (WinCC Биты 0..7)--- Развернутое слово Cmd_Word (Ровно 2 байта) ---
+      Cmd_Reset : Bool;   // ПЛК Бит 0.0 -> WinCC Бит 8 (Кнопка сброса)
+      Cmd_Zero : Bool;   // ПЛК Бит 0.1 -> WinCC Бит 9 (Обнулений)
+      Cmd_Tare : Bool;   // ПЛК Бит 0.2 -> WinCC Бит 10 (Тарирование)
+      Cmd_DeleteTare : Bool;   // ПЛК Бит 0.3 -> WinCC Бит 11 (Удалить тару)
+      Pad_0_4 : Bool;   // Выравнивание
+      Pad_0_5 : Bool;   // Выравнивание
+      Pad_0_6 : Bool;   // Выравнивание
+      Pad_0_7 : Bool;   // Выравнивание
+      Pad_Byte_1 : Byte;   // Резервный младший байт (WinCC Биты 0..7)
    END_STRUCT;
 
 END_TYPE

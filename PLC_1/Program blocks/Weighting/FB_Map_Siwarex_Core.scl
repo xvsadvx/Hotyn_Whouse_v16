@@ -29,79 +29,79 @@ VERSION : 1.4
 
 BEGIN
 	    // 1. Веса
-	    "DB_MAP".Scale_CS_1.Weight_Gross_kg := INT_TO_REAL("DB_SCALE_CS_1".s_PROCESS_VALUES.i_GROSS_WEIGHT_PROC);
-	    "DB_MAP".Scale_CS_1.Weight_Net_kg := INT_TO_REAL("DB_SCALE_CS_1".s_PROCESS_VALUES.i_NET_WEIGHT_PROC);
-	    "DB_MAP".Scale_CS_1.Weight_Tare_kg := INT_TO_REAL("DB_SCALE_CS_1".s_PROCESS_VALUES.i_TARE_WEIGHT_PROC);
+	    "DB_HMI_MAP".Scale_CS_1.Weight_Gross_kg := INT_TO_REAL("DB_SCALE_CS_1".s_PROCESS_VALUES.i_GROSS_WEIGHT_PROC);
+	    "DB_HMI_MAP".Scale_CS_1.Weight_Net_kg := INT_TO_REAL("DB_SCALE_CS_1".s_PROCESS_VALUES.i_NET_WEIGHT_PROC);
+	    "DB_HMI_MAP".Scale_CS_1.Weight_Tare_kg := INT_TO_REAL("DB_SCALE_CS_1".s_PROCESS_VALUES.i_TARE_WEIGHT_PROC);
 	    
 	    // 2. Диагностика (Коды ошибок) - извлекаем типы Byte в Int
 	    // Операционная ошибка
-	    "DB_MAP".Scale_CS_1.Error_Op_Msg := BYTE_TO_INT("DB_SCALE_CS_1".s_PROCESS_VALUES.b_OPR_ERR_MSG);
+	    "DB_HMI_MAP".Scale_CS_1.Error_Op_Msg := BYTE_TO_INT("DB_SCALE_CS_1".s_PROCESS_VALUES.b_OPR_ERR_MSG);
 	    // Ошибка драйвера
-	    "DB_MAP".Scale_CS_1.Error_FB_Code := BYTE_TO_INT("DB_SCALE_CS_1".b_FB_ERR_CODE);
+	    "DB_HMI_MAP".Scale_CS_1.Error_FB_Code := BYTE_TO_INT("DB_SCALE_CS_1".b_FB_ERR_CODE);
 	    
 	    // 3. Диагностика (Биты)
-	    "DB_MAP".Scale_CS_1.Status.Standstill := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_ST_STAND_SCALE_ON;
-	    "DB_MAP".Scale_CS_1.Status.Limit_1 := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_LIMIT1_ON;
-	    "DB_MAP".Scale_CS_1.Status.Limit_2 := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_LIMIT2_ON;
-	    "DB_MAP".Scale_CS_1.Status.Fault_HW := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_ERROR_ON;
-	    "DB_MAP".Scale_CS_1.Status.Limit_Max := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_MAX_9E;
-	    "DB_MAP".Scale_CS_1.Status.Fault_FB := "DB_SCALE_CS_1".bo_FB_ERR; // Флаг ошибки FB
+	    "DB_HMI_MAP".Scale_CS_1.Status_Standstill := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_ST_STAND_SCALE_ON;
+	    "DB_HMI_MAP".Scale_CS_1.Status_Limit_1 := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_LIMIT1_ON;
+	    "DB_HMI_MAP".Scale_CS_1.Status_Limit_2 := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_LIMIT2_ON;
+	    "DB_HMI_MAP".Scale_CS_1.Status_Fault_HW := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_ERROR_ON;
+	    "DB_HMI_MAP".Scale_CS_1.Status_Limit_Max := "DB_SCALE_CS_1".s_PROCESS_VALUES.bo_STA_MAX_9E;
+	    "DB_HMI_MAP".Scale_CS_1.Status_Fault_FB := "DB_SCALE_CS_1".bo_FB_ERR; // Флаг ошибки FB
 	    
 	    
 	    // 4. Логика Watchdog (Контроль зависания)
-	    #temp_Value_Changed := ("DB_MAP".Scale_CS_1.Weight_Net_kg <> #stat_Diag_CS_1.Old_Weight);
+	    #temp_Value_Changed := ("DB_HMI_MAP".Scale_CS_1.Weight_Net_kg <> #stat_Diag_CS_1.Old_Weight);
 	    #temp_Counter_Changed := ("DB_SCALE_CS_1".b_INFO_REFRESH_COUNT <> #stat_Diag_CS_1.Old_Count);
 	    
 	    IF #temp_Value_Changed OR #temp_Counter_Changed THEN
 	        #stat_Diag_CS_1.Last_Change_ms := 0.0;
-	        #stat_Diag_CS_1.Old_Weight := "DB_MAP".Scale_CS_1.Weight_Net_kg;
+	        #stat_Diag_CS_1.Old_Weight := "DB_HMI_MAP".Scale_CS_1.Weight_Net_kg;
 	        #stat_Diag_CS_1.Old_Count := "DB_SCALE_CS_1".b_INFO_REFRESH_COUNT;
-	        "DB_MAP".Scale_CS_1.Status.Comm_Fault := FALSE;
+	        "DB_HMI_MAP".Scale_CS_1.Status_Comm_Fault := FALSE;
 	    ELSE
 	        #stat_Diag_CS_1.Last_Change_ms := #stat_Diag_CS_1.Last_Change_ms + "getCycleTime"();
 	    END_IF;
 	    
 	    IF #stat_Diag_CS_1.Last_Change_ms > 5000.0 THEN
-	        "DB_MAP".Scale_CS_1.Status.Comm_Fault := TRUE;
+	        "DB_HMI_MAP".Scale_CS_1.Status_Comm_Fault := TRUE;
 	    END_IF;
 	    
 	    
 	    
 	    
 	    // 1. Веса
-	    "DB_MAP".Scale_CS_2.Weight_Gross_kg := INT_TO_REAL("DB_SCALE_CS_2".s_PROCESS_VALUES.i_GROSS_WEIGHT_PROC);
-	    "DB_MAP".Scale_CS_2.Weight_Net_kg := INT_TO_REAL("DB_SCALE_CS_2".s_PROCESS_VALUES.i_NET_WEIGHT_PROC);
-	    "DB_MAP".Scale_CS_2.Weight_Tare_kg := INT_TO_REAL("DB_SCALE_CS_2".s_PROCESS_VALUES.i_TARE_WEIGHT_PROC);
+	    "DB_HMI_MAP".Scale_CS_2.Weight_Gross_kg := INT_TO_REAL("DB_SCALE_CS_2".s_PROCESS_VALUES.i_GROSS_WEIGHT_PROC);
+	    "DB_HMI_MAP".Scale_CS_2.Weight_Net_kg := INT_TO_REAL("DB_SCALE_CS_2".s_PROCESS_VALUES.i_NET_WEIGHT_PROC);
+	    "DB_HMI_MAP".Scale_CS_2.Weight_Tare_kg := INT_TO_REAL("DB_SCALE_CS_2".s_PROCESS_VALUES.i_TARE_WEIGHT_PROC);
 	    
 	    // 2. Диагностика (Коды ошибок) - извлекаем типы Byte в Int
 	    // Операционная ошибка
-	    "DB_MAP".Scale_CS_2.Error_Op_Msg := BYTE_TO_INT("DB_SCALE_CS_2".s_PROCESS_VALUES.b_OPR_ERR_MSG);
+	    "DB_HMI_MAP".Scale_CS_2.Error_Op_Msg := BYTE_TO_INT("DB_SCALE_CS_2".s_PROCESS_VALUES.b_OPR_ERR_MSG);
 	    // Ошибка драйвера
-	    "DB_MAP".Scale_CS_2.Error_FB_Code := BYTE_TO_INT("DB_SCALE_CS_2".b_FB_ERR_CODE);
+	    "DB_HMI_MAP".Scale_CS_2.Error_FB_Code := BYTE_TO_INT("DB_SCALE_CS_2".b_FB_ERR_CODE);
 	    
 	    // 3. Диагностика (Биты)
-	    "DB_MAP".Scale_CS_2.Status.Standstill := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_ST_STAND_SCALE_ON;
-	    "DB_MAP".Scale_CS_2.Status.Limit_1 := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_LIMIT1_ON;
-	    "DB_MAP".Scale_CS_2.Status.Limit_2 := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_LIMIT2_ON;
-	    "DB_MAP".Scale_CS_2.Status.Fault_HW := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_ERROR_ON;
-	    "DB_MAP".Scale_CS_2.Status.Limit_Max := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_MAX_9E;
-	    "DB_MAP".Scale_CS_2.Status.Fault_FB := "DB_SCALE_CS_2".bo_FB_ERR; // Флаг ошибки FB
+	    "DB_HMI_MAP".Scale_CS_2.Status_Standstill := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_ST_STAND_SCALE_ON;
+	    "DB_HMI_MAP".Scale_CS_2.Status_Limit_1 := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_LIMIT1_ON;
+	    "DB_HMI_MAP".Scale_CS_2.Status_Limit_2 := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_LIMIT2_ON;
+	    "DB_HMI_MAP".Scale_CS_2.Status_Fault_HW := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_ERROR_ON;
+	    "DB_HMI_MAP".Scale_CS_2.Status_Limit_Max := "DB_SCALE_CS_2".s_PROCESS_VALUES.bo_STA_MAX_9E;
+	    "DB_HMI_MAP".Scale_CS_2.Status_Fault_FB := "DB_SCALE_CS_2".bo_FB_ERR; // Флаг ошибки FB
 	    
 	    // 4. Логика Watchdog (Контроль зависания)
-	    #temp_Value_Changed := ("DB_MAP".Scale_CS_2.Weight_Net_kg <> #stat_Diag_CS_2.Old_Weight);
+	    #temp_Value_Changed := ("DB_HMI_MAP".Scale_CS_2.Weight_Net_kg <> #stat_Diag_CS_2.Old_Weight);
 	    #temp_Counter_Changed := ("DB_SCALE_CS_2".b_INFO_REFRESH_COUNT <> #stat_Diag_CS_2.Old_Count);
 	    
 	    IF #temp_Value_Changed OR #temp_Counter_Changed THEN
 	        #stat_Diag_CS_2.Last_Change_ms := 0.0;
-	        #stat_Diag_CS_2.Old_Weight := "DB_MAP".Scale_CS_2.Weight_Net_kg;
+	        #stat_Diag_CS_2.Old_Weight := "DB_HMI_MAP".Scale_CS_2.Weight_Net_kg;
 	        #stat_Diag_CS_2.Old_Count := "DB_SCALE_CS_2".b_INFO_REFRESH_COUNT;
-	        "DB_MAP".Scale_CS_2.Status.Comm_Fault := FALSE;
+	        "DB_HMI_MAP".Scale_CS_2.Status_Comm_Fault := FALSE;
 	    ELSE
 	        #stat_Diag_CS_2.Last_Change_ms := #stat_Diag_CS_2.Last_Change_ms + "getCycleTime"();
 	    END_IF;
 	    
 	    IF #stat_Diag_CS_2.Last_Change_ms > 5000.0 THEN
-	        "DB_MAP".Scale_CS_2.Status.Comm_Fault := TRUE;
+	        "DB_HMI_MAP".Scale_CS_2.Status_Comm_Fault := TRUE;
 	    END_IF;
 	    
 END_FUNCTION_BLOCK

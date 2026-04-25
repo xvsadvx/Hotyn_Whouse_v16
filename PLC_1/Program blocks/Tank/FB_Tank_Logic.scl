@@ -18,7 +18,7 @@ VERSION : 1.2
       stat_AI : "FB_AI";
       stat_AI_Alarm : "FB_AI_Alarm";
       stat_DI : "FB_DI";
-      stat_DI_Alarm : "FB_DI_Alarm1";
+      stat_DI_Alarm : "FB_DI_Alarm";
    END_VAR
 
    VAR_TEMP 
@@ -67,16 +67,16 @@ BEGIN
 	// 3. АВАРИИ ПО УРОВНЮ (AI)
 	// Глушим алармы AI при аппаратных ошибках (Inhibit)
 	#temp_boInhibitAI := #temp_Tank.AI_Out.Status.WireBreak OR
-	                    #temp_Tank.AI_Out.Status.Overflow OR
-	                    #temp_Tank.AI_Out.Status.ConfigError;
-	                    
+	#temp_Tank.AI_Out.Status.Overflow OR
+	#temp_Tank.AI_Out.Status.ConfigError;
+	
 	//В алармах обрабатываем реальный уровень, а не уровень без учета плотности(12 * 1.35 - датчик), или вес для весовых танков 
 	IF #temp_boIsSiwa THEN
 	    #temp_Value := #temp_Tank.Calc.Weight_t * 1000.0;// kg vs t ???
 	ELSE
 	    #temp_Value := #temp_Tank.Calc.Level_m;
 	END_IF;
-	    
+	
 	#stat_AI_Alarm(i_rValue := #temp_Value, //#temp_Tank.AI_Out.Value_Filtered
 	               i_boReset := #temp_ResetError,
 	               i_boInhibit := #temp_boInhibitAI,

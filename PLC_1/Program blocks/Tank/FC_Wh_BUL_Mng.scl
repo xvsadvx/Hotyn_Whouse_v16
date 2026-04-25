@@ -34,7 +34,7 @@ BEGIN
 	// HMI маппинг
 	FOR #temp_Ind := 1 TO "c_Count_BUL" DO
 	    "FC_Map_SmallTank_HMI"(io_Tank_Internal := "DB_Wh_BUL".Tank[#temp_Ind],
-	                           io_HMI_Tank := "DB_MAP".HMI_BUL_SmalTank[#temp_Ind]);
+	                           io_HMI_Tank := "DB_HMI_MAP".BUL_SmalTank[#temp_Ind]);
 	END_FOR;
 	
 END_FUNCTION

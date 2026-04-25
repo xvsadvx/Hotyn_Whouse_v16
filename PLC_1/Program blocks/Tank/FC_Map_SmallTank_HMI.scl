@@ -32,23 +32,25 @@ BEGIN
 	        #io_HMI_Tank.Height_Full_m := #io_Tank_Internal.Geom.Height_Full_m;
 	        
 	        // --- Статусные биты аварий ---
-	        #io_HMI_Tank.Status_Alarms.DI := #io_Tank_Internal.DI_Alarm.Alarm;
-	        #io_HMI_Tank.Status_Alarms.HH := #io_Tank_Internal.AI_Alarm.HiHi;
-	        #io_HMI_Tank.Status_Alarms.H := #io_Tank_Internal.AI_Alarm.Hi;
-	        #io_HMI_Tank.Status_Alarms.L := #io_Tank_Internal.AI_Alarm.Lo;
-	        #io_HMI_Tank.Status_Alarms.LL := #io_Tank_Internal.AI_Alarm.LoLo;
+	        #io_HMI_Tank.Alarm_DI := #io_Tank_Internal.DI_Alarm.Alarm;
+	        #io_HMI_Tank.Alarm_HH := #io_Tank_Internal.AI_Alarm.HiHi;
+	        #io_HMI_Tank.Alarm_H := #io_Tank_Internal.AI_Alarm.Hi;
+	        #io_HMI_Tank.Alarm_L := #io_Tank_Internal.AI_Alarm.Lo;
+	        #io_HMI_Tank.Alarm_LL := #io_Tank_Internal.AI_Alarm.LoLo;
 	        
+	        #io_HMI_Tank.Status_DI_Disabled := #io_Tank_Internal.DI_Out.Disabled;
+	        #io_HMI_Tank.Status_DI_Value := #io_Tank_Internal.DI_Out.Value;
 	        // --- Диагностика AI ---
-	        #io_HMI_Tank.Status_AI.Disabled := #io_Tank_Internal.AI_Out.Status.Disabled;
-	        #io_HMI_Tank.Status_AI.WireBreak := #io_Tank_Internal.AI_Out.Status.WireBreak;
-	        #io_HMI_Tank.Status_AI.Underrange := #io_Tank_Internal.AI_Out.Status.Underrange;
-	        #io_HMI_Tank.Status_AI.Overrange := #io_Tank_Internal.AI_Out.Status.Overrange;
-	        #io_HMI_Tank.Status_AI.Overflow := #io_Tank_Internal.AI_Out.Status.Overflow;
-	        #io_HMI_Tank.Status_AI.ConfigError := #io_Tank_Internal.AI_Out.Status.ConfigError;
+	        #io_HMI_Tank.Status_AI_Disabled := #io_Tank_Internal.AI_Out.Status.Disabled;
+	        #io_HMI_Tank.Status_AI_WireBreak := #io_Tank_Internal.AI_Out.Status.WireBreak;
+	        #io_HMI_Tank.Status_AI_Underrange := #io_Tank_Internal.AI_Out.Status.Underrange;
+	        #io_HMI_Tank.Status_AI_Overrange := #io_Tank_Internal.AI_Out.Status.Overrange;
+	        #io_HMI_Tank.Status_AI_Overflow := #io_Tank_Internal.AI_Out.Status.Overflow;
+	        #io_HMI_Tank.Status_AI_ConfigError := #io_Tank_Internal.AI_Out.Status.ConfigError;
 	        
 	        // --- Команды HMI -> Tank (сброс ошибок) ---
-	        #io_Tank_Internal.Cmd.ResetError := #io_HMI_Tank.Cmd.Reset;
-	        #io_HMI_Tank.Cmd.Reset := FALSE;
+	        #io_Tank_Internal.Cmd.ResetError := #io_HMI_Tank.Cmd_Reset;
+	        #io_HMI_Tank.Cmd_Reset := FALSE;
 	        
 END_FUNCTION
 

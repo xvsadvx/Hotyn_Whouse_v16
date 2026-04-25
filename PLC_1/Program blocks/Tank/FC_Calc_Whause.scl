@@ -11,104 +11,104 @@ BEGIN
 	// СКЛАД TRN (3 танка)
 	// ==============================================================================
 	
-	"DB_MAP".HMI_Whouse.TRN.Total_Volume_m3 := 0.0;
-	"DB_MAP".HMI_Whouse.TRN.Total_Weight_t := 0.0;
-	"DB_MAP".HMI_Whouse.TRN.Total_Ullage_pct := 0.0;
-	"DB_MAP".HMI_Whouse.TRN.Total_Ullage_m3 := 0.0;
-	"DB_MAP".HMI_Whouse.TRN.Tanks_In_Alarm := 0;
+	"DB_HMI_MAP".Whouse_TRN.Total_Volume_m3 := 0.0;
+	"DB_HMI_MAP".Whouse_TRN.Total_Weight_t := 0.0;
+	"DB_HMI_MAP".Whouse_TRN.Total_Ullage_pct := 0.0;
+	"DB_HMI_MAP".Whouse_TRN.Total_Ullage_m3 := 0.0;
+	"DB_HMI_MAP".Whouse_TRN.Tanks_In_Alarm := 0;
 	
 	FOR #temp_i := 1 TO "c_Count_TRN" DO
 	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_Wh_TRN".Tank[#temp_i],
-	                               io_Whouse := "DB_MAP".HMI_Whouse.TRN);
+	                               io_Whouse := "DB_HMI_MAP".Whouse_TRN);
 	END_FOR;
 	
-	IF ("DB_MAP".HMI_Whouse.TRN.Total_Volume_m3 + "DB_MAP".HMI_Whouse.TRN.Total_Ullage_m3) >= 0.001 THEN
-	    "DB_MAP".HMI_Whouse.TRN.Total_Ullage_pct :=
-	    "DB_MAP".HMI_Whouse.TRN.Total_Ullage_m3 / ("DB_MAP".HMI_Whouse.TRN.Total_Volume_m3 + "DB_MAP".HMI_Whouse.TRN.Total_Ullage_m3) * 100.0;
+	IF ("DB_HMI_MAP".Whouse_TRN.Total_Volume_m3 + "DB_HMI_MAP".Whouse_TRN.Total_Ullage_m3) >= 0.001 THEN
+	    "DB_HMI_MAP".Whouse_TRN.Total_Ullage_pct :=
+	    "DB_HMI_MAP".Whouse_TRN.Total_Ullage_m3 / ("DB_HMI_MAP".Whouse_TRN.Total_Volume_m3 + "DB_HMI_MAP".Whouse_TRN.Total_Ullage_m3) * 100.0;
 	END_IF;
 	
-	"DB_MAP".HMI_Whouse.TRN.Status_Word.Global_Alarm := ("DB_MAP".HMI_Whouse.TRN.Tanks_In_Alarm > 0);
+	"DB_HMI_MAP".Whouse_TRN.Status_Global_Alarm := ("DB_HMI_MAP".Whouse_TRN.Tanks_In_Alarm > 0);
 	
 	// Сброс глобальной кнопки после прохода цикла
-	IF "DB_MAP".HMI_Whouse.TRN.Cmd_Word.Reset_All THEN
-	    "DB_MAP".HMI_Whouse.TRN.Cmd_Word.Reset_All := FALSE;
+	IF "DB_HMI_MAP".Whouse_TRN.Cmd_Reset_All THEN
+	    "DB_HMI_MAP".Whouse_TRN.Cmd_Reset_All := FALSE;
 	END_IF;
 	
 	// ==============================================================================
 	// СКЛАД POL (10 танков)
 	// ==============================================================================
-	"DB_MAP".HMI_Whouse.POL.Total_Volume_m3 := 0.0;
-	"DB_MAP".HMI_Whouse.POL.Total_Weight_t := 0.0;
-	"DB_MAP".HMI_Whouse.POL.Total_Ullage_pct := 0.0;
-	"DB_MAP".HMI_Whouse.POL.Total_Ullage_m3 := 0.0;
-	"DB_MAP".HMI_Whouse.POL.Tanks_In_Alarm := 0;
+	"DB_HMI_MAP".Whouse_POL.Total_Volume_m3 := 0.0;
+	"DB_HMI_MAP".Whouse_POL.Total_Weight_t := 0.0;
+	"DB_HMI_MAP".Whouse_POL.Total_Ullage_pct := 0.0;
+	"DB_HMI_MAP".Whouse_POL.Total_Ullage_m3 := 0.0;
+	"DB_HMI_MAP".Whouse_POL.Tanks_In_Alarm := 0;
 	
 	FOR #temp_i := 1 TO "c_Count_POL" DO
 	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_Wh_POL".Tank[#temp_i],
-	                               io_Whouse := "DB_MAP".HMI_Whouse.POL);
+	                               io_Whouse := "DB_HMI_MAP".Whouse_POL);
 	END_FOR;
 	
-	IF ("DB_MAP".HMI_Whouse.POL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.POL.Total_Ullage_m3) >= 0.001 THEN
-	    "DB_MAP".HMI_Whouse.POL.Total_Ullage_pct :=
-	    "DB_MAP".HMI_Whouse.POL.Total_Ullage_m3 / ("DB_MAP".HMI_Whouse.POL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.POL.Total_Ullage_m3) * 100.0;
+	IF ("DB_HMI_MAP".Whouse_POL.Total_Volume_m3 + "DB_HMI_MAP".Whouse_POL.Total_Ullage_m3) >= 0.001 THEN
+	    "DB_HMI_MAP".Whouse_POL.Total_Ullage_pct :=
+	    "DB_HMI_MAP".Whouse_POL.Total_Ullage_m3 / ("DB_HMI_MAP".Whouse_POL.Total_Volume_m3 + "DB_HMI_MAP".Whouse_POL.Total_Ullage_m3) * 100.0;
 	END_IF;
-	"DB_MAP".HMI_Whouse.POL.Status_Word.Global_Alarm := ("DB_MAP".HMI_Whouse.POL.Tanks_In_Alarm > 0);
+	"DB_HMI_MAP".Whouse_POL.Status_Global_Alarm := ("DB_HMI_MAP".Whouse_POL.Tanks_In_Alarm > 0);
 	
 	// Сброс глобальной кнопки после прохода цикла
-	IF "DB_MAP".HMI_Whouse.POL.Cmd_Word.Reset_All THEN
-	    "DB_MAP".HMI_Whouse.POL.Cmd_Word.Reset_All := FALSE;
+	IF "DB_HMI_MAP".Whouse_POL.Cmd_Reset_All THEN
+	    "DB_HMI_MAP".Whouse_POL.Cmd_Reset_All := FALSE;
 	END_IF;
 	
 	// ==============================================================================
 	// СКЛАД BUL (4 танка)
 	// ==============================================================================
-	"DB_MAP".HMI_Whouse.BUL.Total_Volume_m3 := 0.0;
-	"DB_MAP".HMI_Whouse.BUL.Total_Weight_t := 0.0;
-	"DB_MAP".HMI_Whouse.BUL.Total_Ullage_pct := 0.0;
-	"DB_MAP".HMI_Whouse.BUL.Total_Ullage_m3 := 0.0;
-	"DB_MAP".HMI_Whouse.BUL.Tanks_In_Alarm := 0;
+	"DB_HMI_MAP".Whouse_BUL.Total_Volume_m3 := 0.0;
+	"DB_HMI_MAP".Whouse_BUL.Total_Weight_t := 0.0;
+	"DB_HMI_MAP".Whouse_BUL.Total_Ullage_pct := 0.0;
+	"DB_HMI_MAP".Whouse_BUL.Total_Ullage_m3 := 0.0;
+	"DB_HMI_MAP".Whouse_BUL.Tanks_In_Alarm := 0;
 	
 	FOR #temp_i := 1 TO "c_Count_BUL" DO
 	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_Wh_BUL".Tank[#temp_i],
-	                               io_Whouse := "DB_MAP".HMI_Whouse.BUL);
+	                               io_Whouse := "DB_HMI_MAP".Whouse_BUL);
 	END_FOR;
 	
-	IF ("DB_MAP".HMI_Whouse.BUL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.BUL.Total_Ullage_m3) >= 0.001 THEN
-	    "DB_MAP".HMI_Whouse.BUL.Total_Ullage_pct :=
-	    "DB_MAP".HMI_Whouse.BUL.Total_Ullage_m3 / ("DB_MAP".HMI_Whouse.BUL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.BUL.Total_Ullage_m3) * 100.0;
+	IF ("DB_HMI_MAP".Whouse_BUL.Total_Volume_m3 + "DB_HMI_MAP".Whouse_BUL.Total_Ullage_m3) >= 0.001 THEN
+	    "DB_HMI_MAP".Whouse_BUL.Total_Ullage_pct :=
+	    "DB_HMI_MAP".Whouse_BUL.Total_Ullage_m3 / ("DB_HMI_MAP".Whouse_BUL.Total_Volume_m3 + "DB_HMI_MAP".Whouse_BUL.Total_Ullage_m3) * 100.0;
 	END_IF;
 	
-	"DB_MAP".HMI_Whouse.BUL.Status_Word.Global_Alarm := ("DB_MAP".HMI_Whouse.BUL.Tanks_In_Alarm > 0);
+	"DB_HMI_MAP".Whouse_BUL.Status_Global_Alarm := ("DB_HMI_MAP".Whouse_BUL.Tanks_In_Alarm > 0);
 	
 	// Сброс глобальной кнопки после прохода цикла
-	IF "DB_MAP".HMI_Whouse.BUL.Cmd_Word.Reset_All THEN
-	    "DB_MAP".HMI_Whouse.BUL.Cmd_Word.Reset_All := FALSE;
+	IF "DB_HMI_MAP".Whouse_BUL.Cmd_Reset_All THEN
+	    "DB_HMI_MAP".Whouse_BUL.Cmd_Reset_All := FALSE;
 	END_IF;
 	
 	// ==============================================================================
 	// СКЛАД MOL (12 танков)
 	// ==============================================================================
-	"DB_MAP".HMI_Whouse.MOL.Total_Volume_m3 := 0.0;
-	"DB_MAP".HMI_Whouse.MOL.Total_Weight_t := 0.0;
-	"DB_MAP".HMI_Whouse.MOL.Total_Ullage_pct := 0.0;
-	"DB_MAP".HMI_Whouse.MOL.Total_Ullage_m3 := 0.0;
-	"DB_MAP".HMI_Whouse.MOL.Tanks_In_Alarm := 0;
+	"DB_HMI_MAP".Whouse_MOL.Total_Volume_m3 := 0.0;
+	"DB_HMI_MAP".Whouse_MOL.Total_Weight_t := 0.0;
+	"DB_HMI_MAP".Whouse_MOL.Total_Ullage_pct := 0.0;
+	"DB_HMI_MAP".Whouse_MOL.Total_Ullage_m3 := 0.0;
+	"DB_HMI_MAP".Whouse_MOL.Tanks_In_Alarm := 0;
 	
 	FOR #temp_i := 1 TO "c_Count_MOL" DO
 	    "FC_Wh_Totals_Aggregation"(io_Tanks := "DB_Wh_MOL".Tank[#temp_i],
-	                               io_Whouse := "DB_MAP".HMI_Whouse.MOL);
+	                               io_Whouse := "DB_HMI_MAP".Whouse_MOL);
 	END_FOR;
 	
-	IF ("DB_MAP".HMI_Whouse.MOL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.MOL.Total_Ullage_m3) >= 0.001 THEN
-	    "DB_MAP".HMI_Whouse.MOL.Total_Ullage_pct :=
-	    "DB_MAP".HMI_Whouse.MOL.Total_Ullage_m3 / ("DB_MAP".HMI_Whouse.MOL.Total_Volume_m3 + "DB_MAP".HMI_Whouse.MOL.Total_Ullage_m3) * 100.0;
+	IF ("DB_HMI_MAP".Whouse_MOL.Total_Volume_m3 + "DB_HMI_MAP".Whouse_MOL.Total_Ullage_m3) >= 0.001 THEN
+	    "DB_HMI_MAP".Whouse_MOL.Total_Ullage_pct :=
+	    "DB_HMI_MAP".Whouse_MOL.Total_Ullage_m3 / ("DB_HMI_MAP".Whouse_MOL.Total_Volume_m3 + "DB_HMI_MAP".Whouse_MOL.Total_Ullage_m3) * 100.0;
 	END_IF;
 	
-	"DB_MAP".HMI_Whouse.MOL.Status_Word.Global_Alarm := ("DB_MAP".HMI_Whouse.MOL.Tanks_In_Alarm > 0);
+	"DB_HMI_MAP".Whouse_MOL.Status_Global_Alarm := ("DB_HMI_MAP".Whouse_MOL.Tanks_In_Alarm > 0);
 	
 	// Сброс глобальной кнопки после прохода цикла
-	IF "DB_MAP".HMI_Whouse.MOL.Cmd_Word.Reset_All THEN
-	    "DB_MAP".HMI_Whouse.MOL.Cmd_Word.Reset_All := FALSE;
+	IF "DB_HMI_MAP".Whouse_MOL.Cmd_Reset_All THEN
+	    "DB_HMI_MAP".Whouse_MOL.Cmd_Reset_All := FALSE;
 	END_IF;
 	
 	
