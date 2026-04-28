@@ -1,0 +1,16 @@
+﻿DATA_BLOCK "DB_Log_Buffer"
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   STRUCT 
+      Write_Index : Int;   // Указатель для ПЛК (куда пишем следующую запись)
+      Read_Index : Int;   // Указатель для Python/1C (что считано)
+      Buffer : Array[0..1999] of "UDT_Log_Record";   // Кольцевой буфер на 500 записей
+   END_STRUCT;
+
+
+BEGIN
+   Write_Index := 0;
+   Read_Index := 0;
+
+END_DATA_BLOCK
+
