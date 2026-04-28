@@ -1,0 +1,11 @@
+﻿DATA_BLOCK "iDB_Time_Trigger"
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : S7A_Lib
+FAMILY : Archive
+VERSION : 1.1
+"FB_Time_Trigger"
+
+BEGIN
+
+END_DATA_BLOCK
+
