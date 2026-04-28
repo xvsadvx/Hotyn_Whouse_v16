@@ -1,0 +1,37 @@
+﻿FUNCTION "FC_Log_Mng" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      temp_Ind : Int;
+   END_VAR
+
+
+BEGIN
+	
+	
+	FOR #temp_Ind := 1 TO "c_Count_TRN" DO
+	    "FC_Log_Tank"(i_Whouse_ID:=1,
+	                  i_Tank_Index:=INT_TO_BYTE(#temp_Ind),
+	              io_Tank:="DB_HMI_MAP".TRN_SmalTank[#temp_Ind]);
+	END_FOR;
+	
+	FOR #temp_Ind := 1 TO "c_Count_POL" DO
+	    "FC_Log_Tank"(i_Whouse_ID := 2,
+	                  i_Tank_Index := INT_TO_BYTE(#temp_Ind),
+	                  io_Tank := "DB_HMI_MAP".POL_SmalTank[#temp_Ind]);
+	END_FOR;
+	
+	FOR #temp_Ind := 1 TO "c_Count_BUL" DO
+	    "FC_Log_Tank"(i_Whouse_ID := 3,
+	                  i_Tank_Index := INT_TO_BYTE(#temp_Ind),
+	                  io_Tank := "DB_HMI_MAP".BUL_SmalTank[#temp_Ind]);
+	END_FOR;
+	
+	FOR #temp_Ind := 1 TO "c_Count_MOL" DO
+	    "FC_Log_Tank"(i_Whouse_ID := 4,
+	                  i_Tank_Index := INT_TO_BYTE(#temp_Ind),
+	                  io_Tank := "DB_HMI_MAP".MOL_SmalTank[#temp_Ind]);
+	END_FOR;
+	
+END_FUNCTION
+

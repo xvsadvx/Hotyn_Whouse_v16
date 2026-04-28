@@ -1,0 +1,12 @@
+﻿TYPE "UDT_Log_Record"
+VERSION : 0.1
+   STRUCT
+      Timestamp : Date_And_Time; // 8 байт
+      Whouse_ID : Byte;          // ID склада (1..4)
+      Tank_Index : Byte;         // Номер танка в массиве
+      Level_m : Real;            // Уровень из Calc.Level_m
+      Weight_t : Real;           // Вес из Calc.Weight_t
+      Status_Bits : Byte;        // Упакованные аварии (HiHi, Hi, Lo, LoLo)
+      Pad_Byte : Byte;           // Выравнивание до четного числа байт
+   END_STRUCT;
+END_TYPE

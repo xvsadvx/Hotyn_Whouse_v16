@@ -1,0 +1,36 @@
+﻿FUNCTION "FC_Log_Tank" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      i_Whouse_ID : Byte;
+      i_Tank_Index : Byte;
+   END_VAR
+
+   VAR_IN_OUT 
+      io_Tank : "UDT_HMI_SmallTank";
+   END_VAR
+
+   VAR_TEMP 
+      temp_Write_Ptr : Int;
+      temp_DT : Date_And_Time;
+   END_VAR
+
+
+BEGIN
+	
+	#temp_DT := "DB_DateTime".DateTime_PLC;
+	#temp_Write_Ptr := "DB_Log_Buffer".Write_Index;
+	
+	"DB_Log_Buffer".Buffer[#temp_Write_Ptr].Timestamp := #temp_DT;
+	"DB_Log_Buffer".Buffer[#temp_Write_Ptr].Whouse_ID := #i_Whouse_ID;
+	"DB_Log_Buffer".Buffer[#temp_Write_Ptr].Tank_Index := #i_Tank_Index;
+	"DB_Log_Buffer".Buffer[#temp_Write_Ptr].Level_m := #io_Tank.Level_m;
+	"DB_Log_Buffer".Buffer[#temp_Write_Ptr].Weight_t := #io_Tank.Weight_t;
+	//"DB_Log_Buffer".Buffer[#temp_Write_Ptr].Status_Bits := #temp_Status;
+	
+	#temp_Write_Ptr := #temp_Write_Ptr + 1;
+	IF #temp_Write_Ptr > 1999 THEN
+	    #temp_Write_Ptr := 0;
+	END_IF;
+END_FUNCTION
+
