@@ -1,0 +1,78 @@
+﻿FUNCTION_BLOCK "FB_Time_Trigger"
+TITLE = 'Генератор часовых слепков (Пуленепробиваемый)'
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : S7A_Lib
+FAMILY : Archive
+VERSION : 1.1
+   VAR_INPUT 
+      i_Shift_1_Start : Int := 8;   // Час начала дневной смены (напр. 08:00)
+      i_Shift_2_Start : Int := 20;   // Час начала ночной смены (напр. 20:00)
+   END_VAR
+
+   VAR_OUTPUT 
+      q_Trigger_Hour : Bool;   // Импульс: Сменился час (или день)
+      q_Trigger_Shift : Bool;   // Импульс: Началась новая смена
+   END_VAR
+
+   VAR 
+      stat_Prev_Hour : Int;
+      stat_Prev_Day : Int;   // ДОБАВЛЕНО: Память предыдущего дня
+      stat_Init_Done : Bool;
+      temp_DT : Date_And_Time;
+      temp_DT_Bytes { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} AT temp_DT : Array[0..7] of Byte;
+      temp_Second_Int : Int;
+      temp_Minute_Int : Int;
+      temp_Hour_Int : Int;
+      temp_Day_Int : Int;   // ДОБАВЛЕНО: Текущий день
+      temp_Month_Int : Int;
+      temp_Yar_Int : Int;
+      temp_RetVal : Int;
+   END_VAR
+
+
+BEGIN
+	    #q_Trigger_Hour := FALSE;
+	    #q_Trigger_Shift := FALSE;
+	    
+	    #temp_RetVal := RD_SYS_T(OUT => #temp_DT);
+	    
+	    #temp_Second_Int := BCD16_TO_INT(BYTE_TO_WORD(#temp_DT_Bytes[5]));
+	    #temp_Minute_Int := BCD16_TO_INT(BYTE_TO_WORD(#temp_DT_Bytes[4]));
+	    #temp_Hour_Int := BCD16_TO_INT(BYTE_TO_WORD(#temp_DT_Bytes[3]));
+	    
+	    #temp_Day_Int := BCD16_TO_INT(BYTE_TO_WORD(#temp_DT_Bytes[2]));
+	    #temp_Month_Int := BCD16_TO_INT(BYTE_TO_WORD(#temp_DT_Bytes[1]));
+	    #temp_Yar_Int := BCD16_TO_INT(BYTE_TO_WORD(#temp_DT_Bytes[0]));
+	    
+	    "DB_DateTime".DT_Byte := #temp_DT_Bytes;
+	    "DB_DateTime".DateTime_PLC := #temp_DT;
+	    "DB_DateTime".Date_PLC := DT_TO_DATE(#temp_DT);
+	    "DB_DateTime".TimeOfDay_PLC := DT_TO_TOD(#temp_DT);
+	    
+	    // Инициализация при первой заливке блока
+	    IF NOT #stat_Init_Done THEN
+	        #stat_Prev_Hour := #temp_Hour_Int;
+	        #stat_Prev_Day := #temp_Day_Int;
+	        #stat_Init_Done := TRUE;
+	        #q_Trigger_Hour := TRUE;
+	        RETURN;
+	    END_IF;
+	    
+	    // Контроль смены часа ИЛИ смены дня (закрывает баг "ровно 24 часа")
+	    IF (#temp_Hour_Int <> #stat_Prev_Hour) OR (#temp_Day_Int <> #stat_Prev_Day) THEN
+	        
+	        #q_Trigger_Hour := TRUE;
+	        
+	        // Проверяем на начало смены
+	        IF (#temp_Hour_Int = #i_Shift_1_Start) OR (#temp_Hour_Int = #i_Shift_2_Start) THEN
+	            #q_Trigger_Shift := TRUE;
+	        END_IF;
+	        
+	        // Обновляем память
+	        #stat_Prev_Hour := #temp_Hour_Int;
+	        #stat_Prev_Day := #temp_Day_Int;
+	        
+	    END_IF;
+	    
+END_FUNCTION_BLOCK
+
