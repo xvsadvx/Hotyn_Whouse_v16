@@ -8,8 +8,8 @@ VERSION : 8.1
 // БЛОК ОБРАБОТКИ АНАЛОГОВОГО СИГНАЛА (FB_AI)
 // -----------------------------------------------------------------------------
    VAR_INPUT 
-      i_iRawSignal { ExternalVisible := 'False'} : Int;
-      i_rSimValue { ExternalVisible := 'False'} : Real;
+      i_iRawSignal { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      i_rSimValue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Real;
    END_VAR
 
    VAR_IN_OUT 
@@ -18,7 +18,7 @@ VERSION : 8.1
    END_VAR
 
    VAR 
-      stat_boWasInvalid { ExternalVisible := 'False'} : Bool := TRUE;
+      stat_boWasInvalid { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool := TRUE;
    END_VAR
 
    VAR_TEMP 
@@ -135,7 +135,7 @@ BEGIN
 	        ELSE
 	            // А) Расчет миллиампер
 	            #temp_rMA := 4.0 + ((INT_TO_REAL(#i_iRawSignal) - INT_TO_REAL(#io_stConfig.HW_Min)) /
-	                                #temp_rHWRange) * 16.0;
+	            #temp_rHWRange) * 16.0;
 	            #io_stOut.Value_mA := #temp_rMA;
 	            
 	            // Б) Нормализация (0.0 ... 1.0)
@@ -191,10 +191,10 @@ BEGIN
 	    // ШАГ 4. ФИЛЬТРАЦИЯ & PRE-LOAD 
 	    // =========================================================
 	    #temp_boResetFilter := #io_stOut.Status.WireBreak OR
-	                        #io_stOut.Status.Overflow OR
-	                        #stat_boWasInvalid OR
-	                        "isFirstScan"();
-	
+	    #io_stOut.Status.Overflow OR
+	    #stat_boWasInvalid OR
+	    "isFirstScan"();
+	    
 	    #temp_iFilterTime := INT_TO_REAL(LIMIT(MN := 0, IN := #io_stConfig.FilterTime_ms, MX := 32000));
 	    
 	    "FC_Filter_PT1"(
@@ -205,8 +205,8 @@ BEGIN
 	    );
 	    
 	    #stat_boWasInvalid := #io_stOut.Status.WireBreak OR
-	                        #io_stOut.Status.Overflow OR
-	                        #io_stOut.Status.ConfigError;
-	                    
+	    #io_stOut.Status.Overflow OR
+	    #io_stOut.Status.ConfigError;
+	    
 END_FUNCTION_BLOCK
 

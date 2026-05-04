@@ -4,12 +4,12 @@ VERSION : 0.1
 NON_RETAIN
 // 2. GLOBAL DATA (Pure Data only)
    STRUCT 
-      Sys { ExternalVisible := 'False'; S7_SetPoint := 'False'} : "UDT_Sys_Info";
-      c_stDI_Mode { ExternalVisible := 'False'} : Struct
-         None { ExternalVisible := 'False'} : Int;
-         NOpen { ExternalVisible := 'False'} : Int;
-         NClose { ExternalVisible := 'False'} : Int;
-         Disabled { ExternalVisible := 'False'} : Int;
+      Sys { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : "UDT_Sys_Info";
+      c_stDI_Mode { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Struct
+         None { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+         NOpen { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+         NClose { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+         Disabled { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
       END_STRUCT;
    END_STRUCT;
 

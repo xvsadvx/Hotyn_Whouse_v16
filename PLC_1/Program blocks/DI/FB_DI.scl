@@ -11,7 +11,7 @@ VERSION : 1.2
 // - Кодировка при сохранении: UTF-8 with BOM
 // ==============================================================================
    VAR_INPUT 
-      i_boRaw { ExternalVisible := 'False'} : Bool;   // Сырой физический вход
+      i_boRaw { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Сырой физический вход
    END_VAR
 
    VAR_IN_OUT 
@@ -20,10 +20,10 @@ VERSION : 1.2
    END_VAR
 
    VAR 
-      stat_TonFlt {InstructionName := 'TON'; LibVersion := '1.0'; ExternalVisible := 'False'; S7_SetPoint := 'False'} : TON;   // Задержка включения
-      stat_TofFlt {InstructionName := 'TOF'; LibVersion := '1.0'; ExternalVisible := 'False'; S7_SetPoint := 'False'} : TOF;   // Задержка выключения
-      stat_Mode { ExternalVisible := 'False'} : Int;   // Текущий рабочий режим
-      stat_OldMode { ExternalVisible := 'False'} : Int;   // Предыдущий режим для отслеживания изменений
+      stat_TonFlt {InstructionName := 'TON_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TON_TIME;   // Задержка включения
+      stat_TofFlt {InstructionName := 'TOF_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TOF_TIME;   // Задержка выключения
+      stat_Mode { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;   // Текущий рабочий режим
+      stat_OldMode { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;   // Предыдущий режим для отслеживания изменений
    END_VAR
 
    VAR_TEMP 
@@ -90,7 +90,7 @@ BEGIN
 	        
 	        // Включение (TON отработал) -> сигнал стабильно TRUE
 	        IF #stat_TonFlt.Q THEN
-	            #io_stOut.Value := (#stat_Mode = "DB_Global".c_stDI_Mode.NOpen); 
+	            #io_stOut.Value := (#stat_Mode = "DB_Global".c_stDI_Mode.NOpen);
 	        END_IF;
 	        
 	        // Выключение (TOF отработал) -> сигнал стабильно FALSE

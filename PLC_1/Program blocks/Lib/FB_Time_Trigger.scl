@@ -5,28 +5,28 @@ AUTHOR : S7A_Lib
 FAMILY : Archive
 VERSION : 1.1
    VAR_INPUT 
-      i_Shift_1_Start : Int := 8;   // Час начала дневной смены (напр. 08:00)
-      i_Shift_2_Start : Int := 20;   // Час начала ночной смены (напр. 20:00)
+      i_Shift_1_Start { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int := 8;   // Час начала дневной смены (напр. 08:00)
+      i_Shift_2_Start { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int := 20;   // Час начала ночной смены (напр. 20:00)
    END_VAR
 
    VAR_OUTPUT 
-      q_Trigger_Hour : Bool;   // Импульс: Сменился час (или день)
-      q_Trigger_Shift : Bool;   // Импульс: Началась новая смена
+      q_Trigger_Hour { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Импульс: Сменился час (или день)
+      q_Trigger_Shift { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Импульс: Началась новая смена
    END_VAR
 
    VAR 
-      stat_Prev_Hour : Int;
-      stat_Prev_Day : Int;   // ДОБАВЛЕНО: Память предыдущего дня
-      stat_Init_Done : Bool;
-      temp_DT : Date_And_Time;
+      stat_Prev_Hour { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      stat_Prev_Day { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;   // ДОБАВЛЕНО: Память предыдущего дня
+      stat_Init_Done { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      temp_DT { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Date_And_Time;
       temp_DT_Bytes { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} AT temp_DT : Array[0..7] of Byte;
-      temp_Second_Int : Int;
-      temp_Minute_Int : Int;
-      temp_Hour_Int : Int;
-      temp_Day_Int : Int;   // ДОБАВЛЕНО: Текущий день
-      temp_Month_Int : Int;
-      temp_Yar_Int : Int;
-      temp_RetVal : Int;
+      temp_Second_Int { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      temp_Minute_Int { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      temp_Hour_Int { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      temp_Day_Int { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;   // ДОБАВЛЕНО: Текущий день
+      temp_Month_Int { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      temp_Yar_Int { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      temp_RetVal { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
    END_VAR
 
 
